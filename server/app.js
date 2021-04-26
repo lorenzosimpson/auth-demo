@@ -10,11 +10,13 @@ const PORT = process.env.PORT || 3000
 // Route requires
 const user = require('./routes/user');
 const path = require('path');
+const helmet = require('helmet');
 
 
 // MIDDLEWARE
 app.use(morgan('dev'))
 app.use(express.json())
+app.use(helmet())
 
 // Sessions
 app.use(
