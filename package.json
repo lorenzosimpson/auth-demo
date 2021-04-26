@@ -32,7 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server:dev": "nodemon app.js",
-    "server": "node server/app/js",
+    "server": "node app/js",
     "dev": "concurrently \"react-scripts start\" \"nodemon app.js\""
   },
   "eslintConfig": {
