@@ -20,19 +20,19 @@ app.use(cors())
 
 app.use(
 	helmet({
-	  contentSecurityPolicy: {
-		directives: {
-		  defaultSrc: ["'self'"], 
-		  scriptSrc: ["'self'"],
-		  styleSrc: ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"],
-		  imgSrc: ["'self'", 'https://i.ytimg.com'],
-		  fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-		  objectSrc: ["'self'"],
-		  mediaSrc: ["'self'"],
-		},
-	  }
+		contentSecurityPolicy: {
+			directives: {
+				defaultSrc: ["'self'"],
+				scriptSrc: ["'self'"],
+				styleSrc: ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"],
+				imgSrc: ["'self'", 'https://i.ytimg.com'],
+				fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+				objectSrc: ["'self'"],
+				mediaSrc: ["'self'"],
+			},
+		}
 	})
-  );
+);
 
 // Sessions
 app.use(
@@ -52,14 +52,13 @@ app.use(passport.session()) // calls the deserializeUser
 // Routes
 app.use('/user', user)
 
-if (process.env.NODE_ENV !== "development" ) {
-    app.use(express.static(path.join(__dirname, 'build')));
-    app.get('*', (req,res) =>{
-		res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
-        res.sendFile(path.join(__dirname + '/build/index.html'));
-    });
+if (process.env.NODE_ENV !== "development") {
+	app.use(express.static(path.join(__dirname, 'build')));
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname + '/build/index.html'));
+	});
 }
- 
+
 
 // Starting Server 
 app.listen(PORT, () => {
