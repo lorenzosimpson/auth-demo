@@ -5,7 +5,7 @@ require('dotenv').config()
 
 //your local database url
 //27017 is the default mongoDB port
-const uri = `mongodb+srv://lorenzo:${process.env.MONGODB_PASSWORD}@authdemo.sq1b9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+const uri = process.env.MONGODB_URI
 
 mongoose.connect(uri).then(
     () => { 
