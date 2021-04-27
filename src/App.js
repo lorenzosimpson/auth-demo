@@ -8,9 +8,11 @@ import Navbar from './components/navbar';
 import Home from './components/home';
 import Profile from './components/Profile';
 import "./App.css";
+import "./carousel.css";
 import { SessionContext } from './contexts/SessionContext';
 import PrivateRoute from './PrivateRoute';
 import initFontAwesome from './utils/initFontAwesome';
+import { Container } from 'reactstrap';
 
 initFontAwesome();
 
@@ -29,11 +31,8 @@ const App = props => {
 
   function getUser() {
     axios.get('/user/').then(response => {
-      console.log('Get user response: ')
-      console.log(response.data)
       if (response.data.user) {
         console.log('Get User: There is a user saved in the server session: ')
-
         setUser({
           loggedIn: true,
           username: response.data.user.username
@@ -53,12 +52,10 @@ const App = props => {
         <Navbar updateUser={updateUser} 
         loggedIn={user.loggedIn} 
         setReturnTo={setReturnTo} />
-        {/* greet user if logged in: */}
-        {user.loggedIn &&
-          <p>Join the party, {user.username}!</p>
-        }
+
         {/* Routes to different components */}
         <Switch>
+          <Container className="flex-grow-1">
         <Route
           exact path="/"
           component={Home} />
@@ -79,6 +76,7 @@ const App = props => {
         <Route exact 
           path="/signup" 
           component={Signup} />
+        </Container>
         </Switch>
       </div>
       </SessionContext.Provider>

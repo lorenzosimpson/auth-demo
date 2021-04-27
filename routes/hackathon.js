@@ -12,12 +12,12 @@ router.post('/', (req, res) => {
         start_date: start_date,
         end_date: end_date,
     })
-    newHackathon.save((err, savedUser) => {
+    newHackathon.save((err, savedHackathon) => {
         if (err) {
-            return res.json(err)
+            return res.status(400).json(err)
         }
         else {
-            res.json(savedUser)
+            res.status(201).json(savedHackathon)
         }
     })
 })

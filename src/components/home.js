@@ -1,20 +1,14 @@
-  
-import React, { Component } from 'react'
+import React, { Fragment } from "react";
 
-class Home extends Component {
+import Hero from "../components/Hero";
+import Content from "../components/Content";
 
-    render() {
-        const imageStyle = {
-            width: 400
-        }
-        return (
-            <div>
-                <p>It's good to be home</p>
-                <img style={imageStyle} alt="" src="https://i.ytimg.com/vi/N1icEHtgb3g/maxresdefault.jpg" />
-            </div>
-        )
+const Home = () => (
+  <Fragment>
+    <Hero />
+    <hr />
+    <Content />
+  </Fragment>
+);
 
-    }
-}
-
-export default Home
+export default Home;
