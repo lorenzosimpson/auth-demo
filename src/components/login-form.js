@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 class LoginForm extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             username: '',
             password: '',
@@ -12,7 +12,10 @@ class LoginForm extends Component {
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
-  
+    }
+
+    componentWillUnmount() {    
+        this.props.setReturnTo('/');
     }
 
     handleChange(event) {
@@ -41,7 +44,7 @@ class LoginForm extends Component {
                     })
                     // update the state to redirect to home
                     this.setState({
-                        redirectTo: '/'
+                        redirectTo: this.props.returnTo
                     })
                 }
             }).catch(error => {

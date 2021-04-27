@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -23,6 +26,7 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "reactstrap": "^8.9.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -33,7 +37,7 @@
     "eject": "react-scripts eject",
     "server:dev": "nodemon app.js",
     "server": "node app/js",
-    "dev": "concurrently \"react-scripts start\" \"nodemon app.js\""
+    "dev": "concurrently \"PORT=3000 react-scripts start\" \"nodemon app.js\""
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +57,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://localhost:8080",
   "devDependencies": {
     "concurrently": "^6.0.2",
     "nodemon": "^2.0.7"
