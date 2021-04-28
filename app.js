@@ -16,22 +16,11 @@ const cors = require('cors');
 
 // MIDDLEWARE
 app.use(morgan('dev'));
+app.use(cors({ origin: process.env.ORIGIN }));
 app.use(express.json());
-app.use(cors());
-
 app.use(
 	helmet({
-		contentSecurityPolicy: {
-			directives: {
-				defaultSrc: ["'self'"],
-				scriptSrc: ["'self'", 'https://auth-demo-ls.herokuapp.com/'],
-				styleSrc: ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"],
-				imgSrc: ["'self'", 'https://i.ytimg.com'],
-				fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-				objectSrc: ["'self'"],
-				mediaSrc: ["'self'"],
-			},
-		}
+	  contentSecurityPolicy: false,
 	})
 );
 
