@@ -50,11 +50,13 @@ router.get('/', (req, res, next) => {
     console.log('===== user!!======')
     console.log(req.user)
     if (req.user) {
-        var hour = 3600000;
+        const hour = 3600000;
         // Session should last 1 hour
         req.session.cookie.expires = new Date(Date.now() + hour);
         req.session.cookie.maxAge = hour;
-        res.json({ user: req.user })
+        res.json({ 
+            user: req.user,
+        })
     } else {
         res.json({ user: null })
     }

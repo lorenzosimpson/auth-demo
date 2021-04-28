@@ -23,12 +23,12 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res, next) => {
     console.log('===== user!!======')
-    console.log(req.user)
-    if (req.user) {
-        res.json({ user: req.user })
-    } else {
-        res.json({ user: null })
-    }
+    Hackathon.find((err, hackathons) => {
+        if (err) return res.status(500).json({ error: err })
+        if (hackathons.length) {
+            return res.json(hackathons)
+        }
+    })
 })
 
 module.exports = router

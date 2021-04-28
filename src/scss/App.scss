@@ -1,22 +1,5 @@
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
+@import 'colors.scss';
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
 
 .navbar {
   margin-top: auto;
@@ -27,6 +10,7 @@
   to { transform: rotate(360deg); }
 }
 
+
 .nav-container {
   box-shadow: 0px 0px 10px 1px rgba(61, 61, 61, 0.2);
   position: sticky;
@@ -34,12 +18,14 @@
   z-index: 1000;
 }
 
-.navbar {
-  padding: 1.5em;
+.navbar.navbar-brand {
+  padding: 0;
 }
 
 .btn.btn-primary {
   min-width: 120px;
+  background-color: $fuschia !important;
+  border: 1px solid;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -75,12 +61,13 @@
 
 .navbar .router-link-exact-active {
   color: #041433;
-  border-bottom: 3px solid #0066f9;
+  border-bottom: 3px solid $jewel;
 }
 
 
 .logo {
   width: 90px;
+  margin-right: 2em;
 }
 
 .nav-user-profile.rounded-circle {
@@ -91,7 +78,7 @@
   font-size: 32px;
   color: #6453c4;
   display: block;
-  background: -webkit-linear-gradient(#e4a162, #ca602e);
+  background: -webkit-linear-gradient($lightPurple, $lightBlue);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -110,6 +97,16 @@
   transition: all .2s;
 }
 
+.home-content-container {
+  //background: linear-gradient(white, $lightPurple);
+  background: $darkBackground;
+  color: white;
+}
+
+.next-steps-wrapper {
+  background: $offWhite;
+}
+
 
 @media (max-width:767px) {
   .nav-item {
@@ -120,7 +117,7 @@
   }
   .nav-item .nav-link.router-link-exact-active {
    border-bottom:0;
-   border-left:3px solid #0066f9;
+   border-left:3px solid $jewel;
    padding-left:13px!important;
    vertical-align:middle
   }

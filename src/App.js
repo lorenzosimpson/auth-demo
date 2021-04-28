@@ -7,7 +7,7 @@ import LoginForm from './components/login-form';
 import Navbar from './components/navbar';
 import Home from './components/home';
 import Profile from './components/Profile';
-import "./App.css";
+import "./scss/App.scss";
 import "./carousel.css";
 import { SessionContext } from './contexts/SessionContext';
 import PrivateRoute from './PrivateRoute';
@@ -55,7 +55,7 @@ const App = props => {
 
         {/* Routes to different components */}
         <Switch>
-          <Container className="flex-grow-1">
+          {/* <Container className="flex-grow-1"> */}
         <Route
           exact path="/"
           component={Home} />
@@ -76,7 +76,7 @@ const App = props => {
         <Route exact 
           path="/signup" 
           component={Signup} />
-        </Container>
+        {/* </Container> */}
         </Switch>
       </div>
       </SessionContext.Provider>

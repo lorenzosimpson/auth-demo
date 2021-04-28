@@ -24,7 +24,7 @@ const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { updateUser, loggedIn, setReturnTo } = props;
     const { user } = useContext(SessionContext);
-    const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=990000&color=fff`
+    const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=a239ca&color=fff`
 
     const toggle = () => setIsOpen(!isOpen);
 
