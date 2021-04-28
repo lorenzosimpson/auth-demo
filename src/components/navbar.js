@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Collapse,
     Navbar,
@@ -24,9 +24,17 @@ const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { updateUser, loggedIn, setReturnTo } = props;
     const { user } = useContext(SessionContext);
-    const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=a239ca&color=fff`
-
+    const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`
     const toggle = () => setIsOpen(!isOpen);
+    const [scroll, setScroll] = useState(0)
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+    }, [])
+
+    function handleScroll() {
+        setScroll(window.pageYOffset);
+    }
 
     function logout() {
         axios.post('/user/logout')
@@ -43,7 +51,7 @@ const Navigation = (props) => {
     }
 
     return (
-        <div className="nav-container">
+        <div className={scroll > 0 ? "nav-container shadow" : "nav-container"}>
             <Navbar color="light" light expand="md">
                 <NavbarBrand>
                     <RouterNavLink
@@ -122,7 +130,7 @@ const Navigation = (props) => {
                     block
                     onClick={() => history.push('/login')}
                   >
-                    Log in
+                    Log In
                   </Button>
                 </NavItem>
               </Nav>

@@ -13,6 +13,7 @@ import { SessionContext } from './contexts/SessionContext';
 import PrivateRoute from './PrivateRoute';
 import initFontAwesome from './utils/initFontAwesome';
 import { Container } from 'reactstrap';
+import Footer from './components/Footer';
 
 initFontAwesome();
 
@@ -78,6 +79,7 @@ const App = props => {
           component={Signup} />
         {/* </Container> */}
         </Switch>
+        {/* <Footer /> */}
       </div>
       </SessionContext.Provider>
     );
