@@ -1,6 +1,11 @@
 @import 'colors.scss';
 @import 'login.scss';
 
+body {
+  background: $offWhite !important;
+}
+
+
 .App {
   min-height: 100vh;
   position: relative;
@@ -92,7 +97,7 @@
   font-size: 32px;
   color: #6453c4;
   display: block;
-  background: -webkit-linear-gradient($lightPurple, $lightBlue);
+  background: linear-gradient($lightPurple, $secondaryPurple);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

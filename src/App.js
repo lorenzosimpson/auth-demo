@@ -13,6 +13,8 @@ import { SessionContext } from './contexts/SessionContext';
 import PrivateRoute from './PrivateRoute';
 import initFontAwesome from './utils/initFontAwesome';
 import Footer from './components/Footer';
+import { loginData, signupData } from './utils/loginSignupFormData';
+import LoginSignup from './components/login-signup';
 
 initFontAwesome();
 
@@ -66,16 +68,21 @@ const App = props => {
         <Route
           path="/login"
           render={(props) =>
-            <LoginForm
+            <LoginSignup
               {...props}
+              data={loginData}
               updateUser={updateUser}
               returnTo={returnTo} 
               setReturnTo={setReturnTo}
+
             />}
         />
         <Route exact 
           path="/signup" 
-          component={Signup} />
+          render={(props) => <LoginSignup 
+                          {...props} 
+                          data={signupData}
+                          />} />
         {/* </Container> */}
         </Switch>
        

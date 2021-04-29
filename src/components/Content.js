@@ -14,7 +14,7 @@ class Content extends Component {
               {contentData.map((col, i) => (
                 <Col key={i} md={5} className="mb-4">
                   <div className="d-flex align-items-center mb-3  ">
-                    <i className={`fas fa fa-${col.icon} mr-3`} style={{ fontSize: '4em', display: 'inline-block' }}></i>
+                    <i className={`fas fa fa-${col.icon} mr-3`} style={{ fontSize: '2em', display: 'inline-block' }}></i>
                   <h3 className="mb-0">
                     {col.title}
                   </h3>

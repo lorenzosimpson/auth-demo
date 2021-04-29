@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Card, CardBody, Col, Row, Container } from 'reactstrap';
 import logo from '../assets/images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import history from '../history';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -11,12 +12,12 @@ class LoginForm extends Component {
         this.state = {
             username: '',
             password: '',
-            redirectTo: null
+            redirectTo: null,
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
-
+   
     componentWillUnmount() {    
         this.props.setReturnTo('/');
     }
@@ -58,6 +59,7 @@ class LoginForm extends Component {
     }
 
     render() {
+        console.log(this.props.location.pathname)
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {
@@ -66,11 +68,13 @@ class LoginForm extends Component {
                 <Card className="shadow card col-sm-8 col-md-6 col-lg-4 col-xs-12">
                     <CardBody>
                     <div className="d-flex justify-content-center">
-                    <img src={logo} width="100px" alt="Logo"></img>
+                    <img src={logo} width="100px" height="100px" alt="Logo"></img>
                     </div>
                     <h4 className="text-center">Welcome</h4>
                     <h1 className="text-center text-muted h6 mb-4">Log in to Hackathon Portal</h1>
                     <form className="form-horizontal">
+                        {/* signup */}
+                        {/* login */}
                         <div className="form-group">
                             <Row>
                             <div className="col">

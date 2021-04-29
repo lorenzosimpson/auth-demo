@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Row, Col, Container, Card, CardBody } from 'reactstrap';
+import logo from '../assets/images/logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import history from '../history';
+import { Link } from 'react-router-dom';
+
 
 class Signup extends Component {
 	constructor() {
@@ -48,15 +54,26 @@ class Signup extends Component {
 
 render() {
 	return (
-		<div className="SignupForm">
-			<h4>Sign up</h4>
+		<Container fluid={true} className="d-flex justify-content-center mt-5 mb-5" role="main">
+		<Card className="shadow card col-sm-8 col-md-6 col-lg-4 col-xs-12">
+			<CardBody>
+			<div className="d-flex justify-content-center">
+			<img src={logo} width="100px" height="100px" alt="Logo"></img>
+			</div>
+			<h4 className="text-center">Welcome</h4>
+			<h1 className="text-center text-muted h6 mb-4">Sign up for Hackathon Portal</h1>
 			<form className="form-horizontal">
+				{/* signup */}
 				<div className="form-group">
-					<div className="col-1 col-ml-auto">
-						<label className="form-label" htmlFor="username">Username</label>
-					</div>
-					<div className="col-3 col-mr-auto">
-						<input className="form-input"
+					<Row>
+					<div className="col">
+						<div className="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">
+								<FontAwesomeIcon icon="envelope" />
+							</span>
+						 </div>
+						<input className="form-control"
 							type="text"
 							id="username"
 							name="username"
@@ -65,31 +82,46 @@ render() {
 							onChange={this.handleChange}
 						/>
 					</div>
+					</div>
+					</Row>
 				</div>
 				<div className="form-group">
-					<div className="col-1 col-ml-auto">
-						<label className="form-label" htmlFor="password">Password: </label>
-					</div>
-					<div className="col-3 col-mr-auto">
-						<input className="form-input"
-							placeholder="password"
+					<Row>
+					<div className="col">
+					<div className="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">
+								<FontAwesomeIcon icon="lock" />
+							</span>
+						 </div>
+						<input className="form-control"
+							placeholder="Password"
 							type="password"
+							id="password"
 							name="password"
 							value={this.state.password}
 							onChange={this.handleChange}
 						/>
 					</div>
+					</div>
+					</Row>
 				</div>
 				<div className="form-group ">
-					<div className="col-7"></div>
+				  <Row>
+					  <Col>
 					<button
-						className="btn btn-primary col-1 col-mr-auto"
+						className="btn btn-primary col-mr-auto w-100"
 						onClick={this.handleSubmit}
-						type="submit"
-					>Sign up</button>
+						type="submit">Sign Up</button>
+						</Col>
+					</Row>
 				</div>
+				<p className="text-center">Already have an account? <Link className="link" to='/login'>Log in</Link>
+				</p>
 			</form>
-		</div>
+			</CardBody>
+		</Card>
+		</Container>
 	)
 }
 }

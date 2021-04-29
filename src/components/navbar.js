@@ -45,6 +45,7 @@ const Navigation = (props) => {
                         user: null
                     })
                     setReturnTo('/')
+                    history.push('/')
                 };
             })
             .catch(error => console.log('Error logging out, ', error))
@@ -114,10 +115,8 @@ const Navigation = (props) => {
                         {!loggedIn && (
                             <NavItem >
                                 <Button color="primary"
-                                    onClick={() => {
-                                        history.push('/login')
-                                    }}
-                                >Log In</Button>
+                                    onClick={() => history.push('/login')}
+                                >Get Started</Button>
                             </NavItem>
                         )}
                     </Nav>
@@ -128,9 +127,12 @@ const Navigation = (props) => {
                     id="qsLoginBtn"
                     color="primary"
                     block
-                    onClick={() => history.push('/login')}
+                    onClick={() => {
+                        toggle()
+                        history.push('/login')
+                    }}
                   >
-                    Log In
+                    Get Started
                   </Button>
                 </NavItem>
               </Nav>
