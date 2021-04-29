@@ -12,7 +12,6 @@ import "./carousel.css";
 import { SessionContext } from './contexts/SessionContext';
 import PrivateRoute from './PrivateRoute';
 import initFontAwesome from './utils/initFontAwesome';
-import { Container } from 'reactstrap';
 import Footer from './components/Footer';
 
 initFontAwesome();

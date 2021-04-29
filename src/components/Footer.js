@@ -1,5 +1,4 @@
-import React from 'react';
-import { Col, Row, Container } from 'reactstrap';
+import React from 'react'
 import logo from '../assets/images/logo.png';
 
 function Footer(props) {

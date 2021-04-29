@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import {ReactComponent as Coworking} from '../assets/images/coworking.svg';
 import { Row, Col, Container } from "reactstrap";
 
 import contentData from "../utils/contentData";

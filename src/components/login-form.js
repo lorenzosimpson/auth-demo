@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Card, CardBody, Col, Row, Container, NavLink } from 'reactstrap';
+import { Card, CardBody, Col, Row, Container } from 'reactstrap';
 import logo from '../assets/images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -62,8 +62,8 @@ class LoginForm extends Component {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {
             return (
-                <Container className="d-flex justify-content-center mt-5 mb-5" role="main">
-                <Card className="shadow">
+                <Container fluid={true} className="d-flex justify-content-center mt-5 mb-5" role="main">
+                <Card className="shadow card col-sm-8 col-md-6 col-lg-4 col-xs-12">
                     <CardBody>
                     <div className="d-flex justify-content-center">
                     <img src={logo} width="100px" alt="Logo"></img>

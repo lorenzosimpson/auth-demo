@@ -4,7 +4,7 @@
 .App {
   min-height: 100vh;
   position: relative;
-  padding-bottom: 150px;
+  padding-bottom: 100px;
 }
 
 .navbar {
@@ -124,12 +124,13 @@
 .footer {
   background: $navy;
   color: $offWhite;
-  height: 150px;
+  height: 100px;
   font-size: 0.8em;
   position: absolute;
   bottom: 0;
   width: 100%;
-  line-height: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 

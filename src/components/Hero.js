@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Container } from 'reactstrap';
 import {ReactComponent as Coworking } from "../assets/images/coworking.svg";
-import { SessionContext } from "../contexts/SessionContext";
 
-const Hero = () => {
-  const { user } = useContext(SessionContext);
-  return (
+const Hero = () => (
   <div className="next-steps-wrapper">
         <Container>
           <div className="next-steps pt-5 pb-5">
@@ -21,7 +18,6 @@ const Hero = () => {
           </div>
       </Container>
   </div>
-)
-  };
+);
 
 export default Hero;
