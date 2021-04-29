@@ -1,5 +1,11 @@
 @import 'colors.scss';
+@import 'login.scss';
 
+.App {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 150px;
+}
 
 .navbar {
   margin-top: auto;
@@ -44,6 +50,10 @@
 
 .navbar-light .navbar-nav .nav-link {
   color: inherit;
+}
+
+.link {
+  color: $blue;
 }
 
 .navbar-nav:last-child li {
@@ -114,7 +124,7 @@
 .footer {
   background: $navy;
   color: $offWhite;
-  height: 200px;
+  height: 150px;
   font-size: 0.8em;
   position: absolute;
   bottom: 0;
@@ -122,6 +132,10 @@
   line-height: 60px;
 }
 
+
+.supporting-text {
+  color: $offWhite;
+}
 
 @media (max-width:767px) {
   .nav-item {

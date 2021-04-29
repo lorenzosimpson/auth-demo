@@ -79,7 +79,8 @@ const App = props => {
           component={Signup} />
         {/* </Container> */}
         </Switch>
-        {/* <Footer /> */}
+       
+        <Footer />
       </div>
       </SessionContext.Provider>
     );

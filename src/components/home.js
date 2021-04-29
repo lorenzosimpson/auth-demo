@@ -4,10 +4,11 @@ import Hero from "../components/Hero";
 import Content from "../components/Content";
 
 const Home = () => (
-  <Fragment>
+  <div role="main">
+    <h1 className="sr-only">Hackathon Portal Home</h1>
     <Hero />
     <Content />
-  </Fragment>
+  </div>
 );
 
 export default Home;
