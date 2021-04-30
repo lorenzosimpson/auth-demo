@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Card, CardBody, Col, Row, Container } from 'reactstrap';
+import { Card, CardBody, Col, Row, Container, Alert } from 'reactstrap';
 import logo from '../assets/images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import history from '../history';
@@ -14,6 +14,7 @@ class LoginSignup extends Component {
             username: '',
             password: '',
             redirectTo: null,
+            error: ''
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
@@ -44,8 +45,10 @@ class LoginSignup extends Component {
                 }
             }).catch(error => {
                 console.log('login error: ')
-                console.log(error);
-                
+                console.log(error.response);
+                this.setState({
+                    error: error.response
+                })
             })
 }
 
@@ -82,8 +85,10 @@ class LoginSignup extends Component {
                         }
                     }).catch(error => {
                         console.log('login error: ')
-                        console.log(error);
-                        
+                        console.log(error.response);
+                        this.setState({
+                            error: error.response
+                        })
                     })
                     
                 } else {
@@ -91,7 +96,10 @@ class LoginSignup extends Component {
                 }
             }).catch(error => {
                 console.log('signup error: ')
-                console.log(error)
+                console.log(error.response)
+                this.setState({
+                    error: error.response
+                })
 
             })
 } 
@@ -105,11 +113,16 @@ class LoginSignup extends Component {
 
     render() {
         const { data } = this.props;
-        console.log(data.destination)
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {
     return (
+        <div>
+            {this.state.error && (
+                 <Alert color="danger">
+                 {this.state.error.status} {this.state.error.statusText}
+               </Alert>
+            )}
         <Container fluid={true} className="d-flex justify-content-center mt-5 mb-5" role="main">
         <Card className="shadow card col-sm-8 col-md-6 col-lg-4 col-xs-12">
             <CardBody>
@@ -179,6 +192,7 @@ class LoginSignup extends Component {
             </CardBody>
         </Card>
         </Container>
+        </div>
     );
         }
     }

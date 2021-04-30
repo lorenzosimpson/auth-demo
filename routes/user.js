@@ -22,8 +22,15 @@ router.post('/', (req, res) => {
                 password: password
             })
             newUser.save((err, savedUser) => {
-                if (err) return res.json(err)
-                res.json(savedUser)
+                if (err) return res.status(500).json(err)
+                req.login(savedUser, function(error) {
+                    if (error) {
+                        console.log(error)
+                        res.status(500).json('could not authenticate after signup')
+                    }
+                    // log the user in and redirect them home. Session is persisted
+                    res.redirect('/')
+                })
             })
         }
     })
@@ -38,6 +45,7 @@ router.post(
     },
     passport.authenticate('local'),
     (req, res) => {
+        console.log
         console.log('logged in', req.user);
         var userInfo = {
             username: req.user.username
@@ -51,10 +59,8 @@ router.get('/', (req, res, next) => {
     console.log(req.user)
     if (req.user) {
         const hour = 3600000;
-        // Session should last 1000 hours
         req.session.cookie.expires = new Date(Date.now() + hour);
         req.session.cookie.maxAge = hour;
-        req.session.originalMaxAge = hour
         res.json({ 
             user: req.user,
         })
