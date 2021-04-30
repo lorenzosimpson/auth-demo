@@ -2,8 +2,6 @@ import React, {  useEffect, useState } from 'react';
 import axios from 'axios'
 import { Route, Switch } from 'react-router-dom';
 // components
-import Signup from './components/sign-up';
-import LoginForm from './components/login-form';
 import Navbar from './components/navbar';
 import Home from './components/home';
 import Profile from './components/Profile';
@@ -82,6 +80,9 @@ const App = props => {
           render={(props) => <LoginSignup 
                           {...props} 
                           data={signupData}
+                          updateUser={updateUser}
+                          returnTo={returnTo}
+                          setReturnTo={setReturnTo}
                           />} />
         {/* </Container> */}
         </Switch>

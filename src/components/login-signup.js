@@ -20,7 +20,7 @@ class LoginSignup extends Component {
         this.handleSignupSubmit = this.handleSignupSubmit.bind(this)
     }
 
-    handleLoginSubmit(event) {
+    handleLoginSubmit(event){
         event.preventDefault()
         console.log('login handleSubmit')
         axios
@@ -50,27 +50,50 @@ class LoginSignup extends Component {
 }
 
      handleSignupSubmit(event) {
-    console.log('sign-up handleSubmit, username: ')
-    console.log(this.state.username)
-    event.preventDefault()
-
-    //request to server to add a new username/password
-    axios.post('/user/', {
-        username: this.state.username,
-        password: this.state.password
-    })
-        .then(response => {
-            console.log(response)
-            if (!response.data.errmsg) {
-                console.log('successful signup')
-            } else {
-                console.log('username already taken')
-            }
-        }).catch(error => {
-            console.log('signup error: ')
-            console.log(error)
-
+        console.log('sign-up handleSubmit, username: ')
+        event.preventDefault()
+        //request to server to add a new username/password
+        axios.post('/user/', {
+            username: this.state.username,
+            password: this.state.password
         })
+            .then((response) => {
+                console.log(response)
+                if (!response.data.error) {
+                    console.log('successful signup afasdfdas')
+                    axios
+                    .post('/user/login', {
+                        username: this.state.username,
+                        password: this.state.password
+                    })
+                    .then(response => {
+                        console.log('login response: ')
+                        console.log(response)
+                        if (response.status === 200) {
+                            // update App.js state
+                            this.props.updateUser({
+                                loggedIn: true,
+                                username: response.data.username
+                            })
+                            // update the state to redirect to home
+                            this.setState({
+                                redirectTo: this.props.returnTo
+                            })
+                        }
+                    }).catch(error => {
+                        console.log('login error: ')
+                        console.log(error);
+                        
+                    })
+                    
+                } else {
+                    console.log('username already taken')
+                }
+            }).catch(error => {
+                console.log('signup error: ')
+                console.log(error)
+
+            })
 } 
 
     handleChange(event) {
@@ -79,9 +102,6 @@ class LoginSignup extends Component {
             })
         }
 
-    handleSubmit = (event)  => {
-        this.props.handleSubmit(event)
-    }
 
     render() {
         const { data } = this.props;
@@ -149,7 +169,7 @@ class LoginSignup extends Component {
                     <button
                         className="btn btn-primary col-mr-auto w-100"
                         onClick={data.destination === "/signup" ? this.handleLoginSubmit : this.handleSignupSubmit}
-                        type="submit">{data.buttonText}</button>
+                        >{data.buttonText}</button>
                         </Col>
                     </Row>
                 </div>
