@@ -31,8 +31,7 @@ app.use(helmet({
 			objectSrc: ["'self'"],
 		}
 	}
-}
-))
+}))
 
 // Sessions
 app.use(
