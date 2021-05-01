@@ -19,19 +19,20 @@ const cors = require('cors');
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(
-	helmet.contentSecurityPolicy({
-	  directives: {
-		defaultSrc: ["'self'", ],
-		styleSrc: ["'self'", "'unsafe-inline'"],
-		scriptSrc: ["'self'", "data:", "'unsafe-inline'", ],
-		fontSrc: ["'self'",],
-		imgSrc: ["'self'", "data:", "https://ui-avatars.com"],
-		mediaSrc: ["'self'"],
-		objectSrc: ["'self'"],
-	  },
-	})
-  );
+app.use(helmet({
+	contentSecurityPolicy: {
+		directives: {
+			defaultSrc: ["'self'",],
+			styleSrc: ["'self'", "'unsafe-inline'"],
+			scriptSrc: ["'self'", "data:", "'unsafe-inline'",],
+			fontSrc: ["'self'",],
+			imgSrc: ["'self'", "data:", "https://ui-avatars.com"],
+			mediaSrc: ["'self'"],
+			objectSrc: ["'self'"],
+		}
+	}
+}
+))
 
 // Sessions
 app.use(
