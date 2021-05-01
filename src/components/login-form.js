@@ -59,10 +59,10 @@ class LoginForm extends Component {
     }
 
     render() {
-        console.log(this.props.location.pathname)
         if (this.state.redirectTo) {
-            return <Redirect to={{ pathname: this.state.redirectTo }} />
+           return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {
+            console.log('hi')
             return (
                 <Container fluid={true} className="d-flex justify-content-center mt-5 mb-5" role="main">
                 <Card className="shadow card col-sm-8 col-md-6 col-lg-4 col-xs-12">

@@ -20,10 +20,18 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 app.use(
-	helmet({
-	  contentSecurityPolicy: false,
+	helmet.contentSecurityPolicy({
+	  directives: {
+		defaultSrc: ["'self'", ],
+		styleSrc: ["'self'", "'unsafe-inline'"],
+		scriptSrc: ["'self'", "data:", "'unsafe-inline'", ],
+		fontSrc: ["'self'",],
+		imgSrc: ["'self'", "data:", "https://ui-avatars.com"],
+		mediaSrc: ["'self'"],
+		objectSrc: ["'self'"],
+	  },
 	})
-);
+  );
 
 // Sessions
 app.use(
@@ -55,5 +63,5 @@ if (process.env.NODE_ENV !== "development") {
 
 // Starting Server 
 app.listen(PORT, () => {
-	console.log(`App listening on PORT: ${PORT}`)
+	console.log(`\n\n====App listening on PORT: ${PORT}====\n\n`)
 })

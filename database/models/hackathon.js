@@ -6,6 +6,7 @@ const hackathonSchema = new Schema({
     name: { type: String, unique: false, required: true },
     start_date: { type: Date, unique: false, required: true },
     end_date: { type: Date, unique: false, required: true },
+    organizer_id: { type: String, unique: false, required: true },
 })
 
 hackathonSchema.methods = {

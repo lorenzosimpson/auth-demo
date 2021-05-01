@@ -6,7 +6,8 @@ mongoose.promise = Promise;
 // Define userSchema
 const userSchema = new Schema({
 	username: { type: String, unique: false, required: false },
-	password: { type: String, unique: false, required: false }
+	password: { type: String, unique: false, required: false },
+	hackathons:	[String]
 })
 
 // Define schema methods

@@ -18,7 +18,6 @@ import { NavLink as RouterNavLink } from 'react-router-dom';
 import history from '../history';
 import { SessionContext } from '../contexts/SessionContext';
 import logo from '../assets/images/logo.png';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -94,7 +93,7 @@ const Navigation = (props) => {
                                             className="dropdown-profile"
                                             activeClassName="router-link-exact-active"
                                         >
-                                            <FontAwesomeIcon icon="user" className="mr-3" /> Profile
+                                            <i className="fas fa-user mr-2" /> Profile
                     </DropdownItem>
                                         {loggedIn && (
                                             <>
@@ -103,7 +102,7 @@ const Navigation = (props) => {
                                                     id="qsLogoutBtn"
                                                     onClick={() => logout()}
                                                 >
-                                                    <FontAwesomeIcon icon="power-off" className="mr-3" /> Log
+                                                    <i className="fas fa-power-off mr-2" /> Log
                       out
                     </DropdownItem>
                                             </>
@@ -156,7 +155,7 @@ const Navigation = (props) => {
                             </span>
                         </NavItem>
                         <NavItem>
-                            <FontAwesomeIcon icon="user" className="mr-3" />
+                            <i  className="fas fa-user mr-3" />
                             <RouterNavLink
                                 to="/profile"
                                 activeClassName="router-link-exact-active"
@@ -171,7 +170,7 @@ const Navigation = (props) => {
                                 id="qsLogoutBtn"
                                 onClick={() => logout()}
                             >
-                                <FontAwesomeIcon icon="power-off" className="mr-3" />
+                                <i className="fas fa-power-off mr-3" />
                     Log out
                   </RouterNavLink>
                         </NavItem>

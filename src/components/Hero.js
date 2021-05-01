@@ -6,12 +6,12 @@ const Hero = () => (
   <div className="next-steps-wrapper">
         <Container>
           <div className="next-steps pt-5 pb-5">
-            <div class="row featurette">
-              <div class="col-md-5 order-md-2">
-                <h2 class="featurette-heading">Join a hackathon from <span class="text-muted">anywhere.</span></h2>
-                <p class="lead">Hackathon Portal is the best way to organize or participate in hackathon events.</p>
+            <div className="row featurette">
+              <div className="col-md-5 order-md-2">
+                <h2 className="featurette-heading">Join a hackathon from <span className="text-muted">anywhere.</span></h2>
+                <p className="lead">Hackathon Portal is the best way to organize or participate in hackathon events.</p>
               </div>
-              <div class="col-md-7">
+              <div className="col-md-7">
               <Coworking width="100%" height="100%"/>
               </div>
             </div>

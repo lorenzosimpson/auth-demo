@@ -4,8 +4,9 @@ const User = require('../database/models/user')
 
 // called on login, saves the id to session req.session.passport.user = {id:'..'}
 passport.serializeUser((user, done) => {
-	console.log('*** serializeUser called, user: ')
-	console.log(user) // the whole raw user object!
+	console.log('*** serializeUser called, username:\n ')
+	console.log('---------')
+	console.log(user.username)
 	console.log('---------')
 	done(null, { _id: user._id })
 })

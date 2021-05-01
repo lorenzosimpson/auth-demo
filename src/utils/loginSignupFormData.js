@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export const loginData = {
     h1: "Log in to Hackathon Portal",
     buttonText: "Log In",

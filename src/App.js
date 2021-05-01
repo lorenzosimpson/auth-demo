@@ -9,12 +9,11 @@ import "./scss/App.scss";
 import "./carousel.css";
 import { SessionContext } from './contexts/SessionContext';
 import PrivateRoute from './PrivateRoute';
-import initFontAwesome from './utils/initFontAwesome';
 import Footer from './components/Footer';
 import { loginData, signupData } from './utils/loginSignupFormData';
 import LoginSignup from './components/login-signup';
 
-initFontAwesome();
+
 
 const App = props => {
     const [user, setUser] = useState({})
@@ -32,10 +31,11 @@ const App = props => {
   function getUser() {
     axios.get('/user/').then(response => {
       if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ')
+        console.log('Get User: There is a user saved in the server session: ', response.data)
         setUser({
           loggedIn: true,
-          username: response.data.user.username
+          username: response.data.user.username,
+          id: response.data.user.id
         })
       } else {
         console.log('Get user: no user');
@@ -52,7 +52,6 @@ const App = props => {
         <Navbar updateUser={updateUser} 
         loggedIn={user.loggedIn} 
         setReturnTo={setReturnTo} />
-
         {/* Routes to different components */}
         <Switch>
           {/* <Container className="flex-grow-1"> */}
