@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 // components
 import Navbar from './components/navbar';
 import Home from './components/home';
-import Profile from './components/Profile';
+import UserHackathons from './components/UserHackathons';
 import "./scss/App.scss";
 import "./carousel.css";
 import { SessionContext } from './contexts/SessionContext';
@@ -12,6 +12,8 @@ import PrivateRoute from './PrivateRoute';
 import Footer from './components/Footer';
 import { loginData, signupData } from './utils/loginSignupFormData';
 import LoginSignup from './components/login-signup';
+import CreateHackathonForm from './components/CreateHackathonForm';
+import Profile from './components/Profile';
 
 
 
@@ -34,8 +36,7 @@ const App = props => {
         console.log('Get User: There is a user saved in the server session: ', response.data)
         setUser({
           loggedIn: true,
-          username: response.data.user.username,
-          id: response.data.user.id
+          ...response.data.user
         })
       } else {
         console.log('Get user: no user');
@@ -59,8 +60,8 @@ const App = props => {
           exact path="/"
           component={Home} />
        <PrivateRoute
-          path="/profile"
-          component={Profile}
+          path="/my-hackathons"
+          component={UserHackathons}
         />
         <Route
           path="/login"
@@ -76,16 +77,22 @@ const App = props => {
         />
         <Route exact 
           path="/signup" 
-          render={(props) => <LoginSignup 
-                          {...props} 
-                          data={signupData}
-                          updateUser={updateUser}
-                          returnTo={returnTo}
-                          setReturnTo={setReturnTo}
+          render={(props) => 
+          <LoginSignup 
+              {...props} 
+              data={signupData}
+              updateUser={updateUser}
+              returnTo={returnTo}
+              setReturnTo={setReturnTo}
                           />} />
+        <Route exact path="/create"
+        render={props => (
+          <CreateHackathonForm {...props} />
+        )} />
+
+        <Route path="/profile" render={props => <Profile {...props} /> } />
         {/* </Container> */}
         </Switch>
-       
         <Footer />
       </div>
       </SessionContext.Provider>

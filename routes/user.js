@@ -5,10 +5,11 @@ const passport = require('../passport')
 const Hackathon = require('../database/models/hackathon')
 
 
+
 router.post('/', (req, res) => {
     console.log('user signup');
 
-    var { username, password } = req.body
+    var { username } = req.body
     username = username.toLowerCase();
     // ADD VALIDATION
     User.findOne({ username: username }, (err, user) => {
@@ -21,8 +22,8 @@ router.post('/', (req, res) => {
         }
         else {
             const newUser = new User({
-                username: username,
-                password: password
+                ...req.body,
+                username: req.body.username.toLowerCase()
             })
             newUser.save((err, savedUser) => {
                 if (err) return res.status(500).json(err)
@@ -31,11 +32,11 @@ router.post('/', (req, res) => {
                         console.log(error)
                         res.status(500).json('could not authenticate after signup')
                     }
-                    // log the user in and redirect them home. Session is persisted
-                    console.log('about to redirect')
                     res.status(201).json({
                         username: savedUser.username,
-                        id: savedUser._id
+                        id: savedUser._id,
+                        first_name: savedUser.first_name,
+                        last_name: savedUser.last_name
                     })
                 })
             })
@@ -46,7 +47,7 @@ router.post('/', (req, res) => {
 router.post(
     '/login',
     function (req, res, next) {
-        console.log(req.body)
+        console.log(req.body.username)
         req.body.username = req.body.username.toLowerCase()
         next()
     },
@@ -54,8 +55,11 @@ router.post(
     (req, res) => {
             var userInfo = {
                 username: req.user.username,
-                id: req.user._id
+                id: req.user._id,
+                first_name: req.user.first_name,
+                last_name: req.user.last_name
             };
+            console.log("\n User info:", userInfo)
             res.send(userInfo);
     }
 )
@@ -64,7 +68,7 @@ router.get('/', (req, res, next) => {
     console.log('===== user!!======')
     if (req.user) {
         User.findOne({ username: req.user.username }, (err, user) => {
-            if (err) console.log(err)
+            if (err) res.status(400).json({ error: 'An error occured. Try clearing cookies and trying again.'})
 
             const hour = 3600000;
             req.session.cookie.expires = new Date(Date.now() + hour);
@@ -73,7 +77,9 @@ router.get('/', (req, res, next) => {
                 user: {
                     username: req.user.username,
                     id: req.user._id,
-                    hackathons: [...user.hackathons]
+                    hackathons: [...user.hackathons],
+                    first_name: user.first_name,
+                    last_name: user.last_name
                 },
             })
         })

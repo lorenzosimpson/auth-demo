@@ -6,7 +6,7 @@ import contentData from "../utils/contentData";
 class Content extends Component {
   render() {
     return (
-        <div class="home-content-container">
+        <div className="home-content-container">
           <Container className="pt-5">
             <h2 className="text-center mb-2 mt-5">Features</h2>
             <p className="text-center">Hackathon Portal makes it easier to get involved.</p>

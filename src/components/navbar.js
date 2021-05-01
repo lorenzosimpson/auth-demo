@@ -53,15 +53,10 @@ const Navigation = (props) => {
     return (
         <div className={scroll > 0 ? "nav-container shadow" : "nav-container"}>
             <Navbar color="light" light expand="md">
-                <NavbarBrand>
-                    <RouterNavLink
-                        to="/"
-                    >
+                <NavbarBrand onClick={() => history.push('/')}>
                         <img src={logo}
                             alt="Hackathon Portal logo"
                             className="logo"></img>
-
-                    </RouterNavLink>
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>

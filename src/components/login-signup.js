@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardBody, Col, Row, Container, Alert } from 'reactstrap';
 import logo from '../assets/images/logo.png';
+import { AvInput, AvForm } from 'availity-reactstrap-validation';
 
 
 class LoginSignup extends Component {
@@ -11,6 +12,8 @@ class LoginSignup extends Component {
         this.state = {
             username: '',
             password: '',
+            first_name: '',
+            last_name: '',
             redirectTo: null,
             error: ''
         }
@@ -35,7 +38,9 @@ class LoginSignup extends Component {
                     this.props.updateUser({
                         loggedIn: true,
                         username: response.data.username,
-                        id: response.data.id
+                        id: response.data.id,
+                        first_name: response.data.first_name,
+                        last_name: response.data.last_name
                     })
                     // update the state to redirect to home
                     this.setState({
@@ -56,7 +61,9 @@ class LoginSignup extends Component {
         //request to server to add a new username/password
         axios.post('/user/', {
             username: this.state.username,
-            password: this.state.password
+            password: this.state.password,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
         })
             .then((response) => {
                 console.log(response)
@@ -89,11 +96,15 @@ class LoginSignup extends Component {
         this.setState({
             [event.target.name]: event.target.value
         })
+        console.log(this.state)
     }
 
 
     render() {
         const { data } = this.props;
+        const isLoginForm = data.destination === "/signup"
+        console.log(isLoginForm)
+
         if (this.state.redirectTo) {
             // if a user refreshes the login page before logging in, the pathname will be /login and they won't be reidrected after signup
             const dudRedirects = ['/login', '/signup']
@@ -115,23 +126,24 @@ class LoginSignup extends Component {
                                 </div>
                                 <h4 className="text-center">Welcome</h4>
                                 <h1 className="text-center text-muted h6 mb-4">{this.props.data.h1}</h1>
-                                <form className="form-horizontal">
-                                    {/* signup */}
-                                    {/* login */}
+                                <AvForm className="form-horizontal"
+                                    onValidSubmit={isLoginForm ? this.handleLoginSubmit : this.handleSignupSubmit}
+                                >
                                     <div className="form-group">
                                         <Row>
                                             <div className="col">
                                                 <div className="input-group">
                                                     <div className="input-group-prepend">
                                                         <span className="input-group-text">
-                                                            <i className="fas fa-envelope" />
+                                                            <i className="fas fa-user-tag" />
                                                         </span>
                                                     </div>
-                                                    <input className="form-control"
+                                                    <AvInput className="form-control"
                                                         type="text"
                                                         id="username"
                                                         name="username"
                                                         placeholder="Username"
+                                                        required
                                                         value={this.state.username}
                                                         onChange={this.handleChange}
                                                     />
@@ -148,10 +160,11 @@ class LoginSignup extends Component {
                                                             <i className="fas fa-lock" />
                                                         </span>
                                                     </div>
-                                                    <input className="form-control"
+                                                    <AvInput className="form-control"
                                                         placeholder="Password"
                                                         type="password"
                                                         id="password"
+                                                        required
                                                         name="password"
                                                         value={this.password}
                                                         onChange={this.handleChange}
@@ -160,19 +173,67 @@ class LoginSignup extends Component {
                                             </div>
                                         </Row>
                                     </div>
+                                   {data.destination !== '/signup' && ( 
+                                       <>
+                                   <div className="form-group">
+                                        <Row>
+                                            <div className="col">
+                                            <div className="input-group">
+                                                    <div className="input-group-prepend">
+                                                        <span className="input-group-text">
+                                                            <i className="fas fa-id-card" />
+                                                        </span>
+                                                    </div>
+                                                    <AvInput className="form-control"
+                                                        placeholder="First Name"
+                                                        type="text"
+                                                        id="first_name"
+                                                        name="first_name"
+                                                        required
+                                                        value={this.first_name}
+                                                        onChange={this.handleChange}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </Row>
+                                    </div>
+                                    <div className="form-group">
+                                    <Row>
+                                        <div className="col">
+                                        <div className="input-group">
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text">
+                                                        <i className="fas fa-id-card" />
+                                                    </span>
+                                                </div>
+                                                <input className="form-control"
+                                                    placeholder="Last Name"
+                                                    type="text"
+                                                    id="last_name"
+                                                    name="last_name"
+                                                    required
+                                                    value={this.last_name}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Row>
+                                </div>
+                                </>
+                                    )}
                                     <div className="form-group ">
                                         <Row>
                                             <Col>
                                                 <button
+                                                    type="submit"
                                                     className="btn btn-primary col-mr-auto w-100"
-                                                    onClick={data.destination === "/signup" ? this.handleLoginSubmit : this.handleSignupSubmit}
                                                 >{data.buttonText}</button>
                                             </Col>
                                         </Row>
                                     </div>
                                     <p className="text-center">Don't have an account? <Link className="link" to={data.destination}>{data.inverse}</Link>
                                     </p>
-                                </form>
+                                </AvForm>
                             </CardBody>
                         </Card>
                     </Container>
