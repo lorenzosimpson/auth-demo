@@ -69,7 +69,6 @@ router.get('/', (req, res, next) => {
             const hour = 3600000;
             req.session.cookie.expires = new Date(Date.now() + hour);
             req.session.cookie.maxAge = hour;
-            console.log(user, 'USER')
             res.json({
                 user: {
                     username: req.user.username,
