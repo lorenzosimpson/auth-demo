@@ -10,7 +10,10 @@ body {
   min-height: 100vh;
   position: relative;
   padding-bottom: 100px;
+  display: flex;
+  flex-direction: column;
 }
+
 
 .navbar {
   margin-top: auto;
@@ -115,7 +118,9 @@ body {
   margin: 10px;
   transition: all .5s;
 }
-
+input, textarea {
+  font-size: 16px !important;
+}
 .home-content-container {
   //background: linear-gradient(white, $lightPurple);
   background: $darkBackground;

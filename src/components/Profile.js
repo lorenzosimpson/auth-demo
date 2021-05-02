@@ -5,6 +5,8 @@ import { SessionContext } from '../contexts/SessionContext';
 import TabbedNav from './TabbedNav';
 import ProfilePlaceholder from './ProfilePlaceholder';
 import { Button } from 'semantic-ui-react';
+import { Redirect } from 'react-router';
+import Loader from './Loader';
 
 const Profile = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -30,20 +32,20 @@ const Profile = (props) => {
             val: ""
         },
     ]
-
+    console.log(user, 'profile')
+    // if (user.loggedIn === undefined) return <Loader />
+    if (user.loggedIn !== undefined && user.loggedIn !== true ) return <Redirect to="/login" />
+    
     return (
         <Container>
+            <h2 className="mb-3">
+                Welcome back, {user.first_name}
+                        </h2>
             <Card>
                 <CardBody>
-                    <CardTitle>
-                        <h2>
-                            Welcome back, {user.first_name}
-                        </h2>
-                    </CardTitle>
                     <TabbedNav toggle={toggle} dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
                     <Card className="mt-2">
                         <CardBody>
-
                             {
                                 !Object.values(user).length ? (
                                     <ProfilePlaceholder />
@@ -72,7 +74,6 @@ const Profile = (props) => {
                                 )
                             }
                         </CardBody>
-
                     </Card>
                 </CardBody>
             </Card>

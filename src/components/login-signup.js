@@ -119,7 +119,7 @@ class LoginSignup extends Component {
                         </Alert>
                     )}
                     <Container fluid={true} className="d-flex justify-content-center mt-5 mb-5" role="main">
-                        <Card className="shadow card col-sm-8 col-md-6 col-lg-4 col-xs-12">
+                        <Card className="shadow card col col-sm-8 col-md-6 col-lg-4 ">
                             <CardBody>
                                 <div className="d-flex justify-content-center">
                                     <img src={logo} width="100px" height="100px" alt="Logo"></img>

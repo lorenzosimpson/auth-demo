@@ -54,8 +54,8 @@ const App = props => {
         loggedIn={user.loggedIn} 
         setReturnTo={setReturnTo} />
         {/* Routes to different components */}
+        <div className="main-content d-flex flex-column flex-grow-1">
         <Switch>
-          {/* <Container className="flex-grow-1"> */}
         <Route
           exact path="/"
           component={Home} />
@@ -91,8 +91,8 @@ const App = props => {
         )} />
 
         <Route path="/profile" render={props => <Profile {...props} /> } />
-        {/* </Container> */}
         </Switch>
+        </div>
         <Footer />
       </div>
       </SessionContext.Provider>

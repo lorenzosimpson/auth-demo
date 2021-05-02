@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'semantic-ui-css/semantic.min.css'
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from "./serviceWorker";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import history from './history';
 
 
