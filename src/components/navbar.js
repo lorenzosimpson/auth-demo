@@ -61,12 +61,22 @@ const Navigation = (props) => {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
-                        <NavItem>
+                        <NavItem className="mr-4">
                             <NavLink tag={RouterNavLink}
                                 exact
                                 activeClassName="router-link-exact-active"
                                 className="nav-link" to="/">Home</NavLink>
                         </NavItem>
+                        {loggedIn && (
+                        <NavItem>
+                                    <NavLink 
+                                    to="/create" 
+                                    tag={RouterNavLink}
+                                    activeClassName="router-link-exact-active"
+                                    exact
+                                    >Create</NavLink>
+                                </NavItem>
+                        )}
 
                     </Nav>
                     <Nav className="d-none d-md-block" navbar>

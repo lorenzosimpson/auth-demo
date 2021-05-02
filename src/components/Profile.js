@@ -12,6 +12,7 @@ const Profile = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const { user } = useContext(SessionContext);
     const toggle = () => setDropdownOpen(!dropdownOpen);
+    const { loggedIn } = props;
 
 
     const properties = [
@@ -33,8 +34,8 @@ const Profile = (props) => {
         },
     ]
     console.log(user, 'profile')
-    // if (user.loggedIn === undefined) return <Loader />
-    if (user.loggedIn !== undefined && user.loggedIn !== true ) return <Redirect to="/login" />
+    if (user.loggedIn === undefined) return <Loader />
+    if (loggedIn === false) return <Redirect to="/login" />
     
     return (
         <Container>
@@ -47,9 +48,9 @@ const Profile = (props) => {
                     <Card className="mt-2">
                         <CardBody>
                             {
-                                !Object.values(user).length ? (
-                                    <ProfilePlaceholder />
-                                ) :
+                                // !user.username ? (
+                                //     <ProfilePlaceholder />
+                                // ) :
                                 props.location.pathname.includes('/settings') ? (
                                     <p>Settings</p>
                                 ) : 

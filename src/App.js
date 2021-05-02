@@ -90,7 +90,7 @@ const App = props => {
           <CreateHackathonForm {...props} />
         )} />
 
-        <Route path="/profile" render={props => <Profile {...props} /> } />
+        <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
         </Switch>
         </div>
         <Footer />
