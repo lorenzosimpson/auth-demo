@@ -4,7 +4,7 @@ import { Container, Card, CardBody, CardTitle, Row, Col } from 'reactstrap';
 import { SessionContext } from '../contexts/SessionContext';
 import TabbedNav from './TabbedNav';
 import ProfilePlaceholder from './ProfilePlaceholder';
-import { Button } from 'semantic-ui-react';
+import { Button } from 'reactstrap';
 import { Redirect } from 'react-router';
 import Loader from './Loader';
 
@@ -64,7 +64,7 @@ const Profile = (props) => {
                                                 <div className="col">
                                                     {
                                                     p.key === "Password" ? 
-                                                    ( <Button>Change</Button>) 
+                                                    ( <Button color="primary">Change</Button>) 
                                                     : 
                                                     (<span className="font-weight-bold">{p.val}</span>)
                                                     }
