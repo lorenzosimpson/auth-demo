@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardBody, Col, Row, Container, Alert } from 'reactstrap';
 import logo from '../assets/images/logo.png';
-import { AvInput, AvForm } from 'availity-reactstrap-validation';
+import { Button, Form } from 'semantic-ui-react';
 
 
 class LoginSignup extends Component {
@@ -96,7 +96,6 @@ class LoginSignup extends Component {
         this.setState({
             [event.target.name]: event.target.value
         })
-        console.log(this.state)
     }
 
 
@@ -126,19 +125,13 @@ class LoginSignup extends Component {
                                 </div>
                                 <h4 className="text-center">Welcome</h4>
                                 <h1 className="text-center text-muted h6 mb-4">{this.props.data.h1}</h1>
-                                <AvForm className="form-horizontal"
-                                    onValidSubmit={isLoginForm ? this.handleLoginSubmit : this.handleSignupSubmit}
+                                <Form
+                                    onSubmit={isLoginForm ? this.handleLoginSubmit : this.handleSignupSubmit}
                                 >
                                     <div className="form-group">
                                         <Row>
                                             <div className="col">
-                                                <div className="input-group">
-                                                    <div className="input-group-prepend">
-                                                        <span className="input-group-text">
-                                                            <i className="fas fa-user-tag" />
-                                                        </span>
-                                                    </div>
-                                                    <AvInput className="form-control"
+                                                    <input className="form-control"
                                                         type="text"
                                                         id="username"
                                                         name="username"
@@ -147,20 +140,14 @@ class LoginSignup extends Component {
                                                         value={this.state.username}
                                                         onChange={this.handleChange}
                                                     />
-                                                </div>
-                                            </div>
-                                        </Row>
+                                                    </div>
+                                            </Row>
                                     </div>
                                     <div className="form-group">
                                         <Row>
                                             <div className="col">
-                                                <div className="input-group">
-                                                    <div className="input-group-prepend">
-                                                        <span className="input-group-text">
-                                                            <i className="fas fa-lock" />
-                                                        </span>
-                                                    </div>
-                                                    <AvInput className="form-control"
+                                            
+                                                    <input className="form-control"
                                                         placeholder="Password"
                                                         type="password"
                                                         id="password"
@@ -169,7 +156,7 @@ class LoginSignup extends Component {
                                                         value={this.password}
                                                         onChange={this.handleChange}
                                                     />
-                                                </div>
+                                              
                                             </div>
                                         </Row>
                                     </div>
@@ -178,13 +165,8 @@ class LoginSignup extends Component {
                                    <div className="form-group">
                                         <Row>
                                             <div className="col">
-                                            <div className="input-group">
-                                                    <div className="input-group-prepend">
-                                                        <span className="input-group-text">
-                                                            <i className="fas fa-id-card" />
-                                                        </span>
-                                                    </div>
-                                                    <AvInput className="form-control"
+                                          
+                                                    <input className="form-control"
                                                         placeholder="First Name"
                                                         type="text"
                                                         id="first_name"
@@ -193,19 +175,15 @@ class LoginSignup extends Component {
                                                         value={this.first_name}
                                                         onChange={this.handleChange}
                                                     />
-                                                </div>
+                                               
                                             </div>
                                         </Row>
                                     </div>
                                     <div className="form-group">
                                     <Row>
                                         <div className="col">
-                                        <div className="input-group">
-                                                <div className="input-group-prepend">
-                                                    <span className="input-group-text">
-                                                        <i className="fas fa-id-card" />
-                                                    </span>
-                                                </div>
+                                    
+                                               
                                                 <input className="form-control"
                                                     placeholder="Last Name"
                                                     type="text"
@@ -215,7 +193,7 @@ class LoginSignup extends Component {
                                                     value={this.last_name}
                                                     onChange={this.handleChange}
                                                 />
-                                            </div>
+                                        
                                         </div>
                                     </Row>
                                 </div>
@@ -224,16 +202,16 @@ class LoginSignup extends Component {
                                     <div className="form-group ">
                                         <Row>
                                             <Col>
-                                                <button
+                                                <Button
                                                     type="submit"
-                                                    className="btn btn-primary col-mr-auto w-100"
-                                                >{data.buttonText}</button>
+                                                    className="w-100" primary
+                                                >{data.buttonText}</Button>
                                             </Col>
                                         </Row>
                                     </div>
                                     <p className="text-center">Don't have an account? <Link className="link" to={data.destination}>{data.inverse}</Link>
                                     </p>
-                                </AvForm>
+                                </Form>
                             </CardBody>
                         </Card>
                     </Container>

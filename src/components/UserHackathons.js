@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { SessionContext } from '../contexts/SessionContext';
 import { Container } from 'reactstrap';
-import { Search, Grid, Column } from 'semantic-ui-react';
-import SearchExampleStandard from './Search';
+import { Search, Grid, Column, Header } from 'semantic-ui-react';
+import SearchComponent from './Search';
 
 
 function UserHackathons(props) {
@@ -19,10 +19,9 @@ function UserHackathons(props) {
         .catch(err => console.log('GET hacakthon error', err))
     }, [user])
     return (
-        <Container>
-            <h1>Events</h1>
-            <SearchExampleStandard source={hackathons} />
-            
+        <Container className="mb-5">
+            <Header as="h1">Events</Header>
+            <SearchComponent source={hackathons} />
         </Container>
     );
 }

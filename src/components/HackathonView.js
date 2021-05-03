@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
 
 
 function HackathonView(props) {
-    const { user } = useContext(SessionContext);
+  //  const { user } = useContext(SessionContext);
     const [hackathon, setHackathon] = useState({})
     const { id } = props.match.params;
 

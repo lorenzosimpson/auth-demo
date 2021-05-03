@@ -11,29 +11,6 @@ const hackathonSchema = new Schema({
     description: { type: String, required: true }
 })
 
-hackathonSchema.methods = {
-    assignOrganizer: function(hackathon) {
-        const organizer_id = this.organizer_id
-        User.findById(organizer_id, (err, organizer) => {
-            if (err) console.log(err)
-            else if (organizer_id != organizer._id) {
-                console.log('organizer id mismatch', organizer._id, organizer_id)
-            }
-            else {
-                // Add the hackathon to the associated hackathons array
-                const changes = { $set: { hackathons: [...organizer.hackathons, hackathon._id] } }
-                User.updateOne({ _id: organizer_id }, changes)
-                    .then(() => {
-                        console.log(`Associated ${organizer.username} for hackathon`)
-                        })
-                    .catch(err => {
-                            console.log('could not associate user to hackathon', err)
-                    })
-            }
-        })
-    }
-}
-
 hackathonSchema.pre('save', function(next) {
     if (!this.start_date) {
         console.log('models/hackathon.js =====NO START DATE PROVIDED=====')
@@ -52,9 +29,26 @@ hackathonSchema.pre('save', function(next) {
     }
 })
 
-hackathonSchema.post('save', function(doc, next) {
-    this.assignOrganizer(doc)
-    next()
+hackathonSchema.post('save', function(hackathon, next) {
+        const organizer_id = this.organizer_id
+        User.findById(organizer_id, (err, organizer) => {
+            if (err) console.log(err)
+            else if (organizer_id != organizer._id) {
+                console.log('organizer id mismatch', organizer._id, organizer_id)
+            }
+            else {
+                // Add the hackathon to the associated hackathons array
+                const changes = { $push: { hackathons: [hackathon._id] } }
+                User.updateOne({ _id: organizer_id }, changes, (err, saved) => {
+                    if (err) console.log(err)
+                    else {
+                        console.log('associated hackathon')
+                        next()
+                    }
+                })
+                    
+            }
+        })
 })
 
 const Hackathon = mongoose.model('Hackathon', hackathonSchema);

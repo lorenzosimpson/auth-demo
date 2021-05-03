@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Form, Input, Card, CardBody, Row, Label, FormGroup, Container, Button} from 'reactstrap';
+import { Card, CardBody, Row, Container} from 'reactstrap';
+import { Form, TextArea, Button } from 'semantic-ui-react';
 import { DateTimePicker } from 'react-rainbow-components';
-import { AvForm, AvInput } from 'availity-reactstrap-validation';
 import { useContext } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 
@@ -37,40 +37,36 @@ function CreateHackathonForm(props) {
         .catch(err => console.log(err))
     }
 
-    function handleInvalidSubmit(e) {
-        e.preventDefault()
-        console.log('invalid submit!')
-    }
-
 
     return (
-        <Container fluid={true}>
+        <Container className="mb-4">
             <Row className="justify-content-center">
                 <Card className="col-11 col-lg-5 col-xl-4 col-md-8">
                     <CardBody>
-                        <AvForm onChange={handleChange} onValidSubmit={handleSubmit}  >
-                            <FormGroup>
-                                <Label for="name">Name</Label>
-                                <AvInput id="name"  name="name" required
+
+                       <Form onChange={handleChange} onSubmit={handleSubmit}  >
+                              <Form.Field>
+                                <label for="name">Name</label>
+                                <input id="name"  name="name" required
                                 placeholder="UCLA Spring Hackathon, etc." />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="location">Location</Label>
-                                <AvInput id="location"  name="location"
+                            </Form.Field>
+                           <Form.Field>
+                                <label for="location">Location</label>
+                                <input id="location"  name="location"
                                 required
                                 placeholder="Address, Online/Remote, etc." />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="about">Details</Label>
-                                <AvInput type="textarea" 
+                            </Form.Field>
+                            <Form.Field>
+                                <label for="about">Details</label>
+                                <TextArea
                                 name="description"
                                 id="about"
                                 required
                                 placeholder="Tell potential participants about this hackathon" />
-                            </FormGroup>
+                            </Form.Field>
 
-                            <FormGroup>
-                                <Label for="startDate">Start Date</Label>
+                           <Form.Field>
+                                <label for="startDate">Start Date</label>
                                 <DateTimePicker
                                     id="startDate"
                                     name="startDate"
@@ -78,11 +74,11 @@ function CreateHackathonForm(props) {
                                     value={startDate}
                                     minDate={new Date()}
                                 />
-                              
-                            </FormGroup>
+                
+                            </Form.Field>
 
-                            <FormGroup>
-                                <Label for="endDate">End Date</Label>
+                            <Form.Field>
+                                <label for="endDate">End Date</label>
                                 <DateTimePicker
                                     name="endDate"
                                     onChange={changeEndDate}
@@ -90,11 +86,12 @@ function CreateHackathonForm(props) {
                                     minDate={new Date()}
                                     placeholder="Choose End Date and Time"  
                                 />
-                            </FormGroup>
+                            </Form.Field>
+
                             <div className="d-flex justify-content-end">
-                            <Button color="primary" type="submit">Submit</Button>
+                                <Button primary type="submit">Submit</Button>
                             </div>
-                        </AvForm>
+                        </Form>
                     </CardBody>
                 </Card>
             </Row>

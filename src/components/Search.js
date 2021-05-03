@@ -7,6 +7,8 @@ import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
 import placeholder from '../assets/images/placeholder.png';
 import history from '../history'
+import Icon from './Icon';
+import SearchItem from './search/SearchItem';
 
 const initialState = {
   loading: false,
@@ -14,14 +16,7 @@ const initialState = {
   value: '',
 }
 
-// const source = _.times(5, () => ({
-//     name: faker.company.companyName(),
-//     description: faker.company.catchPhrase(),
-//     image: faker.internet.avatar(),
-//     price: faker.finance.amount(0, 100, 2, '$'),
-//   }))
-
-function exampleReducer(state, action) {
+function searchReducer(state, action) {
   switch (action.type) {
     case 'CLEAN_QUERY':
       return initialState
@@ -50,18 +45,43 @@ function exampleReducer(state, action) {
 
 
 function SearchExampleStandard(props) {
-  const [state, dispatch] = React.useReducer(exampleReducer, initialState)
+  const [state, dispatch] = React.useReducer(searchReducer, initialState)
   const { loading, results, value } = state
   const [source, setSource] = useState([])
   const { user } = useContext(SessionContext);
+  const [load, setLoad] = useState(false)
+
+  const formatDate = date => {
+    const months = [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12"
+    ];
+    const newDate = new Date(date);
+    const y = newDate.getFullYear().toString().substr(2);
+    const d = newDate.getDate();
+    const m = months[newDate.getMonth()];
+    return `${m}/${d}/${y}`;
+};
 
   useEffect(() => {
+        setLoad(true)
         console.log('use effect called')
         axios.get(`/hackathon/u/${user.id}`)
         .then(res => {
             const s = res.data
             const t = s.map(item =>( {...item, image: faker.internet.avatar() }))
             setSource(t)
+            setLoad(false)
         })
         .catch(err => console.log('GET hacakthon error', err))
     }, [])
@@ -108,28 +128,27 @@ function SearchExampleStandard(props) {
           results={results}
           value={value}
           resultRenderer={resultRenderer}
+          placeholder="Search Hackathons"
           
         />
         </div>
 
+      
         <Segment>
-          <Header>Search</Header>
           <Item.Group>
-          {source.map((item, key) => (
-                  <Item onClick={() => navigateToHackathonView(item._id)}>
-                  <Item.Image  width="50px" src={placeholder} />
-                  <Item.Content>
-                    <Item.Header >{item.name}</Item.Header>
-                    <Item.Meta>Details</Item.Meta>
-                    <Item.Description>
-                        {item.description}
-                    </Item.Description>
-                    <Item.Extra>{item.start_date}</Item.Extra>
-                    <Item.Extra>{item.end_date}</Item.Extra>
-                  </Item.Content>
-                </Item>
-   
-          ))}
+          {
+           !source.length ? (
+             <Icon />
+           ) : (
+            <>
+               {source.map((item, key) =>
+               (
+                  <SearchItem item={item} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={placeholder}/>
+              ))
+              }
+            </>
+           )
+          }
           </Item.Group>
         </Segment>
       </Grid.Column>
@@ -137,14 +156,5 @@ function SearchExampleStandard(props) {
   )
 }
 
-// const source = [
-//     {
-//         _id: "608def1880a68e1c6a58b26f",
-//         end_date: "2021-05-02T20:00:00.000Z",
-//         name: "Dangles’ Hackathon",
-//         organizer_id: "608dbf1790e6fb091649bcdf",
-//         start_date: "2021-05-02T16:00:00.000Z",
-//     }
-// ]
 
 export default SearchExampleStandard

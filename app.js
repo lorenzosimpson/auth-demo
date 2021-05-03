@@ -49,17 +49,18 @@ app.use(passport.session()) // calls the deserializeUser
 app.use('/hackathon', verifySession); // make sure user is authenticated before getting hackathon info
 
 
+// seed.seedDB()
 
 // Routes
 app.use('/user', user)
 app.use('/hackathon', hackathon)
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, 'build')));
 	app.get('*', (req, res) => {
 		res.sendFile(path.join(__dirname + '/build/index.html')); // Serve the static file in production
 	});
-}
+} 
 
 // Starting Server 
 app.listen(PORT, () => {

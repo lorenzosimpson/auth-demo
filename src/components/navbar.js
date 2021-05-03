@@ -12,8 +12,8 @@ import {
     DropdownMenu,
     DropdownItem,
     NavLink,
-    Button
 } from 'reactstrap';
+import { Button } from 'semantic-ui-react';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import history from '../history';
 import { SessionContext } from '../contexts/SessionContext';
@@ -60,7 +60,7 @@ const Navigation = (props) => {
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
-                    <Nav className="mr-auto" navbar>
+                    <Nav className="ml-auto mr-4" navbar>
                         <NavItem className="mr-4">
                             <NavLink tag={RouterNavLink}
                                 exact
@@ -68,21 +68,16 @@ const Navigation = (props) => {
                                 className="nav-link" to="/">Home</NavLink>
                         </NavItem>
                         {loggedIn && (
-                        <NavItem>
-                                    <NavLink 
-                                    to="/create" 
-                                    tag={RouterNavLink}
-                                    activeClassName="router-link-exact-active"
-                                    exact
-                                    >Create</NavLink>
-                                </NavItem>
-                        )}
-
-                    </Nav>
-                    <Nav className="d-none d-md-flex align-items-center" navbar>
-                        {loggedIn && (
                             <>
-                             <NavItem>
+                        <NavItem className="mr-4"> 
+                            <NavLink 
+                            to="/create" 
+                            tag={RouterNavLink}
+                            activeClassName="router-link-exact-active"
+                            exact
+                            >Create</NavLink>
+                        </NavItem>
+                        <NavItem>
                                     <NavLink 
                                     to="/my-hackathons" 
                                     tag={RouterNavLink}
@@ -90,6 +85,13 @@ const Navigation = (props) => {
                                     exact
                                     >My Hackathons</NavLink>
                                 </NavItem>
+                        </>
+                        )}
+
+                    </Nav>
+                    <Nav className="d-none d-md-flex align-items-center" navbar>
+                        {loggedIn && (
+                            <>
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav caret>
                                         <img
@@ -126,7 +128,7 @@ const Navigation = (props) => {
                         )}
                         {!loggedIn && (
                             <NavItem >
-                                <Button color="primary"
+                                <Button primary
                                     onClick={() => history.push('/login')}
                                 >Get Started</Button>
                             </NavItem>

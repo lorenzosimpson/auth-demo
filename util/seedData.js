@@ -1,6 +1,7 @@
 const faker = require("faker");
 const mongoose = require('mongoose')
 const Hackathon = require('../database/models/hackathon')
+require('dotenv').config()
 
 function randomIntFromInterval(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -14,7 +15,6 @@ const map = async (arr) => {
         }
         catch (err) {
             console.log('err here')
-            throw err
         }
     }
 }
@@ -53,10 +53,6 @@ async function seedDB() {
             data.push(newHackathon)
         };
         await map(data)
-
-        // setTimeout(() => {
-            
-        // }, 4000)
         mongoose.connection.close();
         console.log('--Connection closed--')
         console.log("Database seeded! :)");
