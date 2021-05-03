@@ -14,6 +14,7 @@ import { loginData, signupData } from './utils/loginSignupFormData';
 import LoginSignup from './components/login-signup';
 import CreateHackathonForm from './components/CreateHackathonForm';
 import Profile from './components/Profile';
+import HackathonView from './components/HackathonView';
 
 
 
@@ -89,6 +90,9 @@ const App = props => {
         render={props => (
           <CreateHackathonForm {...props} />
         )} />
+
+        <Route path="/hackathon/:id" render={props => <HackathonView {...props}/>}
+        />
 
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
         </Switch>

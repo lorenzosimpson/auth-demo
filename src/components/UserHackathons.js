@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { SessionContext } from '../contexts/SessionContext';
+import { Container } from 'reactstrap';
+import { Search, Grid, Column } from 'semantic-ui-react';
+import SearchExampleStandard from './Search';
 
 
 function UserHackathons(props) {
@@ -16,11 +19,11 @@ function UserHackathons(props) {
         .catch(err => console.log('GET hacakthon error', err))
     }, [user])
     return (
-        <div>
-            {hackathons.map((hackathon, id)=> (
-                <p key={id}>{hackathon.name}</p>
-            ))}
-        </div>
+        <Container>
+            <h1>Events</h1>
+            <SearchExampleStandard source={hackathons} />
+            
+        </Container>
     );
 }
 
