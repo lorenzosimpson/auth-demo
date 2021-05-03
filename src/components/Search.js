@@ -2,8 +2,7 @@ import _ from 'lodash'
 import faker from 'faker'
 import React from 'react'
 import { Search, Grid, Header, Segment, Label, Item, Image } from 'semantic-ui-react'
-import { useState } from 'react/cjs/react.development'
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
 import placeholder from '../assets/images/placeholder.png';
