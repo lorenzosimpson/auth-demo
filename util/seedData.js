@@ -20,7 +20,7 @@ const map = async (arr) => {
 }
 
 async function seedDB() {
-    const uri = 'mongodb+srv://dev:NsjPxozQINSHk0Uw@authdemo.sq1b9.mongodb.net/development?retryWrites=true&w=majority'
+    const uri = null // mongo uri
     const config = {
         useNewUrlParser: true,
         useFindAndModify: false,
