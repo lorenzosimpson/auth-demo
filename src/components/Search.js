@@ -1,18 +1,26 @@
 import _ from 'lodash'
 import faker from 'faker'
 import React from 'react'
-import { Search, Grid, Header, Segment, Label } from 'semantic-ui-react'
+import { Search, Grid, Header, Segment, Label, Item, Image } from 'semantic-ui-react'
 import { useState } from 'react/cjs/react.development'
 import { useContext, useEffect } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
-
+import placeholder from '../assets/images/placeholder.png';
+import history from '../history'
 
 const initialState = {
   loading: false,
   results: [],
   value: '',
 }
+
+// const source = _.times(5, () => ({
+//     name: faker.company.companyName(),
+//     description: faker.company.catchPhrase(),
+//     image: faker.internet.avatar(),
+//     price: faker.finance.amount(0, 100, 2, '$'),
+//   }))
 
 function exampleReducer(state, action) {
   switch (action.type) {
@@ -30,12 +38,17 @@ function exampleReducer(state, action) {
       throw new Error()
   }
 }
- const resultRenderer = ({ name, description }) => [
-    <div key='content' className='content'>
+ const resultRenderer = ({ name, description, title, _id }) => [
+    <div key='content' className='content' onClick={() => navigateToHackathonView(_id)}>
       {name && <div className='title'>{name}</div>}
       {description && <div className='description'>{description}</div>}
     </div>,
   ]
+
+  const navigateToHackathonView = id => {
+    history.push(`/hackathon/${id}`)
+}
+
 
 function SearchExampleStandard(props) {
   const [state, dispatch] = React.useReducer(exampleReducer, initialState)
@@ -47,10 +60,13 @@ function SearchExampleStandard(props) {
         console.log('use effect called')
         axios.get(`/hackathon/u/${user.id}`)
         .then(res => {
-            setSource(res.data)
+            const s = res.data
+            const t = s.map(item =>( {...item, image: faker.internet.avatar() }))
+            setSource(t)
         })
         .catch(err => console.log('GET hacakthon error', err))
     }, [])
+
 
   const timeoutRef = React.useRef()
   const handleSearchChange = React.useCallback((e, data) => {
@@ -98,14 +114,24 @@ function SearchExampleStandard(props) {
         </div>
 
         <Segment>
-          <Header>State</Header>
-          <pre style={{ overflowX: 'auto' }}>
-            {JSON.stringify({ loading, results, value }, null, 2)}
-          </pre>
-          <Header>Options</Header>
-          <pre style={{ overflowX: 'auto' }}>
-            {JSON.stringify(source, null, 2)}
-          </pre>
+          <Header>Search</Header>
+          <Item.Group>
+          {source.map((item, key) => (
+                  <Item onClick={() => navigateToHackathonView(item._id)}>
+                  <Item.Image  width="50px" src={placeholder} />
+                  <Item.Content>
+                    <Item.Header >{item.name}</Item.Header>
+                    <Item.Meta>Details</Item.Meta>
+                    <Item.Description>
+                        {item.description}
+                    </Item.Description>
+                    <Item.Extra>{item.start_date}</Item.Extra>
+                    <Item.Extra>{item.end_date}</Item.Extra>
+                  </Item.Content>
+                </Item>
+   
+          ))}
+          </Item.Group>
         </Segment>
       </Grid.Column>
     </Grid>

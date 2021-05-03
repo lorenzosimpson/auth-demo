@@ -79,9 +79,17 @@ const Navigation = (props) => {
                         )}
 
                     </Nav>
-                    <Nav className="d-none d-md-block" navbar>
+                    <Nav className="d-none d-md-flex align-items-center" navbar>
                         {loggedIn && (
                             <>
+                             <NavItem>
+                                    <NavLink 
+                                    to="/my-hackathons" 
+                                    tag={RouterNavLink}
+                                    activeClassName="router-link-exact-active"
+                                    exact
+                                    >My Hackathons</NavLink>
+                                </NavItem>
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav caret>
                                         <img

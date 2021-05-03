@@ -1,15 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useState } from 'react/cjs/react.development';
 import { SessionContext } from '../contexts/SessionContext';
+import axios from 'axios';
 
 
 function HackathonView(props) {
     const { user } = useContext(SessionContext);
-    console.log(props)
+    const [hackathon, setHackathon] = useState({})
+    const { id } = props.match.params;
+
+    useEffect(() => {
+        console.log('use effect called')
+        axios.get(`/hackathon/${id}`)
+        .then(res => {
+            console.log('GET hackathon res', res)
+            setHackathon(res.data)
+        })
+        .catch(err => console.log('GET hacakthon error', err))
+    }, [])
+
     return (
         <div>
-            {/* {hackathons.map((hackathon, id)=> (
-                <p key={id}>{hackathon.name}</p>
-            ))} */}
+            {hackathon.name}
         </div>
     );
 }

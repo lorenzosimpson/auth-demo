@@ -44,4 +44,15 @@ router.get('/u/:id', (req, res) => {
     })
 })
 
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    Hackathon.findById(id, (err, hackathon) => {
+        if (err) {
+            console.log(err)
+            res.status(500).json(err)
+        }
+        res.status(200).json(hackathon)
+    })
+})
+
 module.exports = router
