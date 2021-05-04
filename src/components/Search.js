@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import faker from 'faker'
 import React from 'react'
-import { Search, Grid, Segment,  Item, Dropdown} from 'semantic-ui-react'
+import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic-ui-react'
 import { useContext, useEffect, useState } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
@@ -77,6 +77,7 @@ function SearchExampleStandard(props) {
   const { user } = useContext(SessionContext);
   const { noResults } = props;
   const [filter, setFilter] = useState([])
+  const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
 
 
   useEffect(() => {
@@ -136,14 +137,20 @@ function SearchExampleStandard(props) {
     setWasFiltered(true)
     switch(type) {
       case 'past':
+        setCurrentSearchParam("Past Hackathons")
         setFilter(_.filter(source, (o) => moment(o.end_date).isBefore(moment())))
         break
       case 'present':
+        setCurrentSearchParam("Active Hackathons")
         setFilter(_.filter(source, (o) => moment().isBetween(moment(o.start_date), moment(o.end_date))))
         break
       case 'future':
+        setCurrentSearchParam("Upcoming Hackathons")
         setFilter(_.filter(source, (o) => moment(o.start_date).isAfter(moment())))
         break
+      case 'all':
+        setCurrentSearchParam("All Hackathons")
+        setFilter(source)
       default: 
         break
     }
@@ -161,8 +168,6 @@ function SearchExampleStandard(props) {
   if (!source.length && !noResults && !noFilterResults) {
     return <InnerLoader />
   }
-
-
 
   return (
     <Grid>
@@ -183,6 +188,7 @@ function SearchExampleStandard(props) {
 
         <Segment>
           <Item.Group>
+            <Header>{currentSearchParam}</Header>
           <div class="dropdown-buttons">
            <Dropdown 
            text='Sort'
@@ -207,7 +213,9 @@ function SearchExampleStandard(props) {
             className='icon'
            >
             <Dropdown.Menu>
-              <Dropdown.Item  onClick={() => filterFn('present')} text='Current' />
+            <Dropdown.Item  onClick={() => filterFn('all')} text='All' />
+            <Divider />
+              <Dropdown.Item  onClick={() => filterFn('present')} text='Active' />
               <Dropdown.Item onClick={() => filterFn('past')} text='Past' />
               <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' />
               
@@ -216,14 +224,13 @@ function SearchExampleStandard(props) {
           </div>
          
             {
-              noFilterResults ? (
+              noFilterResults || !filter.length ? (
                 <NoHackathons />
               ) : (
                 <>
                   {filter.map((item, key) =>
-                  (
                     <SearchItem item={item} key={key} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={img} />
-                  ))
+                  )
                   }
                 </>
               )

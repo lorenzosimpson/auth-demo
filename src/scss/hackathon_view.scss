@@ -8,6 +8,8 @@
 
 .banner-img-inner {
     width: 100%;
+    max-height: 400px;
+    object-fit: contain;
 }
 
 .content-overlay {

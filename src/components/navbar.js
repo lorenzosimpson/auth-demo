@@ -67,6 +67,13 @@ const Navigation = (props) => {
                                 activeClassName="router-link-exact-active"
                                 className="nav-link" to="/">Home</NavLink>
                         </NavItem>
+                        <NavItem className="mr-4">
+                            <NavLink tag={RouterNavLink}
+                            to="/explore"
+                            activeClassName="router-link-exact-active"
+                            exact
+                            className="nav-link">Explore</NavLink>
+                        </NavItem>
                         {loggedIn && (
                             <>
                         <NavItem className="mr-4"> 
@@ -139,7 +146,7 @@ const Navigation = (props) => {
                 <NavItem>
                   <Button
                     id="qsLoginBtn"
-                    color="primary"
+                    primary
                     block
                     onClick={() => {
                         toggle()
