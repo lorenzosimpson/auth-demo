@@ -1,14 +1,13 @@
 import React from 'react'
 import { Col, Row } from 'reactstrap'
-import { Button, Header, Icon, Image } from 'semantic-ui-react'
-import centeredParagraph from '../assets/images/centered-paragraph.png'
+import { Button, Header, Icon } from 'semantic-ui-react'
 import history from '../history'
 
 const NoItems = () => (
   <div>
     <Header as='h2' icon textAlign='center'>
       <Icon name='calendar outline' circular />
-      <Header.Content>You have no upcoming events</Header.Content>
+      <Header.Content>No Results</Header.Content>
     </Header>
     <div className="container my-5">
         <Row className="text-center">

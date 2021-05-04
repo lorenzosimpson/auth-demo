@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { SessionContext } from '../contexts/SessionContext';
+// import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
-import banner from '../assets/images/computers-above.jpg';
+// import banner from '../assets/images/computers-above.jpg';
 import { Row, Col } from 'reactstrap';
 import { Button, Container, Header } from 'semantic-ui-react';
-import { format } from 'morgan';
 import InnerLoader from './load/InnerLoader';
 
 const imgUrl = 'https://source.unsplash.com/random/?coding&orientation=landscape'
@@ -32,7 +31,7 @@ function HackathonView(props) {
         "Dec"
     ];
     const newDate = new Date(date);
-    const y = newDate.getFullYear().toString().substr(2);
+  //  const y = newDate.getFullYear().toString().substr(2);
     const d = newDate.getDate();
     const m = months[newDate.getMonth()];
     return [m, d];
@@ -46,6 +45,7 @@ function HackathonView(props) {
             setHackathon(res.data)
         })
         .catch(err => console.log('GET hacakthon error', err))
+        // eslint-disable-next-line
     }, [])
 
     const formattedStart = formatDate(hackathon.start_date)
@@ -65,12 +65,12 @@ function HackathonView(props) {
 
     return (
         <div className="hackathon-view">
-           <img src={imgUrl} className="banner-img" width="100%"></img>
+           <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
            <div className="content-overlay">
                <div className="container my-5 py-5">
                    <Row>
                        <Col md="7">
-                   <img src={imgUrl} className="banner-img-inner mb-3"></img>
+                   <img src={imgUrl} className="banner-img-inner mb-3" alt=""></img>
                        </Col>
                        <Col md="5">
                         { !hackathon ? 

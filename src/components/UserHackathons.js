@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { SessionContext } from '../contexts/SessionContext';
 import { Container } from 'reactstrap';
-import { Search, Grid, Column, Header } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import SearchComponent from './Search';
 
 
@@ -23,7 +23,7 @@ function UserHackathons(props) {
     return (
         <Container className="mb-5">
             <Header as="h1">Events</Header>
-            <SearchComponent source={hackathons} noResults={noResults} />
+            <SearchComponent source={hackathons} noResults={noResults} setNoResults={setNoResults} />
         </Container>
     );
 }

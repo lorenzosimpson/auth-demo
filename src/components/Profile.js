@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { Container, Card, CardBody, Row } from 'reactstrap';
 import { SessionContext } from '../contexts/SessionContext';
 import TabbedNav from './TabbedNav';
-import ProfilePlaceholder from './ProfilePlaceholder';
+// import ProfilePlaceholder from './ProfilePlaceholder';
 import { Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import Loader from './Loader';

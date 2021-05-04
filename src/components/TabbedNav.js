@@ -1,8 +1,7 @@
 import React from 'react';
-import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 function TabbedNav(props) {
-    const { toggle, dropdownOpen } = props;
     return (
         <Nav tabs>
         <NavItem>

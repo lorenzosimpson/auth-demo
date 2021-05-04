@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from "react-loader-spinner";
-import { Container, Row, Col } from 'reactstrap';
+import { Row } from 'reactstrap';
 export default class App extends React.Component {
     //other logic
     render() {

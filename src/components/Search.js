@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import faker from 'faker'
 import React from 'react'
-import { Search, Grid, Header, Segment, Label, Item, Image, Loader, Icon, Dropdown} from 'semantic-ui-react'
+import { Search, Grid, Segment,  Item, Dropdown} from 'semantic-ui-react'
 import { useContext, useEffect, useState } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
-import placeholder from '../assets/images/placeholder.png';
+// import placeholder from '../assets/images/placeholder.png';
 import history from '../history'
 import NoHackathons from './Icon';
 import SearchItem from './search/SearchItem';
@@ -30,12 +30,11 @@ function searchReducer(state, action) {
       return { ...state, loading: false, results: action.results }
     case 'UPDATE_SELECTION':
       return { ...state, value: action.selection }
-    case 'START_SORT':
-      return { ...state, results: action.results }
     default:
       throw new Error()
   }
 }
+
 const resultRenderer = ({ name, description, title, _id }) => [
   <div key='content' className='content' onClick={() => navigateToHackathonView(_id)}>
     {name && <div className='title'>{name}</div>}
@@ -47,35 +46,38 @@ const navigateToHackathonView = id => {
   history.push(`/hackathon/${id}`)
 }
 
+const formatDate = date => {
+  const months = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+  ];
+  const newDate = new Date(date);
+  const y = newDate.getFullYear().toString().substr(2);
+  const d = newDate.getDate();
+  const m = months[newDate.getMonth()];
+  return `${m}/${d}/${y}`;
+};
 
 function SearchExampleStandard(props) {
   const [state, dispatch] = React.useReducer(searchReducer, initialState)
   const { loading, results, value } = state
   const [source, setSource] = useState([])
+  const [wasFiltered, setWasFiltered] = useState(false)
+  const [noFilterResults, setNoFilterResults] = useState(false)
   const { user } = useContext(SessionContext);
-  const { noResults, setNoResults } = props;
+  const { noResults } = props;
+  const [filter, setFilter] = useState([])
 
-  const formatDate = date => {
-    const months = [
-      "01",
-      "02",
-      "03",
-      "04",
-      "05",
-      "06",
-      "07",
-      "08",
-      "09",
-      "10",
-      "11",
-      "12"
-    ];
-    const newDate = new Date(date);
-    const y = newDate.getFullYear().toString().substr(2);
-    const d = newDate.getDate();
-    const m = months[newDate.getMonth()];
-    return `${m}/${d}/${y}`;
-  };
 
   useEffect(() => {
     console.log('use effect called')
@@ -86,6 +88,7 @@ function SearchExampleStandard(props) {
         setSource(t)
       })
       .catch(err => console.log('GET hacakthon error', err))
+      // eslint-disable-next-line
   }, [])
 
 
@@ -116,26 +119,50 @@ function SearchExampleStandard(props) {
     }
   }, [])
 
-  if (!source.length && !noResults) {
-    return <InnerLoader />
+  useEffect(() => {
+    if (wasFiltered && filter.length === 0) {
+      setNoFilterResults(true)
+    }
+    return () => setNoFilterResults(false) 
+  }, [filter])
+
+  useEffect(() => {
+      setFilter(source)
+  }, [source])
+
+
+
+  const filterFn = (type) => {
+    setWasFiltered(true)
+    switch(type) {
+      case 'past':
+        setFilter(_.filter(source, (o) => moment(o.end_date).isBefore(moment())))
+        break
+      case 'present':
+        setFilter(_.filter(source, (o) => moment().isBetween(moment(o.start_date), moment(o.end_date))))
+        break
+      case 'future':
+        setFilter(_.filter(source, (o) => moment(o.start_date).isAfter(moment())))
+        break
+      default: 
+        break
+    }
   }
-
-  const filterResults = () => {
-
-  }
-
 
   const sortNewest = () => {
-    setSource(_.sortBy(source, (o) => o.start_date))
-    console.log(state.results)
+    setFilter(_.sortBy(filter, (o) => o.start_date))
   }
 
   const sortOldest = () => {
-    const sorted = _.orderBy(source, function(o) { return new moment(o.start_date); }, ['desc']);
-    setSource(sorted)
+    const sorted = _.orderBy(filter, function(o) { return new moment(o.start_date); }, ['desc']);
+    setFilter(sorted)
   }
 
- 
+  if (!source.length && !noResults && !noFilterResults) {
+    return <InnerLoader />
+  }
+
+
 
   return (
     <Grid>
@@ -151,34 +178,49 @@ function SearchExampleStandard(props) {
             value={value}
             resultRenderer={resultRenderer}
             placeholder="Search Hackathons"
-
           />
         </div>
 
-
         <Segment>
           <Item.Group>
-            <div className="text-right">
+          <div class="dropdown-buttons">
            <Dropdown 
            text='Sort'
            className="icon"
            icon="sort"
            floating
            button
+           labeled
            >
             <Dropdown.Menu>
-              <Dropdown.Item onClick={sortNewest} text='Newest to Oldest' />
-              <Dropdown.Item  onClick={sortOldest} text='Oldest to Newest' />
+              <Dropdown.Item onClick={sortNewest} text='Oldest to Newest' />
+              <Dropdown.Item  onClick={sortOldest} text='Newest to Oldest' />
             </Dropdown.Menu>
           </Dropdown>
 
-            </div>
+          <Dropdown 
+            text='Filter'
+            icon='filter'
+            floating
+            labeled
+            button
+            className='icon'
+           >
+            <Dropdown.Menu>
+              <Dropdown.Item  onClick={() => filterFn('present')} text='Current' />
+              <Dropdown.Item onClick={() => filterFn('past')} text='Past' />
+              <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' />
+              
+            </Dropdown.Menu>
+          </Dropdown>
+          </div>
+         
             {
-              noResults ? (
+              noFilterResults ? (
                 <NoHackathons />
               ) : (
                 <>
-                  {source.map((item, key) =>
+                  {filter.map((item, key) =>
                   (
                     <SearchItem item={item} key={key} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={img} />
                   ))

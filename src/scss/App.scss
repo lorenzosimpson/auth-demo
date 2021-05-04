@@ -171,6 +171,10 @@ input, textarea {
   right: inherit;
 }
 
+.dropdown-buttons {
+  text-align: right;
+}
+
 @media (max-width:767px) {
   .nav-item {
    margin-bottom:1rem
@@ -186,6 +190,10 @@ input, textarea {
   }
   .logo {
     width: 70px;
+  }
+
+  .dropdown-buttons {
+    text-align: left;
   }
 
 }
