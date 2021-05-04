@@ -4,13 +4,13 @@ import { Button, Header, Icon, Image } from 'semantic-ui-react'
 import centeredParagraph from '../assets/images/centered-paragraph.png'
 import history from '../history'
 
-const HeaderExampleUsersIcon = () => (
+const NoItems = () => (
   <div>
     <Header as='h2' icon textAlign='center'>
       <Icon name='calendar outline' circular />
       <Header.Content>You have no upcoming events</Header.Content>
     </Header>
-    <div className="container mt-5">
+    <div className="container my-5">
         <Row className="text-center">
         <Col xs="6">
         <Button 
@@ -29,4 +29,4 @@ const HeaderExampleUsersIcon = () => (
   </div>
 )
 
-export default HeaderExampleUsersIcon
+export default NoItems

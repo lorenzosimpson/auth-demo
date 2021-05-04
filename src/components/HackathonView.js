@@ -3,8 +3,11 @@ import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
 import banner from '../assets/images/computers-above.jpg';
 import { Row, Col } from 'reactstrap';
-import { Header } from 'semantic-ui-react';
+import { Button, Container, Header } from 'semantic-ui-react';
 import { format } from 'morgan';
+import InnerLoader from './load/InnerLoader';
+
+const imgUrl = 'https://source.unsplash.com/random/?coding&orientation=landscape'
 
 
 function HackathonView(props) {
@@ -45,14 +48,29 @@ function HackathonView(props) {
         .catch(err => console.log('GET hacakthon error', err))
     }, [])
 
+    const formattedStart = formatDate(hackathon.start_date)
+    const formattedEnd = formatDate(hackathon.end_date)
+
+    console.log(formattedStart, formattedEnd)
+    const singleDay = (formattedStart[0] === formattedEnd[0] && 
+        formattedStart[1] === formattedEnd[1])
+
+    if (!hackathon.name) {
+        return (
+            <Container>
+                <InnerLoader />
+            </Container>
+        )
+    }
+
     return (
         <div className="hackathon-view">
-           <img src={banner} className="banner-img" width="100%"></img>
+           <img src={imgUrl} className="banner-img" width="100%"></img>
            <div className="content-overlay">
-               <div className="container pt-5">
+               <div className="container my-5 py-5">
                    <Row>
                        <Col md="7">
-                   <img src={banner} className="banner-img-inner"></img>
+                   <img src={imgUrl} className="banner-img-inner mb-3"></img>
                        </Col>
                        <Col md="5">
                         { !hackathon ? 
@@ -63,25 +81,39 @@ function HackathonView(props) {
                            <Row className="text-center mb-4">
                                <Col xs="3">
                                <div className="date-box">
-                                  <p className="month">{formatDate(hackathon.start_date)[0]}</p>
-                                  <p className="day">{formatDate(hackathon.start_date)[1]}</p>
+                                  <p className="month">{formattedStart[0]}</p>
+                                  <p className="day">{formattedStart[1]}</p>
                                </div>
                                </Col>
-                               <Col xs="2">-</Col>
-                               <Col xs="3">
-                               <div className="date-box">
-                                  <p className="month">{formatDate(hackathon.end_date)[0]}</p>
-                                  <p className="day">{formatDate(hackathon.end_date)[1]}</p>
-                               </div>
+                               {!singleDay && (
+                                <>
+                                    <Col xs="1" className="d-flex align-items-center">-</Col>
+                                    <Col xs="3">
+                                    <div className="date-box">
+                                        <p className="month">{formattedEnd[0]}</p>
+                                        <p className="day">{formattedEnd[1]}</p>
+                                    </div>
+                                    </Col>
+                               </>
+                                   )}
+                           </Row>
+                           <Row>
+                               <Col>
+                               <Button primary size="big">Join</Button>
                                </Col>
                            </Row>
-                           <p>{hackathon.description}</p>
                            </>
                            )
 
                         }
                        </Col>
-                   </Row>
+                       </Row>
+                       <Row className="mt-5">
+                           <Col>
+                       <p>{hackathon.description}</p>
+                           </Col>
+                       </Row>
+                  
                </div>
            </div>
         </div>

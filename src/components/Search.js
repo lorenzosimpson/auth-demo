@@ -1,14 +1,16 @@
 import _ from 'lodash'
 import faker from 'faker'
 import React from 'react'
-import { Search, Grid, Header, Segment, Label, Item, Image } from 'semantic-ui-react'
+import { Search, Grid, Header, Segment, Label, Item, Image, Loader, Icon, Dropdown} from 'semantic-ui-react'
 import { useContext, useEffect, useState } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
 import placeholder from '../assets/images/placeholder.png';
 import history from '../history'
-import Icon from './Icon';
+import NoHackathons from './Icon';
 import SearchItem from './search/SearchItem';
+import InnerLoader from './load/InnerLoader';
+import moment from 'moment';
 
 const initialState = {
   loading: false,
@@ -16,31 +18,33 @@ const initialState = {
   value: '',
 }
 
+const img = "https://source.unsplash.com/random/?coding&orientation=landscape"
+
 function searchReducer(state, action) {
   switch (action.type) {
     case 'CLEAN_QUERY':
       return initialState
     case 'START_SEARCH':
-        console.log(action)
       return { ...state, loading: true, value: action.query }
     case 'FINISH_SEARCH':
       return { ...state, loading: false, results: action.results }
     case 'UPDATE_SELECTION':
       return { ...state, value: action.selection }
-
+    case 'START_SORT':
+      return { ...state, results: action.results }
     default:
       throw new Error()
   }
 }
- const resultRenderer = ({ name, description, title, _id }) => [
-    <div key='content' className='content' onClick={() => navigateToHackathonView(_id)}>
-      {name && <div className='title'>{name}</div>}
-      {description && <div className='description'>{description}</div>}
-    </div>,
-  ]
+const resultRenderer = ({ name, description, title, _id }) => [
+  <div key='content' className='content' onClick={() => navigateToHackathonView(_id)}>
+    {name && <div className='title'>{name}</div>}
+    {description && <div className='description'>{description}</div>}
+  </div>,
+]
 
-  const navigateToHackathonView = id => {
-    history.push(`/hackathon/${id}`)
+const navigateToHackathonView = id => {
+  history.push(`/hackathon/${id}`)
 }
 
 
@@ -49,42 +53,40 @@ function SearchExampleStandard(props) {
   const { loading, results, value } = state
   const [source, setSource] = useState([])
   const { user } = useContext(SessionContext);
-  const [load, setLoad] = useState(false)
+  const { noResults, setNoResults } = props;
 
   const formatDate = date => {
     const months = [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12"
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12"
     ];
     const newDate = new Date(date);
     const y = newDate.getFullYear().toString().substr(2);
     const d = newDate.getDate();
     const m = months[newDate.getMonth()];
     return `${m}/${d}/${y}`;
-};
+  };
 
   useEffect(() => {
-        setLoad(true)
-        console.log('use effect called')
-        axios.get(`/hackathon/u/${user.id}`)
-        .then(res => {
-            const s = res.data
-            const t = s.map(item =>( {...item, image: faker.internet.avatar() }))
-            setSource(t)
-            setLoad(false)
-        })
-        .catch(err => console.log('GET hacakthon error', err))
-    }, [])
+    console.log('use effect called')
+    axios.get(`/hackathon/u/${user.id}`)
+      .then(res => {
+        const s = res.data
+        const t = s.map(item => ({ ...item, image: faker.internet.avatar() }))
+        setSource(t)
+      })
+      .catch(err => console.log('GET hacakthon error', err))
+  }, [])
 
 
   const timeoutRef = React.useRef()
@@ -114,41 +116,76 @@ function SearchExampleStandard(props) {
     }
   }, [])
 
+  if (!source.length && !noResults) {
+    return <InnerLoader />
+  }
+
+  const filterResults = () => {
+
+  }
+
+
+  const sortNewest = () => {
+    setSource(_.sortBy(source, (o) => o.start_date))
+    console.log(state.results)
+  }
+
+  const sortOldest = () => {
+    const sorted = _.orderBy(source, function(o) { return new moment(o.start_date); }, ['desc']);
+    setSource(sorted)
+  }
+
+ 
 
   return (
     <Grid>
       <Grid.Column >
-          <div class="d-flex justify-content-center">
-        <Search
-          loading={loading}
-          onResultSelect={(e, data) =>
-            dispatch({ type: 'UPDATE_SELECTION', selection: data.result.name })
-          }
-          onSearchChange={handleSearchChange}
-          results={results}
-          value={value}
-          resultRenderer={resultRenderer}
-          placeholder="Search Hackathons"
-          
-        />
+        <div class="d-flex justify-content-center">
+          <Search
+            loading={loading}
+            onResultSelect={(e, data) =>
+              dispatch({ type: 'UPDATE_SELECTION', selection: data.result.name })
+            }
+            onSearchChange={handleSearchChange}
+            results={results}
+            value={value}
+            resultRenderer={resultRenderer}
+            placeholder="Search Hackathons"
+
+          />
         </div>
 
-      
+
         <Segment>
           <Item.Group>
-          {
-           !source.length ? (
-             <Icon />
-           ) : (
-            <>
-               {source.map((item, key) =>
-               (
-                  <SearchItem item={item} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={placeholder}/>
-              ))
-              }
-            </>
-           )
-          }
+            <div className="text-right">
+           <Dropdown 
+           text='Sort'
+           className="icon"
+           icon="sort"
+           floating
+           button
+           >
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={sortNewest} text='Newest to Oldest' />
+              <Dropdown.Item  onClick={sortOldest} text='Oldest to Newest' />
+            </Dropdown.Menu>
+          </Dropdown>
+
+            </div>
+            {
+              noResults ? (
+                <NoHackathons />
+              ) : (
+                <>
+                  {source.map((item, key) =>
+                  (
+                    <SearchItem item={item} key={key} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={img} />
+                  ))
+                  }
+                </>
+              )
+            }
           </Item.Group>
         </Segment>
       </Grid.Column>
