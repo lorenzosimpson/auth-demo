@@ -26,7 +26,7 @@ app.use(helmet({
 			styleSrc: ["'self'", "https://*.googleapis.com/", "https://*.gstatic.com/", "'unsafe-inline'"],
 			scriptSrc: ["'self'", "data:", "'unsafe-inline'",],
 			fontSrc: ["'self'", "data:", "https://*.googleapis.com/", "https://*.gstatic.com/"],
-			imgSrc: ["'self'", "data:", "https://ui-avatars.com"],
+			imgSrc: ["'self'", "data:", "https://ui-avatars.com", "https://source.unsplash.com/"],
 			mediaSrc: ["'self'"],
 			objectSrc: ["'self'"],
 		}
