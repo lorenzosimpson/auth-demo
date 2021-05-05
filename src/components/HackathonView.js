@@ -37,17 +37,16 @@ function HackathonView(props) {
     const [hackathon, setHackathon] = useState({});
     const { id } = props.match.params;
     const { user } = useContext(SessionContext);    
-    const isHackathonOrganizer = user.id === hackathon.organizer_id;
     const [associated, setAssociated] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
+    const isHackathonOrganizer = user.id === hackathon.organizer_id;
+    
     useEffect(() =>  window.scrollTo(0, 0), [successMessage, errorMessage])
-  
+    console.log(user)
     useEffect(() => {
         axios.get(`/hackathon/${id}`)
         .then(res => {
-            console.log('GET hackathon res', res)
             setHackathon(res.data)
             setAssociated(user.hackathons.includes(id))
         })

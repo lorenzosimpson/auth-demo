@@ -36,7 +36,8 @@ router.post('/', (req, res) => {
                         username: savedUser.username,
                         id: savedUser._id,
                         first_name: savedUser.first_name,
-                        last_name: savedUser.last_name
+                        last_name: savedUser.last_name,
+                        hackathons: savedUser.hackathons,
                     })
                 })
             })
@@ -57,7 +58,8 @@ router.post(
                 username: req.user.username,
                 id: req.user._id,
                 first_name: req.user.first_name,
-                last_name: req.user.last_name
+                last_name: req.user.last_name,
+                hackathons: req.user.hackathons
             };
             console.log("\n User info:", userInfo)
             res.send(userInfo);
@@ -79,7 +81,8 @@ router.get('/', (req, res, next) => {
                     id: req.user._id,
                     hackathons: [...user.hackathons],
                     first_name: user.first_name,
-                    last_name: user.last_name
+                    last_name: user.last_name,
+                    hackathons: user.hackathons
                 },
             })
         })
