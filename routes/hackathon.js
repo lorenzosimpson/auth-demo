@@ -18,6 +18,21 @@ router.post('/', (req, res) => {
     })
 })
 
+router.get('/explore', (req, res) => {
+    // returns 4 random hackathons from present and future
+    const date = new Date()
+    Hackathon.aggregate([
+      {  $match: {start_date: { $gte: date }}},
+       { $sample: { size: 4 }}]
+        , (err, hackathons) => {
+        if (err) {
+            res.status(500).json(err)
+        } else {
+            res.status(200).json(hackathons)
+        }
+    })
+})
+
 router.get('/', (req, res, next) => {
     console.log('===== user!!======')
     Hackathon.find((err, hackathons) => {
@@ -54,5 +69,7 @@ router.get('/:id', (req, res) => {
         res.status(200).json(hackathon)
     })
 })
+
+
 
 module.exports = router

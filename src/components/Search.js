@@ -78,14 +78,14 @@ function SearchExampleStandard(props) {
   const { noResults } = props;
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
+  const { searchURL } = props;
 
 
   useEffect(() => {
-    console.log('use effect called')
-    axios.get(`/hackathon/u/${user.id}`)
+    axios.get(searchURL)
       .then(res => {
         const s = res.data
-        const t = s.map(item => ({ ...item, image: faker.internet.avatar() }))
+        const t = s.map(item => ({ ...item }))
         setSource(t)
       })
       .catch(err => console.log('GET hacakthon error', err))
@@ -229,7 +229,7 @@ function SearchExampleStandard(props) {
               ) : (
                 <>
                   {filter.map((item, key) =>
-                    <SearchItem item={item} key={key} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={img} />
+                    <SearchItem item={item} key={key} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={item.image} />
                   )
                   }
                 </>

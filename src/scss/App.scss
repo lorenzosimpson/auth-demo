@@ -20,12 +20,28 @@ body {
   height: 50vh;
 }
 
-.item {
-  cursor: pointer;
-}
 
 .color {
   color: $salmon
+}
+
+.ui.card.explore-card {
+  min-height: 500px;
+}
+
+.breadcrumb-container {
+  background: $offWhite;
+  min-height: 50px;
+  .breadcrumb {
+    background-color: inherit;
+  }
+  .section.active {
+    color: inherit;
+  }
+}
+
+.ui.card:first-child {
+  margin-top: 1em;
 }
 
 .navbar {

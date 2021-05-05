@@ -1,10 +1,11 @@
 import React from 'react';
-import { Item } from 'semantic-ui-react';
+import { Button, Divider, Item } from 'semantic-ui-react';
 
 function SearchItem(props) {
     const { navigateToHackathonView, formatDate, imgSrc, item } = props;
     return (
-        <Item className="mb-5" onClick={() => navigateToHackathonView(item._id)}>
+        <>
+        <Item className="mb-5">
             <Item.Image width="50px" src={imgSrc} />
             <Item.Content>
                 <Item.Header >{item.name}</Item.Header>
@@ -14,9 +15,14 @@ function SearchItem(props) {
                 <Item.Description>
                     {item.description}
                 </Item.Description>
+            <div className="text-right mt-2">
 
+            <Button color="gray" onClick={() => navigateToHackathonView(item._id)}>Details</Button>
+            </div>
             </Item.Content>
         </Item>
+        <Divider />
+        </>
     );
 }
 

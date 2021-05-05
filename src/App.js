@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, {  useEffect, useState, Fragment } from 'react';
 import axios from 'axios'
 import { Route, Switch } from 'react-router-dom';
 // components
@@ -15,6 +15,8 @@ import LoginSignup from './components/login-signup';
 import CreateHackathonForm from './components/CreateHackathonForm';
 import Profile from './components/Profile';
 import HackathonView from './components/HackathonView';
+import BreadcrumbExample from './components/breadcrumb/Breadcrumb';
+import AllHackathons from './components/explore/AllHackathons';
 
 
 
@@ -91,9 +93,9 @@ const App = props => {
           <CreateHackathonForm {...props} />
         )} />
 
-        <PrivateRoute path="/hackathon/:id" component={HackathonView}
-        />
-
+             <PrivateRoute path="/hackathon/:id" component={HackathonView}
+            />
+        <Route path="/explore" component={AllHackathons} />
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
         </Switch>
         </div>

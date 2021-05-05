@@ -9,8 +9,8 @@ import { useContext } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
+import BreadcrumbExample from './breadcrumb/Breadcrumb';
 
-const imgUrl = 'https://source.unsplash.com/random/?coding&orientation=landscape'
 
 const formatDate = date => {
     const months = [
@@ -41,6 +41,7 @@ function HackathonView(props) {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const isHackathonOrganizer = user.id === hackathon.organizer_id;
+    const imgUrl = hackathon.image
     
     useEffect(() =>  window.scrollTo(0, 0), [successMessage, errorMessage])
     console.log(user)
@@ -89,7 +90,17 @@ function HackathonView(props) {
 
     return (
         <div className="hackathon-view">
+                <BreadcrumbExample steps={[
+                    {
+                        content: 'My Hackathons',
+                        destination: '/my-hackathons'
+                    },
+                    {
+                        content: `${hackathon.name}`
+                    }
+                ]}/>
            <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
+            
            <div className="content-overlay">
                <div className="container my-5 py-5">
                     {successMessage && (
