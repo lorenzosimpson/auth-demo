@@ -74,7 +74,7 @@ const App = props => {
           <CreateHackathonForm {...props} />
         )} />
 
-             <Route path="/hackathon/:id" render={(props) => <HackathonView {...props} />}
+             <Route path="/hackathons/:id" render={(props) => <HackathonView {...props} />}
             />
         <Route path="/explore" component={AllHackathons} />
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />

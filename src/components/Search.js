@@ -44,7 +44,7 @@ const resultRenderer = ({ name, description, title, _id }) => [
 ]
 
 const navigateToHackathonView = id => {
-  history.push(`/hackathon/${id}`)
+  history.push(`/hackathons/${id}`)
 }
 
 const formatDate = date => {
@@ -75,7 +75,6 @@ function SearchExampleStandard(props) {
   const [source, setSource] = useState([])
   const [wasFiltered, setWasFiltered] = useState(false)
   const [noFilterResults, setNoFilterResults] = useState(false)
-  // const { user } = useContext(SessionContext);
   const [user] = useAuthentication()
   const { noResults } = props;
   const [filter, setFilter] = useState([])
