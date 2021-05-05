@@ -17,7 +17,7 @@ function ExploreCardContainer(props) {
     return (
         <div className="mt-5">
             <Header as="h2" content="Featured" />
-            <Grid columns="3"> 
+            <Grid columns="3" stackable> 
             {divideArrayIntoRows(cols, cards).map(row => (
                 <Grid.Row>
                     {row.map(hackathon => (

@@ -1,81 +1,82 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardBody, Col, Row, Container, Alert } from 'reactstrap';
 import logo from '../assets/images/logo.png';
 import { Button, Form } from 'semantic-ui-react';
+import useAuthentication from '../utils/useAuthentication';
 
 
-class LoginSignup extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            username: '',
-            password: '',
-            first_name: '',
-            last_name: '',
-            redirectTo: null,
-            error: ''
-        }
-        this.handleChange = this.handleChange.bind(this)
-        this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
-        this.handleSignupSubmit = this.handleSignupSubmit.bind(this)
-    }
+const LoginSignup = (props) => {
+    const [credentials, setCredentials] = useState({
+        username: '',
+        password: '',
+        first_name: '',
+        last_name: '',
+        redirectTo: null,
+        error: ''
+    })
+    const [user] = useAuthentication()
+    const { setUser } = props;
 
-    handleLoginSubmit(event) {
+
+   function handleLoginSubmit(event) {
         event.preventDefault()
         console.log('login handleSubmit')
+        const body = {
+            username: credentials.username,
+            password: credentials.password
+        }
+        console.log(body)
+        console.log(credentials)
         axios
-            .post('/user/login', {
-                username: this.state.username,
-                password: this.state.password
-            })
+            .post('/user/login', body)
             .then(response => {
                 console.log('login response: ')
                 console.log(response)
                 if (response.status === 200) {
                     // update App.js state
-                    this.props.updateUser({
+                    setUser({
                         loggedIn: true,
                         ...response.data
                     })
                     console.log(response.data, 'login data')
                     // update the state to redirect to home
-                    this.setState({
-                        redirectTo: this.props.returnTo
+                    setCredentials({
+                        redirectTo: props.returnTo
                     })
                 }
             }).catch(error => {
                 console.log('login error: ')
                 console.log(error.response);
-                this.setState({
+                setCredentials({
                     error: error.response
                 })
             })
     }
 
-    handleSignupSubmit(event) {
+   function handleSignupSubmit(event) {
         event.preventDefault()
         //request to server to add a new username/password
         axios.post('/user/', {
-            username: this.state.username,
-            password: this.state.password,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
+            username: credentials.username,
+            password: credentials.password,
+            first_name: credentials.first_name,
+            last_name: credentials.last_name,
         })
             .then((response) => {
                 console.log(response)
                 console.log('successful signup')
                 if (response.status === 201) {
                     // update App.js state
-                    this.props.updateUser({
+                    setUser({
                         loggedIn: true,
                         username: response.data.username,
                         id: response.data.id
                     })
                     // update the state to redirect to home
-                    this.setState({
-                        redirectTo: this.props.returnTo
+                    setCredentials({
+                        redirectTo: props.returnTo
                     })
                 }
             }
@@ -83,36 +84,36 @@ class LoginSignup extends Component {
             ).catch(error => {
                 console.log('signup error: ')
                 console.log(error.response)
-                this.setState({
+                setCredentials({
                     error: error.response
                 })
             })
     }
 
 
-    handleChange(event) {
-        this.setState({
+   function handleChange(event) {
+        setCredentials({
+            ...credentials,
             [event.target.name]: event.target.value
         })
     }
 
 
-    render() {
-        const { data } = this.props;
+        const { data } = props;
         const isLoginForm = data.destination === "/signup"
-        console.log(isLoginForm)
+    
 
-        if (this.state.redirectTo) {
+        if (credentials.redirectTo) {
             // if a user refreshes the login page before logging in, the pathname will be /login and they won't be reidrected after signup
             const dudRedirects = ['/login', '/signup']
-            if (dudRedirects.includes(this.state.redirectTo)) return <Redirect to="/" />
-            else return <Redirect to={{ pathname: this.state.redirectTo }} />
+            if (dudRedirects.includes(credentials.redirectTo)) return <Redirect to="/" />
+            else return <Redirect to={{ pathname: credentials.redirectTo }} />
         } else {
             return (
                 <div>
-                    {this.state.error && (
+                    {credentials.error && (
                         <Alert color="danger">
-                            {this.state.error.status} {this.state.error.statusText}
+                            {credentials.error.status} {credentials.error.statusText}
                         </Alert>
                     )}
                     <Container fluid={true} className="d-flex justify-content-center mt-5 mb-5" role="main">
@@ -122,9 +123,9 @@ class LoginSignup extends Component {
                                     <img src={logo} width="100px" height="100px" alt="Logo"></img>
                                 </div>
                                 <h4 className="text-center">Welcome</h4>
-                                <h1 className="text-center text-muted h6 mb-4">{this.props.data.h1}</h1>
+                                <h1 className="text-center text-muted h6 mb-4">{props.data.h1}</h1>
                                 <Form
-                                    onSubmit={isLoginForm ? this.handleLoginSubmit : this.handleSignupSubmit}
+                                    onSubmit={isLoginForm ? handleLoginSubmit : handleSignupSubmit}
                                 >
                                     <div className="form-group">
                                         <Row>
@@ -135,8 +136,8 @@ class LoginSignup extends Component {
                                                         name="username"
                                                         placeholder="Username"
                                                         required
-                                                        value={this.state.username}
-                                                        onChange={this.handleChange}
+                                                        value={credentials.username}
+                                                        onChange={handleChange}
                                                     />
                                                     </div>
                                             </Row>
@@ -151,8 +152,8 @@ class LoginSignup extends Component {
                                                         id="password"
                                                         required
                                                         name="password"
-                                                        value={this.password}
-                                                        onChange={this.handleChange}
+                                                        value={credentials.password}
+                                                        onChange={handleChange}
                                                     />
                                               
                                             </div>
@@ -170,8 +171,8 @@ class LoginSignup extends Component {
                                                         id="first_name"
                                                         name="first_name"
                                                         required
-                                                        value={this.first_name}
-                                                        onChange={this.handleChange}
+                                                        value={credentials.first_name}
+                                                        onChange={handleChange}
                                                     />
                                                
                                             </div>
@@ -188,8 +189,8 @@ class LoginSignup extends Component {
                                                     id="last_name"
                                                     name="last_name"
                                                     required
-                                                    value={this.last_name}
-                                                    onChange={this.handleChange}
+                                                    value={credentials.last_name}
+                                                    onChange={handleChange}
                                                 />
                                         
                                         </div>
@@ -215,7 +216,7 @@ class LoginSignup extends Component {
                     </Container>
                 </div>
             );
-        }
+        
     }
 }
 

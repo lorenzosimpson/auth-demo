@@ -11,6 +11,7 @@ import NoHackathons from './Icon';
 import SearchItem from './search/SearchItem';
 import InnerLoader from './load/InnerLoader';
 import moment from 'moment';
+import useAuthentication from '../utils/useAuthentication';
 
 const initialState = {
   loading: false,
@@ -74,7 +75,8 @@ function SearchExampleStandard(props) {
   const [source, setSource] = useState([])
   const [wasFiltered, setWasFiltered] = useState(false)
   const [noFilterResults, setNoFilterResults] = useState(false)
-  const { user } = useContext(SessionContext);
+  // const { user } = useContext(SessionContext);
+  const [user] = useAuthentication()
   const { noResults } = props;
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
@@ -82,6 +84,7 @@ function SearchExampleStandard(props) {
 
 
   useEffect(() => {
+    if (Object.values(user).length) {
     axios.get(searchURL)
       .then(res => {
         const s = res.data
@@ -89,8 +92,8 @@ function SearchExampleStandard(props) {
         setSource(t)
       })
       .catch(err => console.log('GET hacakthon error', err))
-      // eslint-disable-next-line
-  }, [])
+    }
+  }, [user])
 
 
   const timeoutRef = React.useRef()
@@ -170,6 +173,8 @@ function SearchExampleStandard(props) {
   }
 
   return (
+    <div class="mt-5">
+     <Header as="h2">{currentSearchParam}</Header>
     <Grid>
       <Grid.Column >
         <div class="d-flex justify-content-center">
@@ -188,7 +193,7 @@ function SearchExampleStandard(props) {
 
         <Segment>
           <Item.Group>
-            <Header>{currentSearchParam}</Header>
+           
           <div class="dropdown-buttons">
            <Dropdown 
            text='Sort'
@@ -239,6 +244,7 @@ function SearchExampleStandard(props) {
         </Segment>
       </Grid.Column>
     </Grid>
+    </div>
   )
 }
 

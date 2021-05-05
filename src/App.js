@@ -15,49 +15,29 @@ import LoginSignup from './components/login-signup';
 import CreateHackathonForm from './components/CreateHackathonForm';
 import Profile from './components/Profile';
 import HackathonView from './components/HackathonView';
-import BreadcrumbExample from './components/breadcrumb/Breadcrumb';
 import AllHackathons from './components/explore/AllHackathons';
+import useAuthentication from './utils/useAuthentication';
 
 
 
 const App = props => {
-    const [user, setUser] = useState({})
     const [returnTo, setReturnTo] = useState(window.location.pathname)
-    console.log(returnTo)
+    const [user, setUser] = useAuthentication()
 
-  useEffect(() => {
-    getUser()
-  }, [])
 
   function updateUser(userObject) {
     setUser(userObject)
   }
 
-  function getUser() {
-    axios.get('/user/').then(response => {
-      if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ', response.data)
-        setUser({
-          loggedIn: true,
-          ...response.data.user
-        })
-      } else {
-        console.log('Get user: no user');
-        setUser({
-          loggedIn: false,
-          username: null
-        })
-      }
-    })
-  }
     return (
       <SessionContext.Provider value={{ user, setUser }}>
       <div className="App">
         <Navbar updateUser={updateUser} 
-        loggedIn={user.loggedIn} 
+        user={user}
+        setUser={setUser}
         setReturnTo={setReturnTo} />
         {/* Routes to different components */}
-        <div className="main-content d-flex flex-column flex-grow-1">
+        <div className="main-content d-flex flex-column flex-grow-1" role="main">
         <Switch>
         <Route
           exact path="/"
@@ -73,6 +53,7 @@ const App = props => {
               {...props}
               data={loginData}
               updateUser={updateUser}
+              setUser={setUser}
               returnTo={returnTo} 
               setReturnTo={setReturnTo}
 
@@ -84,7 +65,7 @@ const App = props => {
           <LoginSignup 
               {...props} 
               data={signupData}
-              updateUser={updateUser}
+              setUser={setUser}
               returnTo={returnTo}
               setReturnTo={setReturnTo}
                           />} />
@@ -93,7 +74,7 @@ const App = props => {
           <CreateHackathonForm {...props} />
         )} />
 
-             <PrivateRoute path="/hackathon/:id" component={HackathonView}
+             <Route path="/hackathon/:id" render={(props) => <HackathonView {...props} />}
             />
         <Route path="/explore" component={AllHackathons} />
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />

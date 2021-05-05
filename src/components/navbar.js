@@ -18,14 +18,16 @@ import { NavLink as RouterNavLink } from 'react-router-dom';
 import history from '../history';
 import { SessionContext } from '../contexts/SessionContext';
 import logo from '../assets/images/logo.png';
+import useAuthentication from '../utils/useAuthentication';
 
 const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { updateUser, loggedIn, setReturnTo } = props;
-    const { user } = useContext(SessionContext);
+    const { updateUser, setReturnTo } = props;
+    const { user, setUser } = props;
     const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`
     const toggle = () => setIsOpen(!isOpen);
-    const [scroll, setScroll] = useState(0)
+    const [scroll, setScroll] = useState(0);
+    const loggedIn = user.loggedIn;
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
@@ -39,7 +41,7 @@ const Navigation = (props) => {
         axios.post('/user/logout')
             .then(response => {
                 if (response.status === 200) {
-                    updateUser({
+                    setUser({
                         loggedIn: false,
                         user: null
                     })

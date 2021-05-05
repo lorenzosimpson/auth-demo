@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Divider, Item } from 'semantic-ui-react';
+import { Divider, Item } from 'semantic-ui-react';
+import IconButton from '../button/IconButton';
 
 function SearchItem(props) {
     const { navigateToHackathonView, formatDate, imgSrc, item } = props;
@@ -17,7 +18,7 @@ function SearchItem(props) {
                 </Item.Description>
             <div className="text-right mt-2">
 
-            <Button color="gray" onClick={() => navigateToHackathonView(item._id)}>Details</Button>
+            <IconButton icon="info circle" labelPosition='left' content="Details" callback={() => navigateToHackathonView(item._id)} />
             </div>
             </Item.Content>
         </Item>

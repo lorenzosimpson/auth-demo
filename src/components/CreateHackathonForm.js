@@ -5,12 +5,15 @@ import { Form, TextArea, Button } from 'semantic-ui-react';
 import { DateTimePicker } from 'react-rainbow-components';
 import { useContext } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
+import useAuthentication from '../utils/useAuthentication';
+import history from '../history';
 
 function CreateHackathonForm(props) {
     const [hackathonData, setHackathonData] = useState({})
     const [startDate, changeStartDate] = useState(new Date())
     const [endDate, changeEndDate] = useState(new Date());
-    const { user } = useContext(SessionContext);
+    // const { user } = useContext(SessionContext);
+    const [user] = useAuthentication();
     console.log(user)
 
     function handleChange(e) {
@@ -32,7 +35,7 @@ function CreateHackathonForm(props) {
 
         axios.post('/hackathon', submitData)
         .then(response => {
-            console.log(response)
+            history.push('/explore')
         })
         .catch(err => console.log(err))
     }

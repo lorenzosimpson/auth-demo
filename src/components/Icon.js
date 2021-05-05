@@ -13,7 +13,7 @@ const NoItems = () => (
         <Row className="text-center">
         <Col xs="6">
         <Button 
-            onClick={() => history.push('/')}
+            onClick={() => history.push('/explore')}
             color="teal">Browse Hackathons</Button>
         </Col>
 

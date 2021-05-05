@@ -9,7 +9,9 @@ import { useContext } from 'react';
 import { SessionContext } from '../contexts/SessionContext';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
-import BreadcrumbExample from './breadcrumb/Breadcrumb';
+import history from '../history';
+import IconButton from './button/IconButton';
+import useAuthentication from '../utils/useAuthentication';
 
 
 const formatDate = date => {
@@ -36,7 +38,7 @@ const formatDate = date => {
 function HackathonView(props) {
     const [hackathon, setHackathon] = useState({});
     const { id } = props.match.params;
-    const { user } = useContext(SessionContext);    
+    const [user] = useAuthentication();    
     const [associated, setAssociated] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -44,16 +46,15 @@ function HackathonView(props) {
     const imgUrl = hackathon.image
     
     useEffect(() =>  window.scrollTo(0, 0), [successMessage, errorMessage])
-    console.log(user)
+    
     useEffect(() => {
-        axios.get(`/hackathon/${id}`)
+       if (user.hasOwnProperty('hackathons')) {axios.get(`/hackathon/${id}`)
         .then(res => {
             setHackathon(res.data)
             setAssociated(user.hackathons.includes(id))
         })
-        .catch(err => console.log('GET hacakthon error', err))
-        // eslint-disable-next-line
-    }, [])
+        .catch(err => console.log('GET hacakthon error', err))}
+    }, [user])
 
     const formattedStart = formatDate(hackathon.start_date)
     const formattedEnd = formatDate(hackathon.end_date)
@@ -80,7 +81,7 @@ function HackathonView(props) {
 
     
 
-    if (!hackathon.name || user.hackathons === undefined) {
+    if (!hackathon.name || user === undefined) {
         return (
             <Container>
                 <InnerLoader />
@@ -90,19 +91,12 @@ function HackathonView(props) {
 
     return (
         <div className="hackathon-view">
-                <BreadcrumbExample steps={[
-                    {
-                        content: 'My Hackathons',
-                        destination: '/my-hackathons'
-                    },
-                    {
-                        content: `${hackathon.name}`
-                    }
-                ]}/>
+  
            <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
             
            <div className="content-overlay">
                <div className="container my-5 py-5">
+                   <IconButton content="Back" icon="left arrow" labelPosition='left' callback={() => history.goBack() } />
                     {successMessage && (
                         <Alert success={true} header={successMessage} />
                     )}
