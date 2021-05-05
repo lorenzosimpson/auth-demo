@@ -173,11 +173,11 @@ function SearchExampleStandard(props) {
   }
 
   return (
-    <div class="mt-5">
+    <div className="mt-5">
      <Header as="h2">{currentSearchParam}</Header>
     <Grid>
       <Grid.Column >
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
           <Search
             loading={loading}
             onResultSelect={(e, data) =>
@@ -194,7 +194,7 @@ function SearchExampleStandard(props) {
         <Segment>
           <Item.Group>
            
-          <div class="dropdown-buttons">
+          <div className="dropdown-buttons">
            <Dropdown 
            text='Sort'
            className="icon"

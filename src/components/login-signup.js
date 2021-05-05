@@ -22,13 +22,10 @@ const LoginSignup = (props) => {
 
    function handleLoginSubmit(event) {
         event.preventDefault()
-        console.log('login handleSubmit')
         const body = {
             username: credentials.username,
             password: credentials.password
         }
-        console.log(body)
-        console.log(credentials)
         axios
             .post('/user/login', body)
             .then(response => {
@@ -57,13 +54,14 @@ const LoginSignup = (props) => {
 
    function handleSignupSubmit(event) {
         event.preventDefault()
-        //request to server to add a new username/password
-        axios.post('/user/', {
+        const body = {
             username: credentials.username,
             password: credentials.password,
             first_name: credentials.first_name,
             last_name: credentials.last_name,
-        })
+        }
+        console.log(body)
+        axios.post('/user/', body)
             .then((response) => {
                 console.log(response)
                 console.log('successful signup')
@@ -96,6 +94,7 @@ const LoginSignup = (props) => {
             ...credentials,
             [event.target.name]: event.target.value
         })
+        console.log(credentials)
     }
 
 

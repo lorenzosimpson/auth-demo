@@ -5,6 +5,7 @@ import { Container } from 'reactstrap';
 import { Header } from 'semantic-ui-react';
 import SearchComponent from './Search';
 import useAuthentication from '../utils/useAuthentication';
+import InnerLoader from './load/InnerLoader';
 
 
 function UserHackathons(props) {
@@ -25,6 +26,9 @@ function UserHackathons(props) {
         .catch(err => console.log('GET hacakthon error', err))
     }
     }, [user])
+
+    if (!user.hasOwnProperty('id')) return <InnerLoader />
+
     return (
         <>
         <Container className="my-5">

@@ -32,7 +32,7 @@ const images = [
 async function seedDB() {
     const database = 'development'
     // DB URL
-    const uri = 
+    const uri = ;
     const config = {
         useNewUrlParser: true,
         useFindAndModify: false,

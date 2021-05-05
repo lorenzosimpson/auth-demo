@@ -10,7 +10,6 @@ import useAuthentication from '../../utils/useAuthentication';
 
 
 function AllHackathons(props) {
-    // const { user } = useContext(SessionContext);
     const [user] = useAuthentication();
     const [hackathons, setHackathons] = useState([])
     const [noResults, setNoResults] = useState(false)
@@ -23,7 +22,7 @@ function AllHackathons(props) {
             if (!res.data.length) setNoResults(true)
         })
         .catch(err => console.log('GET hacakthon error', err))
-    }, [user])
+    }, [])
 
 
     return (
@@ -34,10 +33,8 @@ function AllHackathons(props) {
             content="Hackathon Events"
             subheader="Browse events here"
             />
-          
 
             <ExploreCardContainer cards={hackathons} />
-          
             
             <SearchComponent source={hackathons}
             searchURL="/hackathon"

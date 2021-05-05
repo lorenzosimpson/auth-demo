@@ -30,7 +30,7 @@ const App = props => {
   }
 
     return (
-      <SessionContext.Provider value={{ user, setUser }}>
+ 
       <div className="App">
         <Navbar updateUser={updateUser} 
         user={user}
@@ -82,7 +82,6 @@ const App = props => {
         </div>
         <Footer />
       </div>
-      </SessionContext.Provider>
     );
 }
 
