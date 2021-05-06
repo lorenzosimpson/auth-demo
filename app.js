@@ -46,7 +46,6 @@ app.use(
 // Passport
 app.use(passport.initialize())
 app.use(passport.session()) // calls the deserializeUser
-app.use('/hackathon', verifySession); // make sure user is authenticated before getting hackathon info
 
 
 // seed.seedDB()

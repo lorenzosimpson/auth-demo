@@ -4,8 +4,7 @@ import Loader from './components/Loader';
 import useAuthentication from './utils/useAuthentication';
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-const [user] = useAuthentication();
-
+    const [user] = useAuthentication()
    if (!Object.values(user).length) {
        return <Loader />
    }

@@ -4,9 +4,11 @@ import axios from 'axios';
 import { Card, CardBody, Col, Row, Container, Alert } from 'reactstrap';
 import logo from '../assets/images/logo.png';
 import { Button, Form } from 'semantic-ui-react';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 const LoginSignup = (props) => {
-    const { setUser } = props;
+    const { setUser } = useContext(UserContext);
     const [credentials, setCredentials] = useState({
         username: '',
         password: '',
@@ -102,6 +104,7 @@ const LoginSignup = (props) => {
         if (credentials.redirectTo) {
             // if a user refreshes the login page before logging in, the pathname will be /login and they won't be reidrected after signup
             const dudRedirects = ['/login', '/signup']
+            console.log(credentials.redirectTo)
             if (dudRedirects.includes(credentials.redirectTo)) return <Redirect to="/" />
             else return <Redirect to={{ pathname: credentials.redirectTo }} />
         } else {

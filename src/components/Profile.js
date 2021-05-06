@@ -6,10 +6,12 @@ import { Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import Loader from './Loader';
 import useAuthentication from '../utils/useAuthentication';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 const Profile = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [user] = useAuthentication();
+    const { user } = useContext(UserContext);
     const toggle = () => setDropdownOpen(!dropdownOpen);
     const { loggedIn } = props;
 

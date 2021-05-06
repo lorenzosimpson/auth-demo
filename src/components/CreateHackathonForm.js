@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Card, CardBody, Row, Container} from 'reactstrap';
 import { Form, TextArea, Button } from 'semantic-ui-react';
 import { DateTimePicker } from 'react-rainbow-components';
-import useAuthentication from '../utils/useAuthentication';
 import history from '../history';
+import { UserContext } from '../contexts/UserContext';
 
 function CreateHackathonForm(props) {
     const [hackathonData, setHackathonData] = useState({})
     const [startDate, changeStartDate] = useState(new Date())
     const [endDate, changeEndDate] = useState(new Date());
-    // const { user } = useContext(SessionContext);
-    const [user] = useAuthentication();
+    const { user } = useContext(UserContext);
+
     console.log(user)
 
     function handleChange(e) {

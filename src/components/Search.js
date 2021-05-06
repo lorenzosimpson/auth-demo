@@ -10,6 +10,8 @@ import SearchItem from './search/SearchItem';
 import InnerLoader from './load/InnerLoader';
 import moment from 'moment';
 import useAuthentication from '../utils/useAuthentication';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 const initialState = {
   loading: false,
@@ -71,7 +73,7 @@ function SearchExampleStandard(props) {
   const [source, setSource] = useState([])
   const [wasFiltered, setWasFiltered] = useState(false)
   const [noFilterResults, setNoFilterResults] = useState(false)
-  const [user] = useAuthentication()
+  const { user } = useContext(UserContext)
   const { noResults } = props;
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')

@@ -15,24 +15,23 @@ import Profile from './components/Profile';
 import HackathonView from './components/HackathonView';
 import AllHackathons from './components/explore/AllHackathons';
 import useAuthentication from './utils/useAuthentication';
+import { UserContext } from './contexts/UserContext';
 
 
 
 const App = props => {
     const [returnTo, setReturnTo] = useState(window.location.pathname)
     const [user, setUser] = useAuthentication()
-
+    console.log(returnTo)
 
   function updateUser(userObject) {
     setUser(userObject)
   }
 
     return (
- 
+      <UserContext.Provider value={{ user, setUser }}>
       <div className="App">
         <Navbar updateUser={updateUser} 
-        user={user}
-        setUser={setUser}
         setReturnTo={setReturnTo} />
         {/* Routes to different components */}
         <div className="main-content d-flex flex-column flex-grow-1" role="main">
@@ -50,8 +49,6 @@ const App = props => {
             <LoginSignup
               {...props}
               data={loginData}
-              updateUser={updateUser}
-              setUser={setUser}
               returnTo={returnTo} 
               setReturnTo={setReturnTo}
 
@@ -63,7 +60,6 @@ const App = props => {
           <LoginSignup 
               {...props} 
               data={signupData}
-              setUser={setUser}
               returnTo={returnTo}
               setReturnTo={setReturnTo}
                           />} />
@@ -72,7 +68,7 @@ const App = props => {
           <CreateHackathonForm {...props} />
         )} />
 
-          <PrivateRoute path="/hackathons/:id" component={HackathonView} />
+          <Route path="/hackathons/:id" component={HackathonView}/>
             
         <Route path="/explore" component={AllHackathons} />
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
@@ -80,6 +76,7 @@ const App = props => {
         </div>
         <Footer />
       </div>
+      </UserContext.Provider>
     );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Row, Col } from 'reactstrap';
 import { Container, Header } from 'semantic-ui-react';
@@ -6,9 +6,9 @@ import InnerLoader from './load/InnerLoader';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
 import IconButton from './button/IconButton';
-import useAuthentication from '../utils/useAuthentication';
 import { Link } from 'react-router-dom';
-
+import { UserContext } from '../contexts/UserContext';
+import useAuthentication from '../utils/useAuthentication';
 
 const formatDate = date => {
     const months = [
@@ -34,8 +34,8 @@ const formatDate = date => {
 function HackathonView(props) {
     const [hackathon, setHackathon] = useState({});
     const { id } = props.match.params;
-    const [user] = useAuthentication();    
-    const [associated, setAssociated] = useState(false);
+    const [user]  = useAuthentication()
+    const [associated, setAssociated] = useState(true);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const isHackathonOrganizer = user.id === hackathon.organizer_id;
@@ -44,12 +44,15 @@ function HackathonView(props) {
     useEffect(() =>  window.scrollTo(0, 0), [successMessage, errorMessage])
     
     useEffect(() => {
-       if (user.hasOwnProperty('hackathons')) {axios.get(`/hackathon/${id}`)
+        console.log('comnponent mounted')
+        axios.get(`/hackathon/${id}`)
         .then(res => {
             setHackathon(res.data)
-            setAssociated(user.hackathons.includes(id))
+            if (user && user.hasOwnProperty('hackathons')) {
+                setAssociated(user.hackathons.includes(id))
+            }
         })
-        .catch(err => console.log('GET hacakthon error', err))}
+        .catch(err => console.log('GET hacakthon error', err))
     }, [user, id])
 
     const formattedStart = formatDate(hackathon.start_date)
@@ -75,6 +78,7 @@ function HackathonView(props) {
     }
 
     if (!hackathon.name || user === undefined) {
+        console.log(hackathon, user)
         return (
             <Container>
                 <InnerLoader />
@@ -83,13 +87,13 @@ function HackathonView(props) {
     }
     const params = new URLSearchParams(props.location.search)
     const origin = params.get('source')
-    console.log(origin)
+
     return (
         <div className="hackathon-view">
            <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
            <div className="content-overlay">
-               <div className="container my-5 py-5">
-                  {origin && 
+               <div className="container my-5 py-2">
+                  {(origin && user.loggedIn ) && 
                    (<Link to={origin}>
                    <IconButton content="Back" icon="left arrow" 
                    callback={() => null}
@@ -137,10 +141,9 @@ function HackathonView(props) {
                                    )}
                                   
                            </div>
-                           {(!isHackathonOrganizer && !associated) && (
+                           {(!isHackathonOrganizer && !associated && user.loggedIn) && (
                            <Row>
                                <Col xs="12" md="6" lg="4" >
-                               {/* <Button primary className="w-100" size="big">Join</Button> */}
                                 <Modal header={`Join ${hackathon.name}`} buttonText="Join" handleConfirmProps={() => joinHackathon() } />
                                </Col>
                            </Row>
