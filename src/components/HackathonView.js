@@ -100,8 +100,6 @@ function HackathonView(props) {
                    labelPosition='left' />
                    </Link>)}
                    
-                
-                   {/* <Link to="/my-hackathons" >Back</Link> */}
                     {successMessage && (
                         <Alert success={true} header={successMessage} />
                     )}
