@@ -69,15 +69,9 @@ async function seedDB() {
                 console.log("Database seeded! :)");
             }
         })
-
-    
-       
-      
-
     } catch (err) {
         console.log(err.stack);
     }
-
 }
 
 const callback = async (userId, arr) => {

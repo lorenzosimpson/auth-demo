@@ -18,7 +18,6 @@ const LoginSignup = (props) => {
         error: ''
     })
 
-
    function handleLoginSubmit(event) {
         event.preventDefault()
         const body = {

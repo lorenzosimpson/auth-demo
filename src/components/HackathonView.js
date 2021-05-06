@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Row, Col } from 'reactstrap';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Button } from 'semantic-ui-react';
 import InnerLoader from './load/InnerLoader';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
@@ -39,6 +39,7 @@ function HackathonView(props) {
     const [errorMessage, setErrorMessage] = useState('');
     const isHackathonOrganizer = user.id === hackathon.organizer_id;
     const imgUrl = hackathon.image
+    const [open, setOpen] = React.useState(false)
     
     useEffect(() =>  window.scrollTo(0, 0), [successMessage, errorMessage])
     
@@ -86,13 +87,13 @@ function HackathonView(props) {
     }
     const params = new URLSearchParams(props.location.search)
     const origin = params.get('source')
-
+    const origins = ['/explore', '/my-hackathons']
     return (
         <div className="hackathon-view">
            <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
            <div className="content-overlay">
                <div className="container my-5 py-2">
-                  {(origin && user.loggedIn ) && 
+                  {(origin && origins.includes(origin) && user.loggedIn ) && 
                    (<Link to={origin}>
                    <IconButton content="Back" icon="left arrow" 
                    callback={() => null}
@@ -140,8 +141,10 @@ function HackathonView(props) {
                            </div>
                            {(!isHackathonOrganizer && !associated && user.loggedIn) && (
                            <Row>
-                               <Col xs="12" md="6" lg="4" >
-                                <Modal header={`Join ${hackathon.name}`} buttonText="Join" handleConfirmProps={() => joinHackathon() } />
+                               <Col xs="12" sm="6" lg="4" >
+                                <Modal header={`Join ${hackathon.name}`}
+                                 buttonText="Join"
+                                 handleConfirmProps={() => joinHackathon() } />
                                </Col>
                            </Row>
                            )}

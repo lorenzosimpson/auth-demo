@@ -22,25 +22,47 @@ router.get('/explore', (req, res) => {
     // returns 4 random hackathons from present and future
     const date = new Date()
     Hackathon.aggregate([
-      {  $match: {start_date: { $gte: date }}},
-       { $sample: { size: 3 }}]
+        { $match: { start_date: { $gte: date } } },
+        { $sample: { size: 3 } }]
         , (err, hackathons) => {
-        if (err) {
-            res.status(500).json(err)
-        } else {
-            res.status(200).json(hackathons)
-        }
-    })
+            if (err) {
+                res.status(500).json(err)
+            } else {
+                res.status(200).json(hackathons)
+            }
+        })
 })
 
 router.get('/', (req, res, next) => {
     console.log('===== user!!======')
-    Hackathon.find((err, hackathons) => {
-        if (err) return res.status(500).json({ error: err })
-        if (hackathons.length) {
-            return res.json(hackathons)
-        }
-    })
+    if (req.user) {
+        const userID  = req.user._id;
+        User.findById(userID, (err, user) => {
+            if (err) {
+                console.log('could not find user id, returning all hackathons')
+                returnAllHackathons()
+            }
+            else {
+                Hackathon.find({ _id: { $nin: user.hackathons } }, (err, hackathons) => {
+                    if (err) res.status(500).json({ error: 'Could not find hackathons that the user is not currently associated with' })
+                    else {
+                        console.log('\n === user found, returning hackathons available for them === ')
+                        res.status(200).json(hackathons)
+                    }
+                })
+            }
+        })
+    } else {
+        returnAllHackathons()
+    }
+    function returnAllHackathons() {
+        Hackathon.find((err, hackathons) => {
+            if (err) return res.status(500).json({ error: err })
+            if (hackathons.length) {
+                return res.json(hackathons)
+            }
+        })
+    }
 })
 
 router.get('/u/:id', (req, res) => {
@@ -52,9 +74,9 @@ router.get('/u/:id', (req, res) => {
             res.status(500).json(err)
         }
         else {
-            Hackathon.find( { _id: { $in: user.hackathons } })
-            .then(hackathons => res.status(200).json(hackathons))
-            .catch(err => res.status(500).json(err))
+            Hackathon.find({ _id: { $in: user.hackathons } })
+                .then(hackathons => res.status(200).json(hackathons))
+                .catch(err => res.status(500).json(err))
         }
     })
 })
