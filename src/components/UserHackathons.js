@@ -10,7 +10,6 @@ function UserHackathons(props) {
     const { user } = useContext(UserContext)
     const [hackathons] = useState([])
     const [noResults, setNoResults] = useState(false)
-
     if (!user.hasOwnProperty('id')) return <InnerLoader />
 
     return (

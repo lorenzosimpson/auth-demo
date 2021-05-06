@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Card, CardBody, Row } from 'reactstrap';
 import TabbedNav from './TabbedNav';
-// import ProfilePlaceholder from './ProfilePlaceholder';
 import { Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import Loader from './Loader';
-import useAuthentication from '../utils/useAuthentication';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 

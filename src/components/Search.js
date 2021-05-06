@@ -3,13 +3,11 @@ import React from 'react'
 import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic-ui-react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-// import placeholder from '../assets/images/placeholder.png';
 import history from '../history'
 import NoHackathons from './Icon';
 import SearchItem from './search/SearchItem';
 import InnerLoader from './load/InnerLoader';
 import moment from 'moment';
-import useAuthentication from '../utils/useAuthentication';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 
@@ -74,7 +72,7 @@ function SearchExampleStandard(props) {
   const [wasFiltered, setWasFiltered] = useState(false)
   const [noFilterResults, setNoFilterResults] = useState(false)
   const { user } = useContext(UserContext)
-  const { noResults } = props;
+  const { noResults, setNoResults } = props;
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
   const { searchURL } = props;
@@ -85,6 +83,7 @@ function SearchExampleStandard(props) {
     axios.get(searchURL)
       .then(res => {
         const s = res.data
+        if (res.data.length === 0) setNoResults(true)
         const t = s.map(item => ({ ...item }))
         setSource(t)
       })

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Row, Col } from 'reactstrap';
 import { Container, Header } from 'semantic-ui-react';
@@ -7,7 +7,6 @@ import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
 import IconButton from './button/IconButton';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
 import useAuthentication from '../utils/useAuthentication';
 
 const formatDate = date => {
