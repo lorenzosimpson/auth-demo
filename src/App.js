@@ -1,5 +1,4 @@
-import React, {  useEffect, useState, Fragment } from 'react';
-import axios from 'axios'
+import React, { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 // components
 import Navbar from './components/navbar';
@@ -7,7 +6,6 @@ import Home from './components/home';
 import UserHackathons from './components/UserHackathons';
 import "./scss/App.scss";
 import "./carousel.css";
-import { SessionContext } from './contexts/SessionContext';
 import PrivateRoute from './PrivateRoute';
 import Footer from './components/Footer';
 import { loginData, signupData } from './utils/loginSignupFormData';
@@ -74,8 +72,8 @@ const App = props => {
           <CreateHackathonForm {...props} />
         )} />
 
-             <Route path="/hackathons/:id" render={(props) => <HackathonView {...props} />}
-            />
+          <PrivateRoute path="/hackathons/:id" component={HackathonView} />
+            
         <Route path="/explore" component={AllHackathons} />
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
         </Switch>

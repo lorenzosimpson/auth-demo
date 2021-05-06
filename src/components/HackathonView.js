@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
-// import { SessionContext } from '../contexts/SessionContext';
 import axios from 'axios';
-// import banner from '../assets/images/computers-above.jpg';
 import { Row, Col } from 'reactstrap';
-import { Button, Container, Header } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 import InnerLoader from './load/InnerLoader';
-import { useContext } from 'react';
-import { SessionContext } from '../contexts/SessionContext';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
-import history from '../history';
 import IconButton from './button/IconButton';
 import useAuthentication from '../utils/useAuthentication';
+import { Link } from 'react-router-dom';
 
 
 const formatDate = date => {
@@ -54,7 +50,7 @@ function HackathonView(props) {
             setAssociated(user.hackathons.includes(id))
         })
         .catch(err => console.log('GET hacakthon error', err))}
-    }, [user])
+    }, [user, id])
 
     const formattedStart = formatDate(hackathon.start_date)
     const formattedEnd = formatDate(hackathon.end_date)
@@ -78,9 +74,6 @@ function HackathonView(props) {
         })
     }
 
-
-    
-
     if (!hackathon.name || user === undefined) {
         return (
             <Container>
@@ -88,15 +81,23 @@ function HackathonView(props) {
             </Container>
         )
     }
-
+    const params = new URLSearchParams(props.location.search)
+    const origin = params.get('source')
+    console.log(origin)
     return (
         <div className="hackathon-view">
-  
            <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
-            
            <div className="content-overlay">
                <div className="container my-5 py-5">
-                   <IconButton content="Back" icon="left arrow" labelPosition='left' callback={() => history.goBack() } />
+                  {origin && 
+                   (<Link to={origin}>
+                   <IconButton content="Back" icon="left arrow" 
+                   callback={() => null}
+                   labelPosition='left' />
+                   </Link>)}
+                   
+                
+                   {/* <Link to="/my-hackathons" >Back</Link> */}
                     {successMessage && (
                         <Alert success={true} header={successMessage} />
                     )}

@@ -1,16 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { SessionContext } from '../../contexts/SessionContext';
 import { Container } from 'reactstrap';
-import { Header, Segment } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import SearchComponent from '../Search';
 import ExploreCardContainer from './ExploreCardContainer';
-import _ from 'lodash';
-import useAuthentication from '../../utils/useAuthentication';
 
 
 function AllHackathons(props) {
-    const [user] = useAuthentication();
     const [hackathons, setHackathons] = useState([])
     const [noResults, setNoResults] = useState(false)
     useEffect(() => {

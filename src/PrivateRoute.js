@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { SessionContext } from './contexts/SessionContext';
 import Loader from './components/Loader';
 import useAuthentication from './utils/useAuthentication';
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-//    const { user } = useContext(SessionContext);
 const [user] = useAuthentication();
 
    if (!Object.values(user).length) {

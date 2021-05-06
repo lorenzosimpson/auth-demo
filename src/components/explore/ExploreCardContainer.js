@@ -1,5 +1,4 @@
 import React from 'react';
-import { CardSubtitle } from 'reactstrap';
 import { Grid, Header } from 'semantic-ui-react';
 import ExploreCard from './ExploreCard';
 

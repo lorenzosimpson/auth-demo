@@ -4,10 +4,9 @@ import axios from 'axios';
 import { Card, CardBody, Col, Row, Container, Alert } from 'reactstrap';
 import logo from '../assets/images/logo.png';
 import { Button, Form } from 'semantic-ui-react';
-import useAuthentication from '../utils/useAuthentication';
-
 
 const LoginSignup = (props) => {
+    const { setUser } = props;
     const [credentials, setCredentials] = useState({
         username: '',
         password: '',
@@ -16,8 +15,6 @@ const LoginSignup = (props) => {
         redirectTo: null,
         error: ''
     })
-    const [user] = useAuthentication()
-    const { setUser } = props;
 
 
    function handleLoginSubmit(event) {

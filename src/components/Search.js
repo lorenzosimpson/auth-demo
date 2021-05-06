@@ -1,9 +1,7 @@
 import _ from 'lodash'
-import faker from 'faker'
 import React from 'react'
 import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic-ui-react'
-import { useContext, useEffect, useState } from 'react';
-import { SessionContext } from '../contexts/SessionContext';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 // import placeholder from '../assets/images/placeholder.png';
 import history from '../history'
@@ -18,8 +16,6 @@ const initialState = {
   results: [],
   value: '',
 }
-
-const img = "https://source.unsplash.com/random/?coding&orientation=landscape"
 
 function searchReducer(state, action) {
   switch (action.type) {
@@ -36,15 +32,15 @@ function searchReducer(state, action) {
   }
 }
 
-const resultRenderer = ({ name, description, title, _id }) => [
+const resultRenderer = ({ name, description, _id }) => [
   <div key='content' className='content' onClick={() => navigateToHackathonView(_id)}>
     {name && <div className='title'>{name}</div>}
     {description && <div className='description'>{description}</div>}
   </div>,
 ]
 
-const navigateToHackathonView = id => {
-  history.push(`/hackathons/${id}`)
+const navigateToHackathonView = (id, source) => {
+  history.push(`/hackathons/${id}?source=${source}`)
 }
 
 const formatDate = date => {
@@ -92,6 +88,7 @@ function SearchExampleStandard(props) {
       })
       .catch(err => console.log('GET hacakthon error', err))
     }
+    //eslint-disable-next-line
   }, [user])
 
 
@@ -127,12 +124,11 @@ function SearchExampleStandard(props) {
       setNoFilterResults(true)
     }
     return () => setNoFilterResults(false) 
-  }, [filter])
+  }, [filter, wasFiltered])
 
   useEffect(() => {
       setFilter(source)
   }, [source])
-
 
 
   const filterFn = (type) => {
@@ -153,6 +149,7 @@ function SearchExampleStandard(props) {
       case 'all':
         setCurrentSearchParam("All Hackathons")
         setFilter(source)
+        break
       default: 
         break
     }

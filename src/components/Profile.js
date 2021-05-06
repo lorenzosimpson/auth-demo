@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useContext } from 'react';
 import { Container, Card, CardBody, Row } from 'reactstrap';
-import { SessionContext } from '../contexts/SessionContext';
 import TabbedNav from './TabbedNav';
 // import ProfilePlaceholder from './ProfilePlaceholder';
 import { Button } from 'semantic-ui-react';
@@ -11,11 +9,9 @@ import useAuthentication from '../utils/useAuthentication';
 
 const Profile = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    // const { user } = useContext(SessionContext);
     const [user] = useAuthentication();
     const toggle = () => setDropdownOpen(!dropdownOpen);
     const { loggedIn } = props;
-
 
     const properties = [
         {

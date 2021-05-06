@@ -3,8 +3,6 @@ import axios from 'axios';
 import { Card, CardBody, Row, Container} from 'reactstrap';
 import { Form, TextArea, Button } from 'semantic-ui-react';
 import { DateTimePicker } from 'react-rainbow-components';
-import { useContext } from 'react';
-import { SessionContext } from '../contexts/SessionContext';
 import useAuthentication from '../utils/useAuthentication';
 import history from '../history';
 

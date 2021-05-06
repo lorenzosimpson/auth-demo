@@ -18,7 +18,8 @@ function SearchItem(props) {
                 </Item.Description>
             <div className="text-right mt-2">
 
-            <IconButton icon="info circle" labelPosition='left' content="Details" callback={() => navigateToHackathonView(item._id)} />
+            <IconButton icon="info circle" labelPosition='left' content="Details" 
+            callback={() => navigateToHackathonView(item._id, window.location.pathname)} />
             </div>
             </Item.Content>
         </Item>

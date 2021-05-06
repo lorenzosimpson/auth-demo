@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Collapse,
     Navbar,
@@ -16,13 +16,11 @@ import {
 import { Button } from 'semantic-ui-react';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import history from '../history';
-import { SessionContext } from '../contexts/SessionContext';
 import logo from '../assets/images/logo.png';
-import useAuthentication from '../utils/useAuthentication';
 
 const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { updateUser, setReturnTo } = props;
+    const { setReturnTo } = props;
     const { user, setUser } = props;
     const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`
     const toggle = () => setIsOpen(!isOpen);
@@ -31,6 +29,7 @@ const Navigation = (props) => {
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll')
     }, [])
 
     function handleScroll() {
