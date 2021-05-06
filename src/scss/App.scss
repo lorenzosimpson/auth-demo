@@ -26,7 +26,11 @@ body {
 }
 
 .ui.card.explore-card {
-  min-height: 500px;
+  min-height: 450px;
+  img {
+    max-height: 170px;
+    object-fit: cover;
+  }
 }
 
 .breadcrumb-container {

@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { useContext } from 'react';
 import { Container, Card, CardBody, Row } from 'reactstrap';
-import { SessionContext } from '../contexts/SessionContext';
 import TabbedNav from './TabbedNav';
 // import ProfilePlaceholder from './ProfilePlaceholder';
 import { Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import Loader from './Loader';
+import useAuthentication from '../utils/useAuthentication';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 const Profile = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const { user } = useContext(SessionContext);
+    const { user } = useContext(UserContext);
     const toggle = () => setDropdownOpen(!dropdownOpen);
     const { loggedIn } = props;
-
 
     const properties = [
         {
@@ -48,9 +48,6 @@ const Profile = (props) => {
                     <Card className="mt-2">
                         <CardBody>
                             {
-                                // !user.username ? (
-                                //     <ProfilePlaceholder />
-                                // ) :
                                 props.location.pathname.includes('/settings') ? (
                                     <p>Settings</p>
                                 ) : 

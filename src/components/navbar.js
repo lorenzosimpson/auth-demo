@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Collapse,
     Navbar,
@@ -16,19 +16,23 @@ import {
 import { Button } from 'semantic-ui-react';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import history from '../history';
-import { SessionContext } from '../contexts/SessionContext';
 import logo from '../assets/images/logo.png';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { updateUser, loggedIn, setReturnTo } = props;
-    const { user } = useContext(SessionContext);
+    const { setReturnTo } = props;
+    const { user, setUser } = useContext(UserContext);
     const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`
+    const [scroll, setScroll] = useState(0);
+    const loggedIn = user.loggedIn;
+    
     const toggle = () => setIsOpen(!isOpen);
-    const [scroll, setScroll] = useState(0)
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
     function handleScroll() {
@@ -39,7 +43,7 @@ const Navigation = (props) => {
         axios.post('/user/logout')
             .then(response => {
                 if (response.status === 200) {
-                    updateUser({
+                    setUser({
                         loggedIn: false,
                         user: null
                     })

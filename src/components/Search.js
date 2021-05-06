@@ -1,9 +1,7 @@
 import _ from 'lodash'
-import faker from 'faker'
 import React from 'react'
 import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic-ui-react'
-import { useContext, useEffect, useState } from 'react';
-import { SessionContext } from '../contexts/SessionContext';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 // import placeholder from '../assets/images/placeholder.png';
 import history from '../history'
@@ -11,14 +9,15 @@ import NoHackathons from './Icon';
 import SearchItem from './search/SearchItem';
 import InnerLoader from './load/InnerLoader';
 import moment from 'moment';
+import useAuthentication from '../utils/useAuthentication';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 const initialState = {
   loading: false,
   results: [],
   value: '',
 }
-
-const img = "https://source.unsplash.com/random/?coding&orientation=landscape"
 
 function searchReducer(state, action) {
   switch (action.type) {
@@ -35,15 +34,15 @@ function searchReducer(state, action) {
   }
 }
 
-const resultRenderer = ({ name, description, title, _id }) => [
+const resultRenderer = ({ name, description, _id }) => [
   <div key='content' className='content' onClick={() => navigateToHackathonView(_id)}>
     {name && <div className='title'>{name}</div>}
     {description && <div className='description'>{description}</div>}
   </div>,
 ]
 
-const navigateToHackathonView = id => {
-  history.push(`/hackathon/${id}`)
+const navigateToHackathonView = (id, source) => {
+  history.push(`/hackathons/${id}?source=${source}`)
 }
 
 const formatDate = date => {
@@ -74,7 +73,7 @@ function SearchExampleStandard(props) {
   const [source, setSource] = useState([])
   const [wasFiltered, setWasFiltered] = useState(false)
   const [noFilterResults, setNoFilterResults] = useState(false)
-  const { user } = useContext(SessionContext);
+  const { user } = useContext(UserContext)
   const { noResults } = props;
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
@@ -82,6 +81,7 @@ function SearchExampleStandard(props) {
 
 
   useEffect(() => {
+    if (Object.values(user).length) {
     axios.get(searchURL)
       .then(res => {
         const s = res.data
@@ -89,8 +89,9 @@ function SearchExampleStandard(props) {
         setSource(t)
       })
       .catch(err => console.log('GET hacakthon error', err))
-      // eslint-disable-next-line
-  }, [])
+    }
+    //eslint-disable-next-line
+  }, [user])
 
 
   const timeoutRef = React.useRef()
@@ -125,12 +126,11 @@ function SearchExampleStandard(props) {
       setNoFilterResults(true)
     }
     return () => setNoFilterResults(false) 
-  }, [filter])
+  }, [filter, wasFiltered])
 
   useEffect(() => {
       setFilter(source)
   }, [source])
-
 
 
   const filterFn = (type) => {
@@ -151,6 +151,7 @@ function SearchExampleStandard(props) {
       case 'all':
         setCurrentSearchParam("All Hackathons")
         setFilter(source)
+        break
       default: 
         break
     }
@@ -170,9 +171,11 @@ function SearchExampleStandard(props) {
   }
 
   return (
+    <div className="mt-5">
+     <Header as="h2">{currentSearchParam}</Header>
     <Grid>
       <Grid.Column >
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
           <Search
             loading={loading}
             onResultSelect={(e, data) =>
@@ -188,8 +191,8 @@ function SearchExampleStandard(props) {
 
         <Segment>
           <Item.Group>
-            <Header>{currentSearchParam}</Header>
-          <div class="dropdown-buttons">
+           
+          <div className="dropdown-buttons">
            <Dropdown 
            text='Sort'
            className="icon"
@@ -239,6 +242,7 @@ function SearchExampleStandard(props) {
         </Segment>
       </Grid.Column>
     </Grid>
+    </div>
   )
 }
 

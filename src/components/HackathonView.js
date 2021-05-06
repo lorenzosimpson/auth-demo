@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
-// import { SessionContext } from '../contexts/SessionContext';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-// import banner from '../assets/images/computers-above.jpg';
 import { Row, Col } from 'reactstrap';
-import { Button, Container, Header } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 import InnerLoader from './load/InnerLoader';
-import { useContext } from 'react';
-import { SessionContext } from '../contexts/SessionContext';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
-import BreadcrumbExample from './breadcrumb/Breadcrumb';
-
+import IconButton from './button/IconButton';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
+import useAuthentication from '../utils/useAuthentication';
 
 const formatDate = date => {
     const months = [
@@ -36,24 +34,26 @@ const formatDate = date => {
 function HackathonView(props) {
     const [hackathon, setHackathon] = useState({});
     const { id } = props.match.params;
-    const { user } = useContext(SessionContext);    
-    const [associated, setAssociated] = useState(false);
+    const [user]  = useAuthentication()
+    const [associated, setAssociated] = useState(true);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const isHackathonOrganizer = user.id === hackathon.organizer_id;
     const imgUrl = hackathon.image
     
     useEffect(() =>  window.scrollTo(0, 0), [successMessage, errorMessage])
-    console.log(user)
+    
     useEffect(() => {
+        console.log('comnponent mounted')
         axios.get(`/hackathon/${id}`)
         .then(res => {
             setHackathon(res.data)
-            setAssociated(user.hackathons.includes(id))
+            if (user && user.hasOwnProperty('hackathons')) {
+                setAssociated(user.hackathons.includes(id))
+            }
         })
         .catch(err => console.log('GET hacakthon error', err))
-        // eslint-disable-next-line
-    }, [])
+    }, [user, id])
 
     const formattedStart = formatDate(hackathon.start_date)
     const formattedEnd = formatDate(hackathon.end_date)
@@ -77,32 +77,31 @@ function HackathonView(props) {
         })
     }
 
-
-    
-
-    if (!hackathon.name || user.hackathons === undefined) {
+    if (!hackathon.name || user === undefined) {
+        console.log(hackathon, user)
         return (
             <Container>
                 <InnerLoader />
             </Container>
         )
     }
+    const params = new URLSearchParams(props.location.search)
+    const origin = params.get('source')
 
     return (
         <div className="hackathon-view">
-                <BreadcrumbExample steps={[
-                    {
-                        content: 'My Hackathons',
-                        destination: '/my-hackathons'
-                    },
-                    {
-                        content: `${hackathon.name}`
-                    }
-                ]}/>
            <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
-            
            <div className="content-overlay">
-               <div className="container my-5 py-5">
+               <div className="container my-5 py-2">
+                  {(origin && user.loggedIn ) && 
+                   (<Link to={origin}>
+                   <IconButton content="Back" icon="left arrow" 
+                   callback={() => null}
+                   labelPosition='left' />
+                   </Link>)}
+                   
+                
+                   {/* <Link to="/my-hackathons" >Back</Link> */}
                     {successMessage && (
                         <Alert success={true} header={successMessage} />
                     )}
@@ -142,10 +141,9 @@ function HackathonView(props) {
                                    )}
                                   
                            </div>
-                           {(!isHackathonOrganizer && !associated) && (
+                           {(!isHackathonOrganizer && !associated && user.loggedIn) && (
                            <Row>
                                <Col xs="12" md="6" lg="4" >
-                               {/* <Button primary className="w-100" size="big">Join</Button> */}
                                 <Modal header={`Join ${hackathon.name}`} buttonText="Join" handleConfirmProps={() => joinHackathon() } />
                                </Col>
                            </Row>

@@ -23,7 +23,7 @@ router.get('/explore', (req, res) => {
     const date = new Date()
     Hackathon.aggregate([
       {  $match: {start_date: { $gte: date }}},
-       { $sample: { size: 4 }}]
+       { $sample: { size: 3 }}]
         , (err, hackathons) => {
         if (err) {
             res.status(500).json(err)
