@@ -19,12 +19,13 @@ import history from '../history';
 import logo from '../assets/images/logo.png';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
+import { Search } from 'semantic-ui-react';
 
 const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { setReturnTo } = props;
     const { user, setUser } = useContext(UserContext);
-    const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`
+    const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`;
     const [scroll, setScroll] = useState(0);
     const loggedIn = user.loggedIn;
     
@@ -57,11 +58,22 @@ const Navigation = (props) => {
     return (
         <div className={scroll > 0 ? "nav-container shadow" : "nav-container"}>
             <Navbar color="light" light expand="md">
-                <NavbarBrand onClick={() => history.push('/')}>
+                <NavbarBrand onClick={() => history.push('/')} >
                         <img src={logo}
                             alt="Hackathon Portal logo"
                             className="logo"></img>
                 </NavbarBrand>
+                <Nav className="mr-auto d-none d-md-block">
+                    <form onSubmit={() => console.log('hi')}>
+                    <div className="ui search">
+                    <div className="ui icon input">
+                        
+                        <input className="prompt" placeholder="Search Hackathons"></input>
+                        <i className="search icon"></i>
+                    </div>
+                    </div>
+                    </form>
+                </Nav>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto mr-4" navbar>

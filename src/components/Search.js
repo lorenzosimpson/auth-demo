@@ -10,6 +10,7 @@ import InnerLoader from './load/InnerLoader';
 import moment from 'moment';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
+import { formatDateYear } from '../utils/dateFormats';
 
 const initialState = {
   loading: false,
@@ -42,28 +43,6 @@ const resultRenderer = ({ name, description, _id }) => [
 const navigateToHackathonView = (id, source) => {
   history.push(`/hackathons/${id}?source=${source}`)
 }
-
-const formatDate = date => {
-  const months = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12"
-  ];
-  const newDate = new Date(date);
-  const y = newDate.getFullYear().toString().substr(2);
-  const d = newDate.getDate();
-  const m = months[newDate.getMonth()];
-  return `${m}/${d}/${y}`;
-};
 
 function SearchExampleStandard(props) {
   const [state, dispatch] = React.useReducer(searchReducer, initialState)
@@ -231,7 +210,7 @@ function SearchExampleStandard(props) {
               ) : (
                 <>
                   {filter.map((item, key) =>
-                    <SearchItem item={item} key={key} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={item.image} />
+                    <SearchItem item={item} key={key} formatDate={formatDateYear} navigateToHackathonView={navigateToHackathonView} imgSrc={item.image} />
                   )
                   }
                 </>
