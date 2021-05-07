@@ -61,18 +61,16 @@ router.get('/', (req, res, next) => {
     }
 
     function returnAllFutureHackathons() {
-        Hackathon.find((err, hackathons) => {
-            if (err) {
-                return res.status(500).json({ error: err })
-            }
-            const date = new Date();
-            Hackathon.find({
-                start_date: { $gte: date }
-            }, (err, hackathons => {
-                if (err) res.status(500).json({ error: 'Could not fetch hackathons' })
+        console.log("===all future====")
+        const date = new Date();
+        Hackathon.find({ start_date: { $gte: date } }, (err, hackathons) => {
+            if (err) res.status(500).json({ error: 'Could not fetch hackathons' })
+            else if (!hackathons.length) {
+                res.status(200).json([])
+            } else {
                 res.status(200).json(hackathons)
-            })
-        )})
+            }
+        })
     }
 })
 

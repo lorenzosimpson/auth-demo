@@ -2,6 +2,7 @@ const faker = require("faker");
 const mongoose = require('mongoose')
 const Hackathon = require('../database/models/hackathon');
 const User = require("../database/models/user");
+require('dotenv').config()
 
 const map = async (arr) => {
     for (let i = 0; i < arr.length; i++) {
@@ -30,9 +31,10 @@ const images = [
 ]
 
 async function seedDB() {
-    const database = 'development'
+    const uri = process.env.MONGODB_URI
+    const database = process.env.DB_ENV
+ 
     // DB URL
-    const uri = ;
     const config = {
         useNewUrlParser: true,
         useFindAndModify: false,

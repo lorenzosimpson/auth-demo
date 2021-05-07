@@ -26,6 +26,7 @@ function ExploreCardContainer(props) {
                             description={hackathon.description}
                             date={hackathon.start_date}
                             user=""
+                            id={hackathon._id}
                             image={hackathon.image}
                              />
                         </Grid.Column>
