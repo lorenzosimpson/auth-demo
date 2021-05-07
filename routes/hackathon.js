@@ -43,7 +43,11 @@ router.get('/', (req, res, next) => {
                 returnAllHackathons()
             }
             else {
-                Hackathon.find({ _id: { $nin: user.hackathons } }, (err, hackathons) => {
+                const date = new Date();
+                Hackathon.find({
+                     _id: { $nin: user.hackathons },
+                    start_date: { $gte: date } 
+                     }, (err, hackathons) => {
                     if (err) res.status(500).json({ error: 'Could not find hackathons that the user is not currently associated with' })
                     else {
                         console.log('\n === user found, returning hackathons available for them === ')
@@ -53,15 +57,22 @@ router.get('/', (req, res, next) => {
             }
         })
     } else {
-        returnAllHackathons()
+        returnAllFutureHackathons()
     }
-    function returnAllHackathons() {
+
+    function returnAllFutureHackathons() {
         Hackathon.find((err, hackathons) => {
-            if (err) return res.status(500).json({ error: err })
-            if (hackathons.length) {
-                return res.json(hackathons)
+            if (err) {
+                return res.status(500).json({ error: err })
             }
-        })
+            const date = new Date();
+            Hackathon.find({
+                start_date: { $gte: date }
+            }, (err, hackathons => {
+                if (err) res.status(500).json({ error: 'Could not fetch hackathons' })
+                res.status(200).json(hackathons)
+            })
+        )})
     }
 })
 
