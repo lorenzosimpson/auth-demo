@@ -10,7 +10,6 @@ function AllHackathons(props) {
     const [hackathons, setHackathons] = useState([])
     const [noResults, setNoResults] = useState(false)
     useEffect(() => {
-        console.log('use effect called')
         axios.get(`/hackathon/explore`)
         .then(res => {
             console.log('GET hackathon res', res)

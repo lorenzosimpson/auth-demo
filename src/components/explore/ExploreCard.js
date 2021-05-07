@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Image } from 'semantic-ui-react'
+import { Card, Image, Icon } from 'semantic-ui-react'
 import { formatDateYear } from '../../utils/dateFormats';
 import IconButton from '../button/IconButton'
 import history from '../../history';
@@ -30,11 +30,10 @@ const ExploreCard = (props) => {
               
             </Card.Content>
             <Card.Content extra>
-                {/* <a>
-                    <Icon name='user' />
-                    {user}
-                </a> */}
-                  <div className="text-right mt-2">
+                  <div className="d-flex justify-content-between align-items-center ">
+                      <div>
+                    <Icon name='user' />10
+                    </div>
                 <IconButton icon="info circle" labelPosition='left' content="Details" 
                 callback={() => navigateToHackathonView(id, window.location.pathname)} />
             </div>

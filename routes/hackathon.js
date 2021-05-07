@@ -21,17 +21,48 @@ router.post('/', (req, res) => {
 router.get('/explore', (req, res) => {
     // returns 4 random hackathons from present and future
     const date = new Date()
-    Hackathon.aggregate([
-        { $match: { start_date: { $gte: date } } },
-        { $sample: { size: 3 } }]
-        , (err, hackathons) => {
+    if (req.user) {
+        const userID = req.user._id
+        const date = new Date().getDate()
+        console.log(date)
+        User.findById(userID, (err, user) => {
             if (err) {
-                res.status(500).json(err)
-            } else {
-                res.status(200).json(hackathons)
+                res.status(500).json({ error: 'Error finding user'})
             }
+            else {
+                Hackathon.find(
+                        {
+                        start_date: { $gte: date },
+                        _id: { $nin: user.hackathons },
+                        notOrgId: { $ne: [ "$organizer_id", userID ] },
+                        }, (err, hackathons) => {
+                        if (err) {
+                            res.status(500).json(err)
+                        } else {
+                            console.log("\n explore user found, returning available to them")
+                            res.status(200).json(hackathons)
+                        }
+                    })
+                    .limit(3)
+                    .skip(Math.floor(date) % 3)
+            }
+
         })
+    } else {
+        console.log('no explore user found \n')
+        Hackathon.aggregate([
+            { $match: { start_date: { $gte: date }}},
+            { $sample: { size: 3 } }]
+            , (err, hackathons) => {
+                if (err) {
+                    res.status(500).json(err)
+                } else {
+                    res.status(200).json(hackathons)
+                }
+            })
+    }
 })
+        
 
 router.get('/', (req, res, next) => {
     console.log('===== user!!======')
