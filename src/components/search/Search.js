@@ -3,14 +3,14 @@ import React from 'react'
 import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic-ui-react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import history from '../history'
-import NoHackathons from './Icon';
-import SearchItem from './search/SearchItem';
-import InnerLoader from './load/InnerLoader';
+import history from '../../history'
+import NoHackathons from '../Icon';
+import SearchItem from './SearchItem';
+import InnerLoader from '../load/InnerLoader';
 import moment from 'moment';
 import { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
-import { formatDateYear } from '../utils/dateFormats';
+import { UserContext } from '../../contexts/UserContext';
+import { formatDateYear } from '../../utils/dateFormats';
 
 const initialState = {
   loading: false,

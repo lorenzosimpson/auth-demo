@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container } from 'reactstrap';
 import { Header } from 'semantic-ui-react';
-import SearchComponent from '../Search';
+import SearchComponent from '../search/Search';
 import ExploreCardContainer from './ExploreCardContainer';
 
 

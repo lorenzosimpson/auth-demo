@@ -23,7 +23,6 @@ const NoItems = () => (
             primary>Create a Hackathon</Button>
         </Col>
         </Row>
-   
     </div>
   </div>
 )

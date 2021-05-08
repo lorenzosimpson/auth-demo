@@ -16,6 +16,7 @@ import HackathonView from './components/HackathonView';
 import AllHackathons from './components/explore/AllHackathons';
 import useAuthentication from './utils/useAuthentication';
 import { UserContext } from './contexts/UserContext';
+import SearchPage from './components/search/SearchPage';
 
 
 
@@ -72,6 +73,7 @@ const App = props => {
             
         <Route path="/explore" component={AllHackathons} />
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
+        <Route path="/search" component={SearchPage} />
         </Switch>
         </div>
         <Footer />

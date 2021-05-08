@@ -19,7 +19,6 @@ import history from '../history';
 import logo from '../assets/images/logo.png';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
-import { Search } from 'semantic-ui-react';
 
 const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -28,12 +27,15 @@ const Navigation = (props) => {
     const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`;
     const [scroll, setScroll] = useState(0);
     const loggedIn = user.loggedIn;
+    const [searchText, setSearchText] = useState('')
     
     const toggle = () => setIsOpen(!isOpen);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
     }, [])
 
     function handleScroll() {
@@ -55,6 +57,21 @@ const Navigation = (props) => {
             .catch(error => console.log('Error logging out, ', error))
     }
 
+    function handleSearch(e) {
+        e.preventDefault();
+        history.push({
+            pathname: '/search',
+            state: {
+                searchText: searchText
+            }
+        })
+        setSearchText("")
+    }
+
+    function handleChange(event) {
+        setSearchText(event.target.value)
+    }
+
     return (
         <div className={scroll > 0 ? "nav-container shadow" : "nav-container"}>
             <Navbar color="light" light expand="md">
@@ -64,11 +81,10 @@ const Navigation = (props) => {
                             className="logo"></img>
                 </NavbarBrand>
                 <Nav className="mr-auto d-none d-md-block">
-                    <form onSubmit={() => console.log('hi')}>
+                    <form onSubmit={handleSearch} onChange={handleChange}>
                     <div className="ui search">
                     <div className="ui icon input">
-                        
-                        <input className="prompt" placeholder="Search Hackathons"></input>
+                        <input className="prompt" name="searchText" value={searchText} placeholder="Search Hackathons"></input>
                         <i className="search icon"></i>
                     </div>
                     </div>

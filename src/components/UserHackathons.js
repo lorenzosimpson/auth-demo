@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Container } from 'reactstrap';
 import { Header } from 'semantic-ui-react';
-import SearchComponent from './Search';
+import SearchComponent from './search/Search';
 import InnerLoader from './load/InnerLoader';
 import { UserContext } from '../contexts/UserContext';
 

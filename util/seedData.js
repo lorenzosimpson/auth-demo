@@ -78,7 +78,7 @@ async function seedDB() {
 
 const callback = async (userId, arr) => {
     const data = [];
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < 250; i++) {
         const three = i % 3 === 0;
         const five = i % 5 === 0;
 
@@ -87,7 +87,7 @@ const callback = async (userId, arr) => {
         const startDate = three ? faker.date.soon() : five ? faker.date.past() : faker.date.future();
         const endDate = faker.date.between(startDate, faker.date.future());
         const organizerId = userId
-        const image = arr[i]
+        const image = arr[i % arr.length - 1]
 
         const newHackathon = new Hackathon({
             name: name,
