@@ -2,6 +2,7 @@ const faker = require("faker");
 const mongoose = require('mongoose')
 const Hackathon = require('../database/models/hackathon');
 const User = require("../database/models/user");
+require('dotenv').config()
 
 const map = async (arr) => {
     for (let i = 0; i < arr.length; i++) {
@@ -30,9 +31,10 @@ const images = [
 ]
 
 async function seedDB() {
-    const database = 'development'
+    const uri = process.env.MONGODB_URI
+    const database = process.env.DB_ENV
+ 
     // DB URL
-    const uri = ;
     const config = {
         useNewUrlParser: true,
         useFindAndModify: false,
@@ -61,7 +63,6 @@ async function seedDB() {
         User.findOneAndUpdate({ username: database === 'development' ? 'j-cool' : 'jcool'}, update, async(err, result) => {
             if (err) console.log(err)
             else {
-                console.log(result, 'result')
                 jCoolId = result._id
                 await callback(jCoolId, images.slice(5))
                 mongoose.connection.close();
@@ -69,29 +70,28 @@ async function seedDB() {
                 console.log("Database seeded! :)");
             }
         })
-
-    
-       
-      
-
     } catch (err) {
         console.log(err.stack);
     }
-
 }
 
 const callback = async (userId, arr) => {
     const data = [];
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < 100; i++) {
         const three = i % 3 === 0;
         const five = i % 5 === 0;
+
+        function randomIntFromInterval(min, max) { // min and max included 
+            return Math.floor(Math.random() * (max - min + 1) + min);
+          }
 
         const name = faker.company.companyName() + " " + "Hackathon";
         const description = faker.lorem.paragraphs();
         const startDate = three ? faker.date.soon() : five ? faker.date.past() : faker.date.future();
         const endDate = faker.date.between(startDate, faker.date.future());
         const organizerId = userId
-        const image = arr[i]
+        const image = arr[randomIntFromInterval(0, arr.length - 1)]
+      
 
         const newHackathon = new Hackathon({
             name: name,
@@ -99,7 +99,8 @@ const callback = async (userId, arr) => {
             organizer_id: organizerId,
             start_date: startDate,
             end_date: endDate,
-            image: image
+            image: image,
+            participants: randomIntFromInterval(0, 400)
         })
         data.push(newHackathon)
     };

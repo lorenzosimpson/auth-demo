@@ -9,7 +9,8 @@ const hackathonSchema = new Schema({
     end_date: { type: Date, unique: false, required: true },
     organizer_id: { type: String, unique: false, required: true },
     description: { type: String, required: true },
-    image: { type: String, required: false }
+    image: { type: String, required: false },
+    participants: { type: Number, required: false }
 })
 
 hackathonSchema.pre('save', function(next) {
@@ -25,7 +26,6 @@ hackathonSchema.pre('save', function(next) {
         console.log('models/hackathon.js =====NO NAME PROVIDED =====')
         next()
     } else {
-        console.log('models/hackathons.js hackathon in pre-save')
         next()
     }
 })
@@ -43,7 +43,6 @@ hackathonSchema.post('save', function(hackathon, next) {
                 User.updateOne({ _id: organizer_id }, changes, (err, saved) => {
                     if (err) console.log(err)
                     else {
-                        console.log('associated hackathon')
                         next()
                     }
                 })

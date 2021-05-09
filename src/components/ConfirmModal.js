@@ -13,7 +13,7 @@ const ConfirmModal = props => {
 
     return (
         <div>
-            <Button primary
+            <Button primary className="w-100"
             onClick={show}>{buttonText}</Button>
             <Confirm
                 open={open}

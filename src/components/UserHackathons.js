@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Container } from 'reactstrap';
 import { Header } from 'semantic-ui-react';
-import SearchComponent from './Search';
+import SearchComponent from './search/Search';
 import InnerLoader from './load/InnerLoader';
 import { UserContext } from '../contexts/UserContext';
 
@@ -10,7 +10,6 @@ function UserHackathons(props) {
     const { user } = useContext(UserContext)
     const [hackathons] = useState([])
     const [noResults, setNoResults] = useState(false)
-
     if (!user.hasOwnProperty('id')) return <InnerLoader />
 
     return (

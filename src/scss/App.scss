@@ -26,7 +26,7 @@ body {
 }
 
 .ui.card.explore-card {
-  min-height: 450px;
+  min-height: 400px;
   img {
     max-height: 170px;
     object-fit: cover;
@@ -122,11 +122,18 @@ body {
 
 .logo {
   width: 90px;
-  margin-right: 2em;
 }
 
 .nav-user-profile.rounded-circle {
   width: 40px;
+}
+
+.ui.search .prompt {
+  border-radius: 0.5em;
+}
+
+.navbar .ui.search .prompt {
+  max-width: 225px;
 }
 
 .fa {
@@ -139,18 +146,6 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-// .icon {
-//   background-color: #fff;
-//   border: 1px solid #eee;
-//   text-align: center;
-//   width: 100px;
-//   height: 100px;
-//   display: inline-flex;
-//   align-items: center;
-//   justify-content: center;
-//   margin: 10px;
-//   transition: all .5s;
-// }
 
 input, textarea {
   font-size: 16px !important;
@@ -197,6 +192,10 @@ input, textarea {
 }
 
 @media (max-width:767px) {
+
+.navbar .ui.search .prompt {
+  max-width: 100%;
+}
   .nav-item {
    margin-bottom:1rem
   }

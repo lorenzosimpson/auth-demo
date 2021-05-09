@@ -3,15 +3,14 @@ import React from 'react'
 import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic-ui-react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-// import placeholder from '../assets/images/placeholder.png';
-import history from '../history'
-import NoHackathons from './Icon';
-import SearchItem from './search/SearchItem';
-import InnerLoader from './load/InnerLoader';
+import history from '../../history'
+import NoHackathons from '../Icon';
+import SearchItem from './SearchItem';
+import InnerLoader from '../load/InnerLoader';
 import moment from 'moment';
-import useAuthentication from '../utils/useAuthentication';
 import { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../../contexts/UserContext';
+import { formatDateYear } from '../../utils/dateFormats';
 
 const initialState = {
   loading: false,
@@ -45,28 +44,6 @@ const navigateToHackathonView = (id, source) => {
   history.push(`/hackathons/${id}?source=${source}`)
 }
 
-const formatDate = date => {
-  const months = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12"
-  ];
-  const newDate = new Date(date);
-  const y = newDate.getFullYear().toString().substr(2);
-  const d = newDate.getDate();
-  const m = months[newDate.getMonth()];
-  return `${m}/${d}/${y}`;
-};
-
 function SearchExampleStandard(props) {
   const [state, dispatch] = React.useReducer(searchReducer, initialState)
   const { loading, results, value } = state
@@ -74,7 +51,7 @@ function SearchExampleStandard(props) {
   const [wasFiltered, setWasFiltered] = useState(false)
   const [noFilterResults, setNoFilterResults] = useState(false)
   const { user } = useContext(UserContext)
-  const { noResults } = props;
+  const { noResults, setNoResults } = props;
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
   const { searchURL } = props;
@@ -85,6 +62,7 @@ function SearchExampleStandard(props) {
     axios.get(searchURL)
       .then(res => {
         const s = res.data
+        if (res.data.length === 0) setNoResults(true)
         const t = s.map(item => ({ ...item }))
         setSource(t)
       })
@@ -191,7 +169,6 @@ function SearchExampleStandard(props) {
 
         <Segment>
           <Item.Group>
-           
           <div className="dropdown-buttons">
            <Dropdown 
            text='Sort'
@@ -232,11 +209,11 @@ function SearchExampleStandard(props) {
               ) : (
                 <>
                   {filter.map((item, key) =>
-                    <SearchItem item={item} key={key} formatDate={formatDate} navigateToHackathonView={navigateToHackathonView} imgSrc={item.image} />
+                    <SearchItem item={item} key={key} formatDate={formatDateYear} navigateToHackathonView={navigateToHackathonView} imgSrc={item.image} />
                   )
                   }
                 </>
-              )
+              ) 
             }
           </Item.Group>
         </Segment>

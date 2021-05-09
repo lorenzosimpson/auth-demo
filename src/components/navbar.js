@@ -24,15 +24,18 @@ const Navigation = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const { setReturnTo } = props;
     const { user, setUser } = useContext(UserContext);
-    const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`
+    const userPhoto = `https://ui-avatars.com/api/?name=${user.username}&background=F37291&color=fff`;
     const [scroll, setScroll] = useState(0);
     const loggedIn = user.loggedIn;
+    const [searchText, setSearchText] = useState('')
     
     const toggle = () => setIsOpen(!isOpen);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
     }, [])
 
     function handleScroll() {
@@ -54,24 +57,51 @@ const Navigation = (props) => {
             .catch(error => console.log('Error logging out, ', error))
     }
 
+    function handleSearch(e) {
+        e.preventDefault();
+        history.push({
+            pathname: '/search',
+            state: {
+                searchText: searchText
+            }
+        })
+        setSearchText("")
+    }
+
+    function handleChange(event) {
+        setSearchText(event.target.value)
+    }
+
     return (
         <div className={scroll > 0 ? "nav-container shadow" : "nav-container"}>
             <Navbar color="light" light expand="md">
-                <NavbarBrand onClick={() => history.push('/')}>
+                <NavbarBrand onClick={() => history.push('/')} >
                         <img src={logo}
                             alt="Hackathon Portal logo"
                             className="logo"></img>
                 </NavbarBrand>
+                <Nav className="mr-auto d-none d-md-block">
+                    <NavItem>
+                    <form onSubmit={handleSearch} onChange={handleChange}>
+                        <div className="ui search">
+                            <div className="ui icon input">
+                                <input className="prompt" name="searchText" value={searchText} placeholder="Search Hackathons"></input>
+                                <i className="search icon"></i>
+                            </div>
+                        </div>
+                    </form>
+                    </NavItem>
+                </Nav>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
-                    <Nav className="ml-auto mr-4" navbar>
-                        <NavItem className="mr-4">
+                    <Nav className="ml-auto mr-3" navbar>
+                        <NavItem className="mr-3">
                             <NavLink tag={RouterNavLink}
                                 exact
                                 activeClassName="router-link-exact-active"
                                 className="nav-link" to="/">Home</NavLink>
                         </NavItem>
-                        <NavItem className="mr-4">
+                        <NavItem className="mr-3">
                             <NavLink tag={RouterNavLink}
                             to="/explore"
                             activeClassName="router-link-exact-active"
@@ -80,7 +110,7 @@ const Navigation = (props) => {
                         </NavItem>
                         {loggedIn && (
                             <>
-                        <NavItem className="mr-4"> 
+                        <NavItem className="mr-3"> 
                             <NavLink 
                             to="/create" 
                             tag={RouterNavLink}
@@ -125,7 +155,6 @@ const Navigation = (props) => {
                                             <>
 
                                                 <DropdownItem
-                                                    id="qsLogoutBtn"
                                                     onClick={() => logout()}
                                                 >
                                                     <i className="fas fa-power-off mr-2" /> Log
@@ -145,11 +174,20 @@ const Navigation = (props) => {
                             </NavItem>
                         )}
                     </Nav>
+                   
+                    <form className="d-md-none" onSubmit={handleSearch} onChange={handleChange}>
+                        <div className="ui search">
+                            <div className="ui icon input w-100">
+                                <input className="prompt" name="searchText" value={searchText} placeholder="Search Hackathons"></input>
+                                <i className="search icon"></i>
+                            </div>
+                        </div>
+                    </form>
+                  
                     {!loggedIn && (
               <Nav className="d-md-none" navbar>
                 <NavItem>
                   <Button
-                    id="qsLoginBtn"
                     primary
                     block
                     onClick={() => {

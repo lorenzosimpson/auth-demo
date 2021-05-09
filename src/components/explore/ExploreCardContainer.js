@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 import ExploreCard from './ExploreCard';
 
 function ExploreCardContainer(props) {
@@ -16,9 +16,10 @@ function ExploreCardContainer(props) {
     return (
         <div className="mt-5">
             <Header as="h2" content="Featured" />
+            <Segment>
             <Grid columns="3" stackable> 
             {divideArrayIntoRows(cols, cards).map(row => (
-                <Grid.Row>
+                <Grid.Row className="m-0">
                     {row.map(hackathon => (
                         <Grid.Column>
                             <ExploreCard
@@ -26,24 +27,16 @@ function ExploreCardContainer(props) {
                             description={hackathon.description}
                             date={hackathon.start_date}
                             user=""
+                            id={hackathon._id}
                             image={hackathon.image}
+                            participants={hackathon.participants}
                              />
                         </Grid.Column>
                     ))}
                 </Grid.Row>
             ))}
-            
-
-           
-                
-          
-
-          
-            {/* {cards.map(card => (
-
-                 <ExploreCard />
-                    ))} */}
             </Grid>
+            </Segment>
         </div>
     );
 }
