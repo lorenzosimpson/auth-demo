@@ -102,7 +102,7 @@ router.post('/logout', (req, res) => {
 
 router.post('/register', (req, res) => {
     const { id } = req.body
-    Hackathon.findById(id, (err, hackathon) => {
+    Hackathon.findOneAndUpdate({_id: id}, { $inc: { 'participants': 1 }}, (err, hackathon) => {
         if (err) {
             console.log('hackathon registration error', err)
         }

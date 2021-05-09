@@ -9,7 +9,7 @@ const navigateToHackathonView = (id, source) => {
   }
 
 const ExploreCard = (props) => {
-    const { header, date, description, image, id } = props;
+    const { header, date, description, image, id, participants } = props;
     const truncateText = (text, length) => {
         return text.length <= length ? text : text[length - 1] === ' ' ? text.substr(0, length -1) + '\u2026' : text.substr(0, length) + '\u2026'
       }
@@ -32,7 +32,7 @@ const ExploreCard = (props) => {
             <Card.Content extra>
                   <div className="d-flex justify-content-between align-items-center ">
                       <div>
-                    <Icon name='user' />10
+                    <Icon name='user' />{participants}
                     </div>
                 <IconButton icon="info circle" labelPosition='left' content="Details" 
                 callback={() => navigateToHackathonView(id, window.location.pathname)} />

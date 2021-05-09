@@ -1,36 +1,35 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react/cjs/react.development';
 import axios from 'axios';
-import {  Header, Item, Segment } from 'semantic-ui-react';
+import { Header, Item, Segment } from 'semantic-ui-react';
 import { Container } from 'reactstrap';
 import SearchItem from './SearchItem';
 import history from '../../history';
 import { formatDateYear } from '../../utils/dateFormats'
 import NoItems from '../Icon';
+import { Redirect } from 'react-router';
+import InnerLoader from '../load/InnerLoader';
 
 function SearchPage(props) {
     const { searchText } = props.location.state
     const [results, setResults] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const navigateToHackathonView = (id, source) => {
         history.push(`/hackathons/${id}?source=${source}`)
-      }
+    }
 
     useEffect(() => {
         axios.get('/hackathon/search', { params: { name: searchText } })
-        .then(response => {
-            console.log(response.data)
-            setResults(response.data)
-        })
-        .catch(err => console.log(err))
+            .then(response => {
+                console.log(response.data)
+                setResults(response.data)
+                setLoading(false)
+            })
+            .catch(err => console.log(err))
     }, [searchText])
-    console.log(searchText)
-    // if (!searchText || !results.length) {
-    //     return (
-    //     <NoItems />
-    //     )
-    // }
-    console.log(results)
+
+
     return (
         <Container className="my-5">
             <Header as="h1">
@@ -38,24 +37,22 @@ function SearchPage(props) {
             </Header>
             <Segment>
                 <Item.Group>
-
-
-{   !results.length ? (
-
-<NoItems />
-)
-
-           : (<>{results.map(hackathon => (
-              <SearchItem 
-              navigateToHackathonView={navigateToHackathonView} 
-              formatDate={formatDateYear} 
-              imgSrc={hackathon.image} 
-              item={hackathon}  />
-            ))}</>)
-            }
+                    {!results.length && !loading ? (
+                        <NoItems />
+                    ) : loading ? (
+                        <InnerLoader />
+                    )
+                        : (<>{results.map(hackathon => (
+                            <SearchItem
+                                navigateToHackathonView={navigateToHackathonView}
+                                formatDate={formatDateYear}
+                                imgSrc={hackathon.image}
+                                item={hackathon} />
+                        ))}</>)
+                    }
                 </Item.Group>
             </Segment>
-           
+
         </Container>
     );
 }

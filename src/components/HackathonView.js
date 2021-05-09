@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Row, Col } from 'reactstrap';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Icon, Statistic } from 'semantic-ui-react';
 import InnerLoader from './load/InnerLoader';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
@@ -42,8 +42,7 @@ function HackathonView(props) {
     
     useEffect(() =>  window.scrollTo(0, 0), [successMessage, errorMessage])
     
-    useEffect(() => {
-        console.log('comnponent mounted')
+    const getHackathon = () => {
         axios.get(`/hackathon/${id}`)
         .then(res => {
             setHackathon(res.data)
@@ -52,6 +51,10 @@ function HackathonView(props) {
             }
         })
         .catch(err => console.log('GET hacakthon error', err))
+    }
+
+    useEffect(() => {
+        getHackathon()
     }, [user, id])
 
     const formattedStart = formatDate(hackathon.start_date)
@@ -67,6 +70,7 @@ function HackathonView(props) {
         axios.post('/user/register', reqBody)
         .then(res => {
             setSuccessMessage("Congratulations! You're registered.")
+            hackathon.participants += 1
             setAssociated(true)
             setErrorMessage("")
         })
@@ -117,36 +121,47 @@ function HackathonView(props) {
                           <>
                          
                           <Header as="h1">{hackathon.name}</Header>
-                           <div className="text-center d-flex justify-content-between mb-4 w-50">
-                               
-                               <div xs="2">
-                               <div className="date-box">
-                                  <p className="month">{formattedStart[0]}</p>
-                                  <p className="day">{formattedStart[1]}</p>
-                               </div>
-                               </div>
+                           <Row className="mb-5">
+                               <Col>
+                               <Statistic.Group size="small">
+                               <Statistic>
+                                    <Statistic.Label>{formattedStart[0]}</Statistic.Label>
+                                    <Statistic.Value>
+                                        {formattedStart[1]}
+                                    </Statistic.Value>
+                                </Statistic>
                                {!singleDay && (
                                 <>
-                                    <div  className="d-flex align-items-center">-</div>
-                                    <div xs="2">
-                                    <div className="date-box">
-                                        <p className="month">{formattedEnd[0]}</p>
-                                        <p className="day">{formattedEnd[1]}</p>
-                                    </div>
-                                    </div>
+                                     <Statistic>
+                                    <Statistic.Label>{formattedEnd[0]}</Statistic.Label>
+                                    <Statistic.Value>
+                                       {formattedEnd[1]}
+                                    </Statistic.Value>
+                                </Statistic>
                                </>
                                    )}
-                                  
-                           </div>
-                           {(!isHackathonOrganizer && !associated && user.loggedIn) && (
+                                </Statistic.Group>
+                                </Col>
+                           
+                        
+                                <Col className="text-center">
+                                <Statistic size="small">
+                                    <Statistic.Label>Participants</Statistic.Label>
+                                    <Statistic.Value>{hackathon.participants}</Statistic.Value>
+                                </Statistic>
+                                  </Col>
+                            </Row>
                            <Row>
+                           {(!isHackathonOrganizer && !associated && user.loggedIn) && (
                                <Col xs="12" sm="6" lg="4" >
                                 <Modal header={`Join ${hackathon.name}`}
                                  buttonText="Join"
                                  handleConfirmProps={() => joinHackathon() } />
                                </Col>
-                           </Row>
-                           )}
+                             
+                             )}
+                          
+                             </Row>
                            </>
                            )
 

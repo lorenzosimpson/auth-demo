@@ -169,7 +169,6 @@ function SearchExampleStandard(props) {
 
         <Segment>
           <Item.Group>
-           
           <div className="dropdown-buttons">
            <Dropdown 
            text='Sort'
@@ -214,7 +213,7 @@ function SearchExampleStandard(props) {
                   )
                   }
                 </>
-              )
+              ) 
             }
           </Item.Group>
         </Segment>
