@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Card, CardBody, Row, Container} from 'reactstrap';
-import { Form, TextArea, Button } from 'semantic-ui-react';
+import { Form, TextArea, Button, Header } from 'semantic-ui-react';
 import { DateTimePicker } from 'react-rainbow-components';
 import history from '../history';
 import { UserContext } from '../contexts/UserContext';
@@ -40,11 +40,11 @@ function CreateHackathonForm(props) {
 
 
     return (
-        <Container className="mb-4">
+        <Container className="mb-4 mt-5">
+            <Header as="h1">New Hackathon</Header>
             <Row className="justify-content-center">
-                <Card className="col-11 col-lg-5 col-xl-4 col-md-8">
+                <Card className="w-100">
                     <CardBody>
-
                        <Form onChange={handleChange} onSubmit={handleSubmit}  >
                               <Form.Field>
                                 <label for="name">Name</label>
@@ -67,13 +67,16 @@ function CreateHackathonForm(props) {
                             </Form.Field>
 
                            <Form.Field>
-                                <label for="startDate">Start Date</label>
+                            <label>Start Date</label>
                                 <DateTimePicker
                                     id="startDate"
                                     name="startDate"
                                     onChange={changeStartDate}
                                     value={startDate}
                                     minDate={new Date()}
+                                    label="Start Date"
+                                    labelAlignment="left"
+                                    hideLabel
                                 />
                 
                             </Form.Field>
@@ -85,7 +88,10 @@ function CreateHackathonForm(props) {
                                     onChange={changeEndDate}
                                     value={endDate}
                                     minDate={new Date()}
-                                    placeholder="Choose End Date and Time"  
+                                    placeholder="Choose End Date and Time"
+                                    label="End Date"
+                                    labelAlignment="left"
+                                    hideLabel
                                 />
                             </Form.Field>
 

@@ -185,6 +185,7 @@ function SearchExampleStandard(props) {
             </Dropdown.Menu>
           </Dropdown>
 
+          {window.location.pathname !== '/explore' && (
           <Dropdown 
             text='Filter'
             icon='filter'
@@ -198,11 +199,12 @@ function SearchExampleStandard(props) {
             <Dropdown.Item  onClick={() => filterFn('all')} text='All' />
             <Divider />
               <Dropdown.Item  onClick={() => filterFn('present')} text='Active' />
-              {window.location.pathname !== '/explore' && <Dropdown.Item onClick={() => filterFn('past')} text='Past' />}
+              <Dropdown.Item onClick={() => filterFn('past')} text='Past' />
               <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' />
               
             </Dropdown.Menu>
           </Dropdown>
+              )}
           </div>
          
             {
