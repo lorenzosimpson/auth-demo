@@ -198,7 +198,7 @@ function SearchExampleStandard(props) {
             <Dropdown.Item  onClick={() => filterFn('all')} text='All' />
             <Divider />
               <Dropdown.Item  onClick={() => filterFn('present')} text='Active' />
-              <Dropdown.Item onClick={() => filterFn('past')} text='Past' />
+              {window.location.pathname !== '/explore' && <Dropdown.Item onClick={() => filterFn('past')} text='Past' />}
               <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' />
               
             </Dropdown.Menu>

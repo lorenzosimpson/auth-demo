@@ -11,6 +11,7 @@ const verifySession = require('./util/verifySession');
 // Route requires
 const user = require('./routes/user');
 const hackathon = require('./routes/hackathon');
+const project = require('./routes/project')
 const path = require('path');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -53,6 +54,7 @@ app.use(passport.session()) // calls the deserializeUser
 // Routes
 app.use('/user', user)
 app.use('/hackathon', hackathon)
+app.use('/project', project)
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, 'build')));
