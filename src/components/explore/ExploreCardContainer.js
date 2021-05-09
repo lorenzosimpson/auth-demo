@@ -13,6 +13,8 @@ function ExploreCardContainer(props) {
             return R;
           }
     
+    if (!cards.length) return <div></div>
+    
     return (
         <div className="mt-5">
             <Header as="h2" content="Featured" />

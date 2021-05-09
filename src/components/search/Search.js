@@ -176,6 +176,7 @@ function SearchExampleStandard(props) {
            icon="sort"
            floating
            button
+           aria-label="Sort"
            labeled
            >
             <Dropdown.Menu>
@@ -190,6 +191,7 @@ function SearchExampleStandard(props) {
             floating
             labeled
             button
+            aria-label="Filter"
             className='icon'
            >
             <Dropdown.Menu>

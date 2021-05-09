@@ -16,7 +16,7 @@ const ExploreCard = (props) => {
       
     return (
         <Card className="explore-card">
-            <Image src={image} wrapped />
+            <Image src={image} wrapped alt="" />
             <Card.Content>
                 <Card.Header>{header}</Card.Header>
                 <Card.Meta>
