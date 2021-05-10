@@ -185,6 +185,7 @@ function SearchExampleStandard(props) {
             </Dropdown.Menu>
           </Dropdown>
 
+          {window.location.pathname !== '/explore' && (
           <Dropdown 
             text='Filter'
             icon='filter'
@@ -203,6 +204,7 @@ function SearchExampleStandard(props) {
               
             </Dropdown.Menu>
           </Dropdown>
+              )}
           </div>
          
             {
