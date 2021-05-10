@@ -4,9 +4,9 @@ const Project = require('../database/models/project');
 const User = require('../database/models/user')
 
 
-router.post('/join/:project_id', (req, res) => {
+router.post('/join', (req, res) => {
     const user_id = req.user._id;
-    const { project_id } = req.params;
+    const { project_id } = req.body;
 
     User.findById(user_id, (err, user) => {
         if (err) {
@@ -20,7 +20,10 @@ router.post('/join/:project_id', (req, res) => {
                     project.save((err, saved) => {
                         if (err) res.status(500).json({error: err })
                         else {
-                            res.status(200).json(saved)
+                            res.status(200).json({
+                                message: `Registered ${req.user.username} for project ${project.name}`,
+                                project: project
+                            })
                         }
                     })
                 }
