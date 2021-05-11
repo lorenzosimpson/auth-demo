@@ -73,10 +73,8 @@ body {
   padding: 0;
 }
 
-.btn.btn-primary {
-  min-width: 120px;
-  background-color: $blue !important;
-  border: 1px solid;
+.navbar-prompt {
+  max-height: 36px;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -119,7 +117,6 @@ body {
   border-bottom: 3px solid $salmon;
 }
 
-
 .logo {
   width: 90px;
 }
@@ -129,7 +126,7 @@ body {
 }
 
 .ui.search .prompt {
-  border-radius: 0.5em;
+  border-radius: .28571429rem;
 }
 
 .navbar .ui.search .prompt {
@@ -181,6 +178,7 @@ input, textarea {
 // puts search icon on left of input
 .ui.icon.input  input {
   padding-left: 2.67142857em !important;
+  padding-right: 0.25em;
 }
 
 .ui.icon.input i.icon {
@@ -214,6 +212,10 @@ input, textarea {
 
   .dropdown-buttons {
     text-align: left;
+  }
+
+  .navbar-prompt {
+    width: 60%;
   }
 
 }
