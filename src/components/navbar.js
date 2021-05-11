@@ -12,6 +12,8 @@ import {
     DropdownMenu,
     DropdownItem,
     NavLink,
+    Row,
+    Col
 } from 'reactstrap';
 import { Button } from 'semantic-ui-react';
 import { NavLink as RouterNavLink } from 'react-router-dom';
@@ -80,21 +82,10 @@ const Navigation = (props) => {
                             alt="Hackathon Portal logo"
                             className="logo"></img>
                 </NavbarBrand>
-                <Nav className="mr-auto d-none d-md-block">
-                    <NavItem>
-                    <form onSubmit={handleSearch} onChange={handleChange}>
-                        <div className="ui search">
-                            <div className="ui icon input">
-                                <input className="prompt" name="searchText" value={searchText} placeholder="Search Hackathons"></input>
-                                <i className="search icon"></i>
-                            </div>
-                        </div>
-                    </form>
-                    </NavItem>
-                </Nav>
+               
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
-                    <Nav className="ml-auto mr-3" navbar>
+                    <Nav className="mr-auto" navbar>
                         <NavItem className="mr-3">
                             <NavLink tag={RouterNavLink}
                                 exact
@@ -128,8 +119,20 @@ const Navigation = (props) => {
                                 </NavItem>
                         </>
                         )}
-
                     </Nav>
+                    <Nav className="ml-auto mr-4 d-none d-md-block">
+                    <NavItem>
+                    <form onSubmit={handleSearch} onChange={handleChange}>
+                        <div className="ui search">
+                            <div className="ui icon input">
+                                <input className="navbar-prompt" name="searchText" value={searchText} placeholder="Search Hackathons"></input>
+                                <i className="search icon"></i>
+                            <Button className="ml-2" color="teal" icon="search" content="Search"></Button>
+                            </div>
+                        </div>
+                    </form>
+                    </NavItem>
+                </Nav>
                     <Nav className="d-none d-md-flex align-items-center" navbar>
                         {loggedIn && (
                             <>
@@ -174,20 +177,25 @@ const Navigation = (props) => {
                             </NavItem>
                         )}
                     </Nav>
-                   
+                 
+                  
                     <form className="d-md-none" onSubmit={handleSearch} onChange={handleChange}>
                         <div className="ui search">
                             <div className="ui icon input w-100">
-                                <input className="prompt" name="searchText" value={searchText} placeholder="Search Hackathons"></input>
+                                <input className="navbar-prompt mr-1" name="searchText" value={searchText} placeholder="Search"></input>
                                 <i className="search icon"></i>
+                        <Button className="" color="teal"  content="Search"></Button>
                             </div>
                         </div>
                     </form>
+                   
                   
                     {!loggedIn && (
               <Nav className="d-md-none" navbar>
+              
                 <NavItem>
                   <Button
+                    className="w-100"
                     primary
                     block
                     onClick={() => {
