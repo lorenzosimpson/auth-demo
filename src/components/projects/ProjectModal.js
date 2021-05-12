@@ -1,10 +1,24 @@
+import axios from 'axios'
 import React from 'react'
 import { Button, Header, Image, Modal } from 'semantic-ui-react'
 
 function ProjectModal(props) {
   const [open, setOpen] = React.useState(false)
-  const { image, description, name } = props
-  console.log(props)
+  const { image, description, name, project_id } = props
+
+  const handleJoin = () => {
+      axios.post('/project/join', {
+          project_id: project_id
+      })
+      .then(response => {
+          console.log(response)
+          console.log('successful project registration')
+          setOpen(false)
+      })
+      .catch(err => {
+          console.log(err)
+      })
+  }
 
   return (
     <Modal
@@ -30,7 +44,7 @@ function ProjectModal(props) {
           content="Join"
           labelPosition='right'
           icon='checkmark'
-          onClick={() => setOpen(false)}
+          onClick={() => handleJoin()}
           positive
         />
       </Modal.Actions>

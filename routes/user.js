@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
 router.post(
     '/login',
     function (req, res, next) {
-        console.log(req.body.username)
+        console.log(req.body)
         req.body.username = req.body.username.toLowerCase()
         next()
     },

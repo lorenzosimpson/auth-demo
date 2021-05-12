@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { Grid, Header, Segment } from 'semantic-ui-react';
+import InnerLoader from '../load/InnerLoader';
 import ProjectCard from './ProjectCard';
 
 const divideArrayIntoRows = (columns, arr) => {
@@ -14,17 +15,23 @@ const divideArrayIntoRows = (columns, arr) => {
 function ProjectView(props) {
     const [projects, setProjects] = useState([])
     const hackathon_id = props.hackathonId;
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
+        setLoading(true)
         axios.get(`/project/${hackathon_id}`)
         .then(response => {
-            console.log(response.data)
             setProjects(response.data)
+            setLoading(false)
         })
         .catch(err => console.log(err))
     }, [])
 
     const dividedRows = divideArrayIntoRows(3, projects)
-    console.log(dividedRows)
+
+    if (loading) return <InnerLoader />
+
+    if (!loading && !projects.length) return null
+    
     return (
         <div className="mb-5">
             <Header as="h2">
@@ -41,7 +48,8 @@ function ProjectView(props) {
                                 header={project.name}
                                 description={project.description}
                                 image={project.image}
-                                extra="24"
+                                extra={project.participants.length}
+                                project_id={project._id}
                                 />
                             </Grid.Column>
                         ))}

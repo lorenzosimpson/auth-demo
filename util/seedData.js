@@ -66,16 +66,20 @@ async function seedDB() {
                 await callback(danglesId, images.slice(0, 5))
             }
         })
-        User.findOneAndUpdate({ username: database === 'development' ? 'j-cool' : 'jcool'}, update, async(err, result) => {
+        User.findOneAndUpdate({ username: 'j-cool' }, update, async(err, result) => {
             if (err) console.log(err)
             else {
                 jCoolId = result._id
                 await callback(jCoolId, images.slice(5))
-                mongoose.connection.close();
-                console.log('--Connection closed--')
-                console.log("Database seeded! :)");
+                console.log(jCoolId)
             }
         })
+
+        setTimeout(() => {
+            mongoose.connection.close();
+            console.log('--Connection closed--')
+            console.log("Database seeded! :)");
+        }, 15000);
     } catch (err) {
         console.log(err.stack);
     }
@@ -83,14 +87,13 @@ async function seedDB() {
 
 const callback = async (userId, arr) => {
     const data = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
         const three = i % 3 === 0;
         const five = i % 5 === 0;
 
         function randomIntFromInterval(min, max) { // min and max included 
             return Math.floor(Math.random() * (max - min + 1) + min);
           }
-
         const name = faker.company.companyName() + " " + "Hackathon";
         const description = faker.lorem.paragraphs();
         const startDate = three ? faker.date.soon() : five ? faker.date.past() : faker.date.future();
