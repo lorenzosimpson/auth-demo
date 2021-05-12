@@ -4,11 +4,14 @@ const Project = require('../database/models/project');
 const User = require('../database/models/user')
 const checkProjectApprovalAuthorization = require('../util/checkProjectApprovalAuthorization');
 
-router.post('/join', (req, res) => {
+router.post('/join', async (req, res) => {
     const user_id = req.user._id;
     const { project_id } = req.body;
-
-    User.findOneAndUpdate(user_id, (err, user) => {
+    const project = await Project.findById(project_id);
+    const hackathon_id = project.hackathon_id
+    const user = await User.findById(user_id);
+    const changes = { $set: { hackathons: [...user.hackathons, hackathon_id] } }
+    User.updateOne({_id: user_id}, changes, (err, user) => {
         if (err) {
             console.log('error signing up for project', err)
             res.status(500).json({ error: 'Could not find user for project'})
@@ -17,7 +20,6 @@ router.post('/join', (req, res) => {
                 if (err) res.status(400).json({ error: 'Project not found'})
                 else {
                     project.signUpForProject(user_id)
-                    user.signUpForProject(project.hackathon_id)
                     project.save((err, saved) => {
                         if (err) res.status(500).json({error: err })
                         else {

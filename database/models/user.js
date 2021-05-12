@@ -23,10 +23,9 @@ userSchema.methods = {
 	signUpForProject: function(hackathon_id) {
 		if (!this.hackathons.includes(hackathon_id)) {
 			this.hackathons.push(hackathon_id)
-			console.log(this.password)
 			this.save()
 		}
-	}
+	},
 }
 
 // Define hooks for pre-saving
