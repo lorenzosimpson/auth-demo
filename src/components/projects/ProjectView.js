@@ -20,8 +20,7 @@ function ProjectView(props) {
     const [loading, setLoading] = useState(false)
     const { user }= useContext(UserContext);
     const { alreadyParticipatingInAProject } = props;
-    console.log(alreadyParticipatingInAProject) 
-    
+
     useEffect(() => {
         setLoading(true)
         axios.get(`/project/${hackathon_id}`)

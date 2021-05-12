@@ -1,12 +1,23 @@
 import React from 'react'
-import { Card, Icon } from 'semantic-ui-react'
+import { Card, Icon, Label, Header, Segment} from 'semantic-ui-react'
 import ProjectModal from './ProjectModal'
 
 const ProjectCard = (props) => {
-    const { alreadyParticipatingInAProject } = props;
+    const { alreadyParticipatingInAProject, userHasJoined } = props;
 return (
     <Card className="project-card">
-        <Card.Content header={props.header} />
+        { userHasJoined && (
+            <Card.Content>
+            <Label color='green' ribbon >
+          Participating
+        </Label>
+        </Card.Content>
+        )}
+        
+        <Card.Content>
+        <Header>{props.header}</Header>
+        </Card.Content>
+        
         <Card.Content description={props.description} />
         <Card.Content extra className="d-flex justify-content-between">
             <div className="pt-2">
@@ -20,6 +31,7 @@ return (
                 alreadyParticipatingInAProject={alreadyParticipatingInAProject}
                 />
         </Card.Content>
+        
     </Card>
 )
 }

@@ -67,11 +67,13 @@ async function seedDB() {
             else {
                 jCoolId = result._id
                 await callback(jCoolId, images.slice(5))
-                mongoose.connection.close();
-                console.log('--Connection closed--')
-                console.log("Database seeded! :)");
             }
         })
+        setTimeout(() => {
+            mongoose.connection.close();
+                console.log('--Connection closed--')
+                console.log("Database seeded! :)");
+        }, 15000);
     } catch (err) {
         console.log(err.stack);
     }
@@ -79,7 +81,7 @@ async function seedDB() {
 
 const callback = async (userId, arr) => {
     const data = [];
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 100; i++) {
         const three = i % 3 === 0;
         const five = i % 5 === 0;
 

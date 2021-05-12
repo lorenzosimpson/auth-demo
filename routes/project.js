@@ -73,12 +73,11 @@ router.post('/', async (req, res) => {
                    }
                    try {
                        await Hackathon.findOneAndUpdate({ _id: hackathon_id}, updateHackathon)
-                       const signedUp = await created.signUpForProject(user_id);
+                       await created.signUpForProject(user_id);
                    } catch (err) {
                        console.log(err)
                        const { error } = err
                        return res.status(500).json({ error:  error  })
-                       
                    }
                     res.status(201).json(created)
                 }
