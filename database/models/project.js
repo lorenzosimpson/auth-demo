@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./user');
 const Schema = mongoose.Schema;
 mongoose.Promise = Promise;
 
@@ -7,8 +8,7 @@ const projectSchema = new Schema({
     hackathon_id: { type: String, unique: false, required: true },
     description: { type: String, required: true },
     image: { type: String, required: false },
-    participants: [String],
-    is_approved: { type: Boolean, default: false }
+    participants: [String]
 })
 
 projectSchema.methods = {
