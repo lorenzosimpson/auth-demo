@@ -9,8 +9,9 @@ router.post('/join', async (req, res) => {
     const { project_id } = req.body;
     const project = await Project.findById(project_id);
     const hackathon_id = project.hackathon_id
-    const user = await User.findById(user_id);
-    const changes = { $set: { hackathons: [...user.hackathons, hackathon_id] } }
+    const changes = { 
+        $addToSet: { hackathons: hackathon_id }, 
+        has_associated_project: true } 
     User.updateOne({_id: user_id}, changes, (err, user) => {
         if (err) {
             console.log('error signing up for project', err)
@@ -38,8 +39,11 @@ router.post('/join', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const user_id = req.user._id
+    const changes = { 
+        $addToSet: { hackathons: req.body.hackathon_id }, 
+        has_associated_project: true } 
 
-    User.findById(user_id, async (err, user) => {
+    User.findOneAndUpdate({ _id: user_id }, changes, async (err, user) => {
         if (err) {
             console.log('error creating project', err)
             res.status(500).json({ error: 'Could not find user for project'})
@@ -53,7 +57,7 @@ router.post('/', async (req, res) => {
                 newProject.is_approved = true;
             }
             newProject.signUpForProject(user_id)
-            user.signUpForProject(req.body.hackathon_id)
+            
             newProject.save((err, created) => {
                 if (err) res.status(500).json({error: err })
                 else {

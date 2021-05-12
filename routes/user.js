@@ -38,6 +38,7 @@ router.post('/', (req, res) => {
                         first_name: savedUser.first_name,
                         last_name: savedUser.last_name,
                         hackathons: savedUser.hackathons,
+                        has_associated_project: req.user.has_associated_project,
                     })
                 })
             })
@@ -59,7 +60,8 @@ router.post(
                 id: req.user._id,
                 first_name: req.user.first_name,
                 last_name: req.user.last_name,
-                hackathons: req.user.hackathons
+                hackathons: req.user.hackathons,
+                has_associated_project: req.user.has_associated_project,
             };
             console.log("\n User info:", userInfo)
             res.send(userInfo);
@@ -82,7 +84,8 @@ router.get('/', (req, res, next) => {
                     hackathons: [...user.hackathons],
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    hackathons: user.hackathons
+                    hackathons: user.hackathons,
+                    has_associated_project: user.has_associated_project
                 },
             })
         })

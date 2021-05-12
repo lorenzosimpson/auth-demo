@@ -7,13 +7,15 @@ const ProjectCard = (props) => (
         <Card.Content header={props.header} />
         <Card.Content description={props.description} />
         <Card.Content extra className="d-flex justify-content-between">
-            <div class="pt-2">
+            <div className="pt-2">
                 <Icon name='user' />{props.extra}
             </div>
             <ProjectModal name={props.header}
                 description={props.description}
                 image={props.image}
-                project_id={props.project_id} />
+                project_id={props.project_id} 
+                userHasJoined={props.userHasJoined}
+                />
         </Card.Content>
     </Card>
 )

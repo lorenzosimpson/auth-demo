@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React from 'react';
+import { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { Grid, Header, Segment } from 'semantic-ui-react';
+import { UserContext } from '../../contexts/UserContext';
 import InnerLoader from '../load/InnerLoader';
 import ProjectCard from './ProjectCard';
 
@@ -16,6 +18,7 @@ function ProjectView(props) {
     const [projects, setProjects] = useState([])
     const hackathon_id = props.hackathonId;
     const [loading, setLoading] = useState(false)
+    const { user }= useContext(UserContext);
     useEffect(() => {
         setLoading(true)
         axios.get(`/project/${hackathon_id}`)
@@ -41,7 +44,9 @@ function ProjectView(props) {
                 <Grid columns="three" stackable>
                     {dividedRows.map(row => (
                         <Grid.Row>
-                        {row.map(project => (
+                        {row.map(project => {
+                            const userHasJoined = project.participants.includes(user.id)
+                            return (
                             <Grid.Column>
                               <ProjectCard
                                 header={project.name}
@@ -49,14 +54,15 @@ function ProjectView(props) {
                                 image={project.image}
                                 extra={project.participants.length}
                                 project_id={project._id}
+                                userHasJoined={userHasJoined}
                                 />
                             </Grid.Column>
-                        ))}
+                            )
+                        })}
                         </Grid.Row>
                     ))}
                 </Grid>
             </Segment>
-
         </div>
     );
 }

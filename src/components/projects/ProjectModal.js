@@ -1,10 +1,13 @@
 import axios from 'axios'
 import React from 'react'
+import { useContext } from 'react'
 import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { UserContext } from '../../contexts/UserContext'
 
 function ProjectModal(props) {
   const [open, setOpen] = React.useState(false)
-  const { image, description, name, project_id } = props
+  const { image, description, name, project_id, userHasJoined } = props
+  const { user } = useContext(UserContext)
 
   const handleJoin = () => {
       axios.post('/project/join', {
@@ -37,16 +40,22 @@ function ProjectModal(props) {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button  onClick={() => setOpen(false)}>
-          No Thanks
-        </Button>
-        <Button
-          content="Join"
-          labelPosition='right'
-          icon='checkmark'
-          onClick={() => handleJoin()}
-          positive
-        />
+        { (!userHasJoined && !user.has_associated_project) ? (
+            <>
+            <Button  onClick={() => setOpen(false)}>
+            No Thanks
+            </Button>
+            <Button
+            content="Join"
+            labelPosition='right'
+            icon='checkmark'
+            onClick={() => handleJoin()}
+            positive />
+        </> 
+        ) : (
+            <Button onClick={() => setOpen(false)}>Close</Button>
+        )
+        }
       </Modal.Actions>
     </Modal>
   )

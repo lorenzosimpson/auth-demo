@@ -9,7 +9,8 @@ const userSchema = new Schema({
 	password: { type: String, unique: false, required: false },
 	first_name: { type: String, unique: false, required: true },
 	last_name: { type: String, unique: false, required: true },
-	hackathons:	[String]
+	hackathons:	[String],
+	has_associated_project: { type: Boolean, default: false }
 })
 
 // Define schema methods
@@ -19,12 +20,6 @@ userSchema.methods = {
 	},
 	hashPassword: plainTextPassword => {
 		return bcrypt.hashSync(plainTextPassword, 10)
-	},
-	signUpForProject: function(hackathon_id) {
-		if (!this.hackathons.includes(hackathon_id)) {
-			this.hackathons.push(hackathon_id)
-			this.save()
-		}
 	},
 }
 
