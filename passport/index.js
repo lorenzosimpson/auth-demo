@@ -19,7 +19,7 @@ passport.deserializeUser((id, done) => {
 		'username',
 		(err, user) => {
 			console.log('*** Deserialize user, user:')
-			console.log(user.username)
+			console.log(user)
 			console.log('--------------')
 			done(null, user)
 		}

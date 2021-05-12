@@ -46,7 +46,9 @@ async function seedDB() {
         await mongoose.connect(uri, config)
         console.log("Connected correctly to server");
         const collection = mongoose.connection.db.collection('hackathons');
+        const projects = mongoose.connection.db.collection('projects')
         collection.drop();
+        projects.drop();
 
         var danglesId = '';
         var jCoolId = '';
@@ -77,7 +79,7 @@ async function seedDB() {
 
 const callback = async (userId, arr) => {
     const data = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 30; i++) {
         const three = i % 3 === 0;
         const five = i % 5 === 0;
 
