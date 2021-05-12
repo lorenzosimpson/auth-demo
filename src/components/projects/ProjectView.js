@@ -19,6 +19,9 @@ function ProjectView(props) {
     const hackathon_id = props.hackathonId;
     const [loading, setLoading] = useState(false)
     const { user }= useContext(UserContext);
+    const { alreadyParticipatingInAProject } = props;
+    console.log(alreadyParticipatingInAProject) 
+    
     useEffect(() => {
         setLoading(true)
         axios.get(`/project/${hackathon_id}`)
@@ -55,6 +58,7 @@ function ProjectView(props) {
                                 extra={project.participants.length}
                                 project_id={project._id}
                                 userHasJoined={userHasJoined}
+                                alreadyParticipatingInAProject={alreadyParticipatingInAProject}
                                 />
                             </Grid.Column>
                             )

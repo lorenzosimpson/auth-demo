@@ -13,7 +13,14 @@ const projectSchema = new Schema({
 
 projectSchema.methods = {
     signUpForProject: function(user_id) {
-        this.participants.push(user_id)
+        return new Promise((resolve, reject) => {
+            if (!this.participants.includes(user_id)) {
+                this.participants.push(user_id)
+                resolve({ message: 'Signed up for project'})
+            } else {
+                reject({ error: 'User is already participating in this project' })
+            }
+        })
     }
 }
 

@@ -2,7 +2,9 @@ import React from 'react'
 import { Card, Icon } from 'semantic-ui-react'
 import ProjectModal from './ProjectModal'
 
-const ProjectCard = (props) => (
+const ProjectCard = (props) => {
+    const { alreadyParticipatingInAProject } = props;
+return (
     <Card className="project-card">
         <Card.Content header={props.header} />
         <Card.Content description={props.description} />
@@ -15,9 +17,11 @@ const ProjectCard = (props) => (
                 image={props.image}
                 project_id={props.project_id} 
                 userHasJoined={props.userHasJoined}
+                alreadyParticipatingInAProject={alreadyParticipatingInAProject}
                 />
         </Card.Content>
     </Card>
 )
+}
 
 export default ProjectCard

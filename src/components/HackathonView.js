@@ -40,7 +40,8 @@ function HackathonView(props) {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const isHackathonOrganizer = user.id === hackathon.organizer_id;
-    const imgUrl = hackathon.image
+    const imgUrl = hackathon.image;
+    const [alreadyParticipatingInAProject, setAlreadyParticipatingInAProject] = useState(false);
 
     useEffect(() => window.scrollTo(0, 0), [successMessage, errorMessage])
 
@@ -48,8 +49,10 @@ function HackathonView(props) {
         axios.get(`/hackathon/${id}`)
             .then(res => {
                 setHackathon(res.data)
+                console.log(res.data)
                 if (user && user.hasOwnProperty('hackathons')) {
                     setAssociated(user.hackathons.includes(id))
+                    setAlreadyParticipatingInAProject(res.data.project_participants.includes(user.id))
                 }
             })
             .catch(err => console.log('GET hacakthon error', err))
@@ -121,7 +124,6 @@ function HackathonView(props) {
                                 (<p>nothing </p>) :
                                 (
                                     <>
-
                                         <Header as="h1">{hackathon.name}</Header>
                                         <Row className="mb-5">
                                             <Col>
@@ -174,7 +176,9 @@ function HackathonView(props) {
                         </Col>
                     </Row>
                 </div>
-                <ProjectView hackathonId={id} />
+                <ProjectView 
+                    hackathonId={id} 
+                    alreadyParticipatingInAProject={alreadyParticipatingInAProject} />
             </div>
         </div>
     );

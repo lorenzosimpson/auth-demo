@@ -10,19 +10,28 @@ router.post('/join', async (req, res) => {
     const project = await Project.findById(project_id);
     const hackathon_id = project.hackathon_id
     const changes = { 
-        $addToSet: { hackathons: hackathon_id }, 
-        has_associated_project: true } 
+        $addToSet: { hackathons: hackathon_id }} 
     User.updateOne({_id: user_id}, changes, (err, user) => {
         if (err) {
             console.log('error signing up for project', err)
             res.status(500).json({ error: 'Could not find user for project'})
         } else {
-            Project.findById(project_id, (err, project) => {
+            Project.findById(project_id, async (err, project) => {
                 if (err) res.status(400).json({ error: 'Project not found'})
                 else {
-                    project.signUpForProject(user_id)
+                    const updateHackathon = {
+                         $addToSet: { project_participants: user_id } 
+                    }
+                    try {
+                        await Hackathon.findOneAndUpdate({ _id: hackathon_id}, updateHackathon)
+                        await project.signUpForProject(user_id);
+                    } catch (err) {
+                        const { error } = err
+                        return res.status(500).json({ error:  error  })
+                        
+                    }
                     project.save((err, saved) => {
-                        if (err) res.status(500).json({error: err })
+                        if (err) return res.status(500).json({error: err })
                         else {
                             res.status(200).json({
                                 message: `Registered ${req.user.username} for project ${project.name}`,
@@ -39,9 +48,9 @@ router.post('/join', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const user_id = req.user._id
+    const { hackathon_id } = req.body;
     const changes = { 
-        $addToSet: { hackathons: req.body.hackathon_id }, 
-        has_associated_project: true } 
+        $addToSet: { hackathons: req.body.hackathon_id }} 
 
     User.findOneAndUpdate({ _id: user_id }, changes, async (err, user) => {
         if (err) {
@@ -53,14 +62,24 @@ router.post('/', async (req, res) => {
             // bypass approval if the organizer creates the project
             const check = await checkProjectApprovalAuthorization(req.body.hackathon_id, user_id)
             if (check) {
-                console.log('check is true')
                 newProject.is_approved = true;
             }
-            newProject.signUpForProject(user_id)
             
-            newProject.save((err, created) => {
+            newProject.save(async(err, created) => {
                 if (err) res.status(500).json({error: err })
                 else {
+                    const updateHackathon = {
+                        $addToSet: { project_participants: user_id } 
+                   }
+                   try {
+                       await Hackathon.findOneAndUpdate({ _id: hackathon_id}, updateHackathon)
+                       const signedUp = await created.signUpForProject(user_id);
+                   } catch (err) {
+                       console.log(err)
+                       const { error } = err
+                       return res.status(500).json({ error:  error  })
+                       
+                   }
                     res.status(201).json(created)
                 }
             })

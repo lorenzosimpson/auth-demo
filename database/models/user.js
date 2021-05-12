@@ -10,7 +10,6 @@ const userSchema = new Schema({
 	first_name: { type: String, unique: false, required: true },
 	last_name: { type: String, unique: false, required: true },
 	hackathons:	[String],
-	has_associated_project: { type: Boolean, default: false }
 })
 
 // Define schema methods

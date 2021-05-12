@@ -10,7 +10,8 @@ const hackathonSchema = new Schema({
     organizer_id: { type: String, unique: false, required: true },
     description: { type: String, required: true },
     image: { type: String, required: false },
-    participants: { type: Number, required: false }
+    participants: { type: Number, required: false },
+    project_participants: [String] // array of user ids that are associated with a project
 })
 
 hackathonSchema.pre('save', function(next) {
