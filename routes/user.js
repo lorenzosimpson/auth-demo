@@ -7,6 +7,7 @@ const Hackathon = require('../database/models/hackathon')
 
 
 router.post('/', (req, res) => {
+    console.log('user signup');
 
     var { username } = req.body
     username = username.toLowerCase();
@@ -22,9 +23,8 @@ router.post('/', (req, res) => {
         else {
             const newUser = new User({
                 ...req.body,
-                username: req.body.username.toLowerCase(),
+                username: req.body.username.toLowerCase()
             })
-            
             newUser.save((err, savedUser) => {
                 if (err) return res.status(500).json(err)
                 req.login(savedUser, function(error) {
@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
 router.post(
     '/login',
     function (req, res, next) {
-        console.log(req.body)
+        console.log(req.body.username)
         req.body.username = req.body.username.toLowerCase()
         next()
     },
