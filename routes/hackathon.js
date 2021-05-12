@@ -139,6 +139,7 @@ router.get('/:id', (req, res) => {
             console.log(err)
             res.status(500).json(err)
         }
+        if (hackathon === null) return res.status(404).json({ error: 'Hackathon does not exist'})
         res.status(200).json(hackathon)
     })
 })

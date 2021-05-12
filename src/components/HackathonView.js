@@ -8,6 +8,8 @@ import Alert from './alert/Alert';
 import IconButton from './button/IconButton';
 import { Link } from 'react-router-dom';
 import useAuthentication from '../utils/useAuthentication';
+import ProjectView from './projects/ProjectView';
+
 
 const formatDate = date => {
     const months = [
@@ -33,24 +35,24 @@ const formatDate = date => {
 function HackathonView(props) {
     const [hackathon, setHackathon] = useState({});
     const { id } = props.match.params;
-    const [user]  = useAuthentication()
+    const [user] = useAuthentication()
     const [associated, setAssociated] = useState(true);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const isHackathonOrganizer = user.id === hackathon.organizer_id;
     const imgUrl = hackathon.image
-    
-    useEffect(() =>  window.scrollTo(0, 0), [successMessage, errorMessage])
-    
+
+    useEffect(() => window.scrollTo(0, 0), [successMessage, errorMessage])
+
     const getHackathon = () => {
         axios.get(`/hackathon/${id}`)
-        .then(res => {
-            setHackathon(res.data)
-            if (user && user.hasOwnProperty('hackathons')) {
-                setAssociated(user.hackathons.includes(id))
-            }
-        })
-        .catch(err => console.log('GET hacakthon error', err))
+            .then(res => {
+                setHackathon(res.data)
+                if (user && user.hasOwnProperty('hackathons')) {
+                    setAssociated(user.hackathons.includes(id))
+                }
+            })
+            .catch(err => console.log('GET hacakthon error', err))
     }
 
     useEffect(() => {
@@ -59,7 +61,7 @@ function HackathonView(props) {
 
     const formattedStart = formatDate(hackathon.start_date)
     const formattedEnd = formatDate(hackathon.end_date)
-    const singleDay = (formattedStart[0] === formattedEnd[0] && 
+    const singleDay = (formattedStart[0] === formattedEnd[0] &&
         formattedStart[1] === formattedEnd[1])
 
 
@@ -68,16 +70,16 @@ function HackathonView(props) {
             id: hackathon._id
         }
         axios.post('/user/register', reqBody)
-        .then(res => {
-            setSuccessMessage("Congratulations! You're registered.")
-            hackathon.participants += 1
-            setAssociated(true)
-            setErrorMessage("")
-        })
-        .catch(err => {
-            setErrorMessage("Oh no, an error occured, could not register.")
-            setSuccessMessage("")
-        })
+            .then(res => {
+                setSuccessMessage("Congratulations! You're registered.")
+                hackathon.participants += 1
+                setAssociated(true)
+                setErrorMessage("")
+            })
+            .catch(err => {
+                setErrorMessage("Oh no, an error occured, could not register.")
+                setSuccessMessage("")
+            })
     }
 
     if (!hackathon.name || user === undefined) {
@@ -93,16 +95,16 @@ function HackathonView(props) {
     const origins = ['/explore', '/my-hackathons']
     return (
         <div className="hackathon-view">
-           <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
-           <div className="content-overlay">
-               <div className="container my-5 py-4">
-                  {(origin && origins.includes(origin) && user.loggedIn ) && 
-                   (<Link to={origin}>
-                   <IconButton content="Back" icon="left arrow" 
-                   callback={() => null}
-                   labelPosition='left' />
-                   </Link>)}
-                   
+            <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
+            <div className="content-overlay">
+                <div className="container my-5 py-4">
+                    {(origin && origins.includes(origin) && user.loggedIn) &&
+                        (<Link to={origin}>
+                            <IconButton content="Back" icon="left arrow"
+                                callback={() => null}
+                                labelPosition='left' />
+                        </Link>)}
+
                     {successMessage && (
                         <Alert success={true} header={successMessage} />
                     )}
@@ -110,72 +112,70 @@ function HackathonView(props) {
                         <Alert success={false} header={errorMessage} />
                     )
                     }
-                   <Row>
-                       <Col md="7">
-                   <img src={imgUrl} className="banner-img-inner mb-3" alt=""></img>
-                       </Col>
-                       <Col md="5">
-                        { !hackathon ? 
-                         (<p>nothing </p>) :
-                          (
-                          <>
-                         
-                          <Header as="h1">{hackathon.name}</Header>
-                           <Row className="mb-5">
-                               <Col>
-                               <Statistic.Group size="small">
-                               <Statistic>
-                                    <Statistic.Label>{formattedStart[0]}</Statistic.Label>
-                                    <Statistic.Value>
-                                        {formattedStart[1]}
-                                    </Statistic.Value>
-                                </Statistic>
-                               {!singleDay && (
-                                <>
-                                     <Statistic>
-                                    <Statistic.Label>{formattedEnd[0]}</Statistic.Label>
-                                    <Statistic.Value>
-                                       {formattedEnd[1]}
-                                    </Statistic.Value>
-                                </Statistic>
-                               </>
-                                   )}
-                                </Statistic.Group>
-                                </Col>
-                           
-                        
-                                <Col className="text-center">
-                                <Statistic size="small">
-                                    <Statistic.Label>Participants</Statistic.Label>
-                                    <Statistic.Value>{hackathon.participants}</Statistic.Value>
-                                </Statistic>
-                                  </Col>
-                            </Row>
-                           <Row>
-                           {(!isHackathonOrganizer && !associated && user.loggedIn) && (
-                               <Col xs="12" sm="6" lg="4" >
-                                <Modal header={`Join ${hackathon.name}`}
-                                 buttonText="Join"
-                                 handleConfirmProps={() => joinHackathon() } />
-                               </Col>
-                             
-                             )}
-                          
-                             </Row>
-                           </>
-                           )
+                    <Row>
+                        <Col md="7">
+                            <img src={imgUrl} className="banner-img-inner mb-3" alt=""></img>
+                        </Col>
+                        <Col md="5">
+                            {!hackathon ?
+                                (<p>nothing </p>) :
+                                (
+                                    <>
 
-                        }
-                       </Col>
-                       </Row>
-                       <Row className="mt-5">
-                           <Col>
-                       <p>{hackathon.description}</p>
-                           </Col>
-                       </Row>
-                  
-               </div>
-           </div>
+                                        <Header as="h1">{hackathon.name}</Header>
+                                        <Row className="mb-5">
+                                            <Col>
+                                                <Statistic.Group size="small">
+                                                    <Statistic>
+                                                        <Statistic.Label>{formattedStart[0]}</Statistic.Label>
+                                                        <Statistic.Value>
+                                                            {formattedStart[1]}
+                                                        </Statistic.Value>
+                                                    </Statistic>
+                                                    {!singleDay && (
+                                                        <>
+                                                            <Statistic>
+                                                                <Statistic.Label>{formattedEnd[0]}</Statistic.Label>
+                                                                <Statistic.Value>
+                                                                    {formattedEnd[1]}
+                                                                </Statistic.Value>
+                                                            </Statistic>
+                                                        </>
+                                                    )}
+                                                </Statistic.Group>
+                                            </Col>
+
+                                            <Col className="text-center">
+                                                <Statistic size="small">
+                                                    <Statistic.Label>Participants</Statistic.Label>
+                                                    <Statistic.Value>{hackathon.participants}</Statistic.Value>
+                                                </Statistic>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            {(!isHackathonOrganizer && !associated && user.loggedIn) && (
+                                                <Col xs="12" sm="6" lg="4" >
+                                                    <Modal header={`Join ${hackathon.name}`}
+                                                        buttonText="Join"
+                                                        handleConfirmProps={() => joinHackathon()} />
+                                                </Col>
+
+                                            )}
+
+                                        </Row>
+                                    </>
+                                )
+                            }
+                        </Col>
+                    </Row>
+                    <Row className="mt-5">
+                        <Col>
+                            <p>{hackathon.description}</p>
+                        </Col>
+                    </Row>
+                </div>
+                <ProjectView hackathonId={id} />
+            </div>
         </div>
     );
 }

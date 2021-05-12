@@ -19,7 +19,13 @@ userSchema.methods = {
 	},
 	hashPassword: plainTextPassword => {
 		return bcrypt.hashSync(plainTextPassword, 10)
-	}
+	},
+	signUpForProject: function(hackathon_id) {
+		if (!this.hackathons.includes(hackathon_id)) {
+			this.hackathons.push(hackathon_id)
+			this.save()
+		}
+	},
 }
 
 // Define hooks for pre-saving

@@ -11,7 +11,7 @@ function ExploreCardContainer(props) {
             for (var i = 0; i < arr.length; i += columns)
               R.push(arr.slice(i, i + columns));
             return R;
-          }
+        }
     
     if (!cards.length) return <div></div>
     
