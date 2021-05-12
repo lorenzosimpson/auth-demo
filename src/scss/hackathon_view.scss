@@ -12,10 +12,15 @@
 }
 
 .content-overlay {
-    background: $offWhite;
+    background: $bgLight;
     min-height: 50vh;
     width: 80%;
     margin: 0 auto;
+}
+
+.content-overlay .ui.segment {
+    background-color: $bgLight !important;
+    border: none;
 }
 
 .date-box {

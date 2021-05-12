@@ -11,6 +11,7 @@ import moment from 'moment';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { formatDateYear } from '../../utils/dateFormats';
+import useAuthentication from '../../utils/useAuthentication';
 
 const initialState = {
   loading: false,
@@ -50,7 +51,7 @@ function SearchExampleStandard(props) {
   const [source, setSource] = useState([])
   const [wasFiltered, setWasFiltered] = useState(false)
   const [noFilterResults, setNoFilterResults] = useState(false)
-  const { user } = useContext(UserContext)
+  const {user} = useContext(UserContext);
   const { noResults, setNoResults } = props;
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
@@ -80,7 +81,6 @@ function SearchExampleStandard(props) {
     timeoutRef.current = setTimeout(() => {
       if (data.value.length === 0) {
         dispatch({ type: 'CLEAN_QUERY' })
-        console.log('clean')
         return
       }
 
@@ -200,8 +200,7 @@ function SearchExampleStandard(props) {
             <Divider />
               <Dropdown.Item  onClick={() => filterFn('present')} text='Active' />
               <Dropdown.Item onClick={() => filterFn('past')} text='Past' />
-              <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' />
-              
+              <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' />   
             </Dropdown.Menu>
           </Dropdown>
               )}

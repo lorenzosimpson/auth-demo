@@ -85,6 +85,7 @@ router.get('/:hackathon_id', (req, res) => {
         })
     }))
 })
+
 // Get projects that an organizer has yet to approve
 router.get('/pending/:hackathon_id', (req, res) => {
     const { hackathon_id } = req.params;

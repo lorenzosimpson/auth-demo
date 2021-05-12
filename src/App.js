@@ -27,12 +27,12 @@ const App = props => {
 
   function updateUser(userObject) {
     setUser(userObject)
-  }
+  } 
 
     return (
       <UserContext.Provider value={{ user, setUser }}>
       <div className="App">
-        <Navbar updateUser={updateUser} 
+        <Navbar 
         setReturnTo={setReturnTo} />
         {/* Routes to different components */}
         <div className="main-content d-flex flex-column flex-grow-1" role="main">

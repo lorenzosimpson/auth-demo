@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Row, Col } from 'reactstrap';
-import { Container, Header, Icon, Statistic } from 'semantic-ui-react';
+import { Container, Header, Card, Label, Statistic, Segment } from 'semantic-ui-react';
 import InnerLoader from './load/InnerLoader';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
 import IconButton from './button/IconButton';
 import { Link } from 'react-router-dom';
-import useAuthentication from '../utils/useAuthentication';
 import ProjectView from './projects/ProjectView';
+import { UserContext } from '../contexts/UserContext';
 
 
 const formatDate = date => {
@@ -35,13 +35,15 @@ const formatDate = date => {
 function HackathonView(props) {
     const [hackathon, setHackathon] = useState({});
     const { id } = props.match.params;
-    const [user] = useAuthentication()
+    const { user, setUser } = useContext(UserContext)
     const [associated, setAssociated] = useState(true);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const isHackathonOrganizer = user.id === hackathon.organizer_id;
     const imgUrl = hackathon.image;
     const [alreadyParticipatingInAProject, setAlreadyParticipatingInAProject] = useState(false);
+    const [isOrganizer, setIsOrganizer] = useState(false)
+    const [isParticipant, setIsParticipant] = useState(false)
 
     useEffect(() => window.scrollTo(0, 0), [successMessage, errorMessage])
 
@@ -49,10 +51,12 @@ function HackathonView(props) {
         axios.get(`/hackathon/${id}`)
             .then(res => {
                 setHackathon(res.data)
-                console.log(res.data)
                 if (user && user.hasOwnProperty('hackathons')) {
                     setAssociated(user.hackathons.includes(id))
+                    setIsOrganizer(res.data.organizer_id === user.id)
                     setAlreadyParticipatingInAProject(res.data.project_participants.includes(user.id))
+                    setIsParticipant(user.hackathons.includes(id) && !(res.data.organizer_id === user.id))
+                 
                 }
             })
             .catch(err => console.log('GET hacakthon error', err))
@@ -61,6 +65,7 @@ function HackathonView(props) {
     useEffect(() => {
         getHackathon()
     }, [user, id])
+
 
     const formattedStart = formatDate(hackathon.start_date)
     const formattedEnd = formatDate(hackathon.end_date)
@@ -100,7 +105,24 @@ function HackathonView(props) {
         <div className="hackathon-view">
             <img src={imgUrl} className="banner-img" alt="" width="100%"></img>
             <div className="content-overlay">
-                <div className="container my-5 py-4">
+           
+        <Segment>
+                {isOrganizer && (
+                    <Card.Content>
+                        <Label color='purple' size="large" ribbon >
+                            Organizing
+                        </Label>
+                    </Card.Content>
+                )}
+                 {isParticipant && (
+                    <Card.Content>
+                        <Label color='blue' size="large" ribbon >
+                            Participating
+                        </Label>
+                    </Card.Content>
+                )}
+                
+        <div className="container my-2 py-4">
                     {(origin && origins.includes(origin) && user.loggedIn) &&
                         (<Link to={origin}>
                             <IconButton content="Back" icon="left arrow"
@@ -165,7 +187,9 @@ function HackathonView(props) {
                                             )}
 
                                         </Row>
+                                 
                                     </>
+                                
                                 )
                             }
                         </Col>
@@ -176,9 +200,10 @@ function HackathonView(props) {
                         </Col>
                     </Row>
                 </div>
-                <ProjectView 
-                    hackathonId={id} 
-                    alreadyParticipatingInAProject={alreadyParticipatingInAProject} />
+            </Segment>
+        <ProjectView 
+        hackathonId={id} 
+        alreadyParticipatingInAProject={alreadyParticipatingInAProject} />
             </div>
         </div>
     );

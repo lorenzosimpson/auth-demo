@@ -6,6 +6,7 @@ function useAuthentication() {
     const [user, setUser] = useState({})
     useEffect(() => {
         axios.get('/user/').then(response => {
+          console.log('\n\n USE AUTHENTICATION \n\n')
             if (response.data.user) {
               console.log('Get User: There is a user saved in the server session: ', response.data)
               setUser({

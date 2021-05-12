@@ -40,7 +40,7 @@ function ProjectModal(props) {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        { (!userHasJoined && !alreadyParticipatingInAProject) ? (
+        { (!userHasJoined && !alreadyParticipatingInAProject && user.username) ? (
             <>
             <Button  onClick={() => setOpen(false)}>
             No Thanks
