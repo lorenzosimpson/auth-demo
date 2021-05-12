@@ -29,7 +29,6 @@ function ProjectView(props) {
     const dividedRows = divideArrayIntoRows(3, projects)
 
     if (loading) return <InnerLoader />
-
     if (!loading && !projects.length) return null
     
     return (
