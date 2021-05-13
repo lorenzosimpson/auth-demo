@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import ProjectView from './projects/ProjectView';
 import { UserContext } from '../contexts/UserContext';
 import history from '../history';
+import moment from 'moment';
 
 
 
@@ -180,6 +181,15 @@ function HackathonView(props) {
                                                             </Statistic>
                                                         </>
                                                     )}
+                                                </Statistic.Group>
+                                                <Statistic.Group size="mini">
+                                                <Statistic>
+                                                        <Statistic.Label>Start</Statistic.Label>
+                                                        <Statistic.Value>
+                                                            {moment(hackathon.start_date, false).format('hh:mm A')}
+                                                        </Statistic.Value>
+                                                    </Statistic>
+                                                   
                                                 </Statistic.Group>
                                             </Col>
 
