@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Row, Col } from 'reactstrap';
-import { Container, Header, Card, Label, Statistic, Segment } from 'semantic-ui-react';
+import { Container, Header, Card, Label, Statistic, Segment, Button} from 'semantic-ui-react';
 import InnerLoader from './load/InnerLoader';
 import Modal from './ConfirmModal';
 import Alert from './alert/Alert';
@@ -9,6 +9,8 @@ import IconButton from './button/IconButton';
 import { Link } from 'react-router-dom';
 import ProjectView from './projects/ProjectView';
 import { UserContext } from '../contexts/UserContext';
+import history from '../history';
+
 
 
 const formatDate = date => {
@@ -213,6 +215,18 @@ function HackathonView(props) {
                     </Row>
                 </div>
             </Segment>
+
+            {isOrganizer && (
+                <Button onClick={() => {
+                    history.push({
+                        pathname: '/project',
+                        state: {
+                            hackathon: hackathon
+                        }
+                    })
+                }}>+ Project</Button>
+            )}
+
         <ProjectView 
         isOrganizer={isOrganizer}
         hackathonId={id} 

@@ -17,6 +17,7 @@ import AllHackathons from './components/explore/AllHackathons';
 import useAuthentication from './utils/useAuthentication';
 import { UserContext } from './contexts/UserContext';
 import SearchPage from './components/search/SearchPage';
+import ProjectForm from './components/projects/ProjectForm';
 
 
 
@@ -55,6 +56,9 @@ const App = props => {
 
             />}
         />
+        <PrivateRoute
+          path='/project'
+          component={ProjectForm} />
         <Route exact 
           path="/signup" 
           render={(props) => 
