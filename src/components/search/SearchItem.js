@@ -25,7 +25,7 @@ function SearchItem(props) {
         { isParticipant && (
             <Card.Content>
             <Label color='blue' ribbon >
-                Participant
+                Participating
             </Label>
         </Card.Content>
         )}

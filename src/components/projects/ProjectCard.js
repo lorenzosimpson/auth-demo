@@ -3,7 +3,7 @@ import { Card, Icon, Label, Header, Segment} from 'semantic-ui-react'
 import ProjectModal from './ProjectModal'
 
 const ProjectCard = (props) => {
-    const { alreadyParticipatingInAProject, userHasJoined } = props;
+    const { alreadyParticipatingInAProject, userHasJoined, isOrganizer } = props;
 return (
     <Card className="project-card">
         { userHasJoined && (
@@ -29,6 +29,7 @@ return (
                 project_id={props.project_id} 
                 userHasJoined={props.userHasJoined}
                 alreadyParticipatingInAProject={alreadyParticipatingInAProject}
+                isOrganizer={isOrganizer}
                 />
         </Card.Content>
         

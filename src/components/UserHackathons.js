@@ -6,6 +6,7 @@ import InnerLoader from './load/InnerLoader';
 import { UserContext } from '../contexts/UserContext';
 import { useEffect } from 'react';
 import useAuthentication from '../utils/useAuthentication';
+import axios from 'axios';
 
 
 function UserHackathons(props) {
@@ -13,10 +14,6 @@ function UserHackathons(props) {
     const [hackathons] = useState([])
     const [noResults, setNoResults] = useState(false)
     const [user] = useAuthentication()
-    
-    useEffect(() => {
-        setUser(user)
-    }, [user])
     
     if (!user.hasOwnProperty('id')) return <InnerLoader />
     return (

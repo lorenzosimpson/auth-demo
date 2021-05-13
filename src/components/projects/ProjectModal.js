@@ -6,7 +6,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 function ProjectModal(props) {
   const [open, setOpen] = React.useState(false)
-  const { image, description, name, project_id, userHasJoined, alreadyParticipatingInAProject } = props
+  const { image, description, name, project_id, userHasJoined, alreadyParticipatingInAProject, isOrganizer } = props
   const { user } = useContext(UserContext)
 
   const handleJoin = () => {
@@ -40,7 +40,7 @@ function ProjectModal(props) {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        { (!userHasJoined && !alreadyParticipatingInAProject && user.username) ? (
+        { (!userHasJoined && !alreadyParticipatingInAProject && !isOrganizer && user.username) ? (
             <>
             <Button  onClick={() => setOpen(false)}>
             No Thanks

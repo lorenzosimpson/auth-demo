@@ -56,7 +56,6 @@ function HackathonView(props) {
                     setIsOrganizer(res.data.organizer_id === user.id)
                     setAlreadyParticipatingInAProject(res.data.project_participants.includes(user.id))
                     setIsParticipant(user.hackathons.includes(id) && !(res.data.organizer_id === user.id))
-                 
                 }
             })
             .catch(err => console.log('GET hacakthon error', err))
@@ -78,11 +77,24 @@ function HackathonView(props) {
             id: hackathon._id
         }
         axios.post('/user/register', reqBody)
-            .then(res => {
+            .then(() => {
                 setSuccessMessage("Congratulations! You're registered.")
                 hackathon.participants += 1
                 setAssociated(true)
                 setErrorMessage("")
+                axios.get('/user/').then(response => {
+                      if (response.data.user) {
+                        setUser({
+                          loggedIn: true,
+                          ...response.data.user
+                        })
+                      } else {
+                        setUser({
+                          loggedIn: false,
+                          username: null
+                        })
+                      }
+                    })
             })
             .catch(err => {
                 setErrorMessage("Oh no, an error occured, could not register.")
@@ -202,6 +214,7 @@ function HackathonView(props) {
                 </div>
             </Segment>
         <ProjectView 
+        isOrganizer={isOrganizer}
         hackathonId={id} 
         alreadyParticipatingInAProject={alreadyParticipatingInAProject} />
             </div>

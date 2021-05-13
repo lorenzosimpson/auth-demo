@@ -18,8 +18,8 @@ function ProjectView(props) {
     const [projects, setProjects] = useState([])
     const hackathon_id = props.hackathonId;
     const [loading, setLoading] = useState(false)
-    const { user }= useContext(UserContext);
-    const { alreadyParticipatingInAProject } = props;
+    const { user } = useContext(UserContext);
+    const { alreadyParticipatingInAProject, isOrganizer } = props;
 
     useEffect(() => {
         setLoading(true)
@@ -58,6 +58,7 @@ function ProjectView(props) {
                                 project_id={project._id}
                                 userHasJoined={userHasJoined}
                                 alreadyParticipatingInAProject={alreadyParticipatingInAProject}
+                                isOrganizer={isOrganizer}
                                 />
                             </Grid.Column>
                             )
