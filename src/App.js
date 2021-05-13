@@ -17,6 +17,7 @@ import AllHackathons from './components/explore/AllHackathons';
 import useAuthentication from './utils/useAuthentication';
 import { UserContext } from './contexts/UserContext';
 import SearchPage from './components/search/SearchPage';
+import ProjectForm from './components/projects/ProjectForm';
 
 
 
@@ -27,12 +28,12 @@ const App = props => {
 
   function updateUser(userObject) {
     setUser(userObject)
-  }
+  } 
 
     return (
       <UserContext.Provider value={{ user, setUser }}>
       <div className="App">
-        <Navbar updateUser={updateUser} 
+        <Navbar 
         setReturnTo={setReturnTo} />
         {/* Routes to different components */}
         <div className="main-content d-flex flex-column flex-grow-1" role="main">
@@ -55,6 +56,9 @@ const App = props => {
 
             />}
         />
+        <PrivateRoute
+          path='/project'
+          component={ProjectForm} />
         <Route exact 
           path="/signup" 
           render={(props) => 

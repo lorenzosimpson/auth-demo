@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
     const changes = { 
         $addToSet: { hackathons: req.body.hackathon_id }} 
 
-    User.findOneAndUpdate({ _id: user_id }, changes, async (err, user) => {
+    User.findById(user_id, async (err, user) => {
         if (err) {
             console.log('error creating project', err)
             res.status(500).json({ error: 'Could not find user for project'})
@@ -68,17 +68,6 @@ router.post('/', async (req, res) => {
             newProject.save(async(err, created) => {
                 if (err) res.status(500).json({error: err })
                 else {
-                    const updateHackathon = {
-                        $addToSet: { project_participants: user_id } 
-                   }
-                   try {
-                       await Hackathon.findOneAndUpdate({ _id: hackathon_id}, updateHackathon)
-                       await created.signUpForProject(user_id);
-                   } catch (err) {
-                       console.log(err)
-                       const { error } = err
-                       return res.status(500).json({ error:  error  })
-                   }
                     res.status(201).json(created)
                 }
             })
@@ -96,6 +85,7 @@ router.get('/:hackathon_id', (req, res) => {
         })
     }))
 })
+
 // Get projects that an organizer has yet to approve
 router.get('/pending/:hackathon_id', (req, res) => {
     const { hackathon_id } = req.params;

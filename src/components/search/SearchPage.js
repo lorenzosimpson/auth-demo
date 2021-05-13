@@ -31,9 +31,8 @@ function SearchPage(props) {
 
     return (
         <Container className="my-5">
-            <Header as="h1">
-                Search
-            </Header>
+            <Header as="h1" content="Search" subheader={`Results for '${searchText}'`}/>
+          
             <Segment>
                 <Item.Group>
                     {!results.length && !loading ? (

@@ -50,7 +50,7 @@ function SearchExampleStandard(props) {
   const [source, setSource] = useState([])
   const [wasFiltered, setWasFiltered] = useState(false)
   const [noFilterResults, setNoFilterResults] = useState(false)
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
   const { noResults, setNoResults } = props;
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
@@ -80,7 +80,6 @@ function SearchExampleStandard(props) {
     timeoutRef.current = setTimeout(() => {
       if (data.value.length === 0) {
         dispatch({ type: 'CLEAN_QUERY' })
-        console.log('clean')
         return
       }
 
@@ -130,6 +129,13 @@ function SearchExampleStandard(props) {
         setCurrentSearchParam("All Hackathons")
         setFilter(source)
         break
+      case 'organizer':
+        setCurrentSearchParam('Organizing')
+        setFilter(_.filter(source, (o) => o.organizer_id === user.id))
+        break
+      case 'participant':
+        setCurrentSearchParam('Participating')
+        setFilter(_.filter(source, (o) => o.organizer_id !== user.id))
       default: 
         break
     }
@@ -180,8 +186,8 @@ function SearchExampleStandard(props) {
            labeled
            >
             <Dropdown.Menu>
-              <Dropdown.Item onClick={sortNewest} text='Oldest to Newest' />
-              <Dropdown.Item  onClick={sortOldest} text='Newest to Oldest' />
+              <Dropdown.Item onClick={sortNewest} text='Date: Oldest to Newest' />
+              <Dropdown.Item  onClick={sortOldest} text='Date: Newest to Oldest' />
             </Dropdown.Menu>
           </Dropdown>
 
@@ -200,8 +206,10 @@ function SearchExampleStandard(props) {
             <Divider />
               <Dropdown.Item  onClick={() => filterFn('present')} text='Active' />
               <Dropdown.Item onClick={() => filterFn('past')} text='Past' />
-              <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' />
-              
+              <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' /> 
+              <Divider />
+              <Dropdown.Item  onClick={() => filterFn('participant')} text='Participating'  icon='group'/>  
+              <Dropdown.Item  onClick={() => filterFn('organizer')} text='Organizing' icon='chart bar' />   
             </Dropdown.Menu>
           </Dropdown>
               )}

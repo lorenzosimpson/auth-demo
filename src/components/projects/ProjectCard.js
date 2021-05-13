@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Card, Icon, Label, Header, Segment} from 'semantic-ui-react'
+import { UserContext } from '../../contexts/UserContext';
 import ProjectModal from './ProjectModal'
 
 const ProjectCard = (props) => {
-    const { alreadyParticipatingInAProject, userHasJoined } = props;
+    const { alreadyParticipatingInAProject, project, isOrganizer, setProjects } = props;
+    const [userHasJoined, setUserHasJoined] = useState(false)
+    const { user } = useContext(UserContext)
+
+    useEffect(() => {
+        setUserHasJoined(project.participants.includes(user.id))
+    }, [])
 return (
     <Card className="project-card">
         { userHasJoined && (
@@ -27,8 +34,11 @@ return (
                 description={props.description}
                 image={props.image}
                 project_id={props.project_id} 
-                userHasJoined={props.userHasJoined}
+                userHasJoined={userHasJoined}
+                setUserHasJoined={setUserHasJoined}
+                setProjects={setProjects}
                 alreadyParticipatingInAProject={alreadyParticipatingInAProject}
+                isOrganizer={isOrganizer}
                 />
         </Card.Content>
         
