@@ -47,16 +47,16 @@ function ProjectView(props) {
                     {dividedRows.map(row => (
                         <Grid.Row>
                         {row.map(project => {
-                            const userHasJoined = project.participants.includes(user.id)
                             return (
                             <Grid.Column>
                               <ProjectCard
+                                project={project}
                                 header={project.name}
                                 description={project.description}
                                 image={project.image}
                                 extra={project.participants.length}
                                 project_id={project._id}
-                                userHasJoined={userHasJoined}
+                                setProjects={setProjects}
                                 alreadyParticipatingInAProject={alreadyParticipatingInAProject}
                                 isOrganizer={isOrganizer}
                                 />

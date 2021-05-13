@@ -136,7 +136,6 @@ router.get('/:id', (req, res) => {
     const { id } = req.params;
     Hackathon.findById(id, (err, hackathon) => {
         if (err) {
-            console.log(err)
             res.status(500).json(err)
         }
         if (hackathon === null) return res.status(404).json({ error: 'Hackathon does not exist'})

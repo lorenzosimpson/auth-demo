@@ -6,23 +6,35 @@ import { UserContext } from '../../contexts/UserContext'
 
 function ProjectModal(props) {
   const [open, setOpen] = React.useState(false)
-  const { image, description, name, project_id, userHasJoined, alreadyParticipatingInAProject, isOrganizer } = props
-  const { user } = useContext(UserContext)
+  let { image, description, name, project_id, userHasJoined, alreadyParticipatingInAProject, isOrganizer, setUserHasJoined } = props
+  const { user, setUser } = useContext(UserContext)
 
   const handleJoin = () => {
       axios.post('/project/join', {
           project_id: project_id
       })
       .then(response => {
-          console.log(response)
           console.log('successful project registration')
           setOpen(false)
+          axios.get('/user/').then(response => {
+            if (response.data.user) {
+              setUser({
+                loggedIn: true,
+                ...response.data.user
+              })
+              setUserHasJoined(true)
+            } else {
+              setUser({
+                loggedIn: false,
+                username: null
+              })
+            }
+          })
       })
       .catch(err => {
           console.log(err)
       })
   }
-  console.log(props)
   return (
     <Modal
       onClose={() => setOpen(false)}
