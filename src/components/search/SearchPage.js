@@ -10,7 +10,7 @@ import { Redirect } from 'react-router';
 import InnerLoader from '../load/InnerLoader';
 
 function SearchPage(props) {
-    const { searchText } = props.location.state
+    const searchText  = props.location.state?.searchText || ""
     const [results, setResults] = useState([])
     const [loading, setLoading] = useState(true)
 
