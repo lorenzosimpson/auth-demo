@@ -2,10 +2,12 @@ import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect, useState } from 'react';
-import { Grid, Header, Segment } from 'semantic-ui-react';
+import { Grid, Header, Segment, Button } from 'semantic-ui-react';
 import { UserContext } from '../../contexts/UserContext';
 import InnerLoader from '../load/InnerLoader';
 import ProjectCard from './ProjectCard';
+import NoProjects from './NoProjects';
+import history from '../../history';
 
 const divideArrayIntoRows = (columns, arr) => {
     var R = [];
@@ -19,7 +21,7 @@ function ProjectView(props) {
     const hackathon_id = props.hackathonId;
     const [loading, setLoading] = useState(false)
     const { user } = useContext(UserContext);
-    const { alreadyParticipatingInAProject, isOrganizer } = props;
+    const { alreadyParticipatingInAProject, isOrganizer, hackathon } = props;
 
     useEffect(() => {
         setLoading(true)
@@ -34,14 +36,30 @@ function ProjectView(props) {
     const dividedRows = divideArrayIntoRows(3, projects)
 
     if (loading) return <InnerLoader />
-    if (!loading && !projects.length) return null
-    
+   
     return (
         <div className="mb-5">
-            <Header as="h2">
+            <Segment>
+            <Segment clearing>
+            <Header as="h2" floated='left'>
                 Projects
+                </Header>
+                <Header floated='right'>
+                <Button
+                icon='object ungroup outline'
+                content='Create'
+                primary
+                 onClick={() => {
+                    history.push({
+                        pathname: '/project',
+                        state: {
+                            hackathon: hackathon
+                        }
+                    })
+                }} />
             </Header>
-
+            </Segment>
+            { projects.length ? (
             <Segment>
                 <Grid columns="three" stackable>
                     {dividedRows.map(row => (
@@ -67,6 +85,10 @@ function ProjectView(props) {
                     ))}
                 </Grid>
             </Segment>
+              ) : (
+                  <NoProjects />
+              )}
+             </Segment>
         </div>
     );
 }

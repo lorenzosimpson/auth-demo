@@ -225,19 +225,8 @@ function HackathonView(props) {
                     </Row>
                 </div>
             </Segment>
-
-            {isOrganizer && (
-                <Button onClick={() => {
-                    history.push({
-                        pathname: '/project',
-                        state: {
-                            hackathon: hackathon
-                        }
-                    })
-                }}>+ Project</Button>
-            )}
-
         <ProjectView 
+        hackathon={hackathon}
         isOrganizer={isOrganizer}
         hackathonId={id} 
         alreadyParticipatingInAProject={alreadyParticipatingInAProject} />

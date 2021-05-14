@@ -4,7 +4,7 @@ import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import history from '../../history'
-import NoHackathons from '../Icon';
+import NoHackathons from '../NoItems';
 import SearchItem from './SearchItem';
 import InnerLoader from '../load/InnerLoader';
 import moment from 'moment';

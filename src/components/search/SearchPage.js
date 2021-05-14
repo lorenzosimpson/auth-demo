@@ -5,7 +5,7 @@ import { Container } from 'reactstrap';
 import SearchItem from './SearchItem';
 import history from '../../history';
 import { formatDateYear } from '../../utils/dateFormats'
-import NoItems from '../Icon';
+import NoItems from '../NoItems';
 import { Redirect } from 'react-router';
 import InnerLoader from '../load/InnerLoader';
 
