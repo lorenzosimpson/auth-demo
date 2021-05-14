@@ -179,6 +179,11 @@ input, textarea {
   color: $offWhite;
 }
 
+ .navbar .ui.icon.input .navbar-prompt {
+  width: 8em;
+  padding-right: 0.4em !important;
+}
+
 
 // puts search icon on left of input
 .ui.icon.input  input {
@@ -216,6 +221,10 @@ input, textarea {
 
   .dropdown-buttons {
     text-align: left;
+  }
+
+  .navbar-prompt{
+    width: 60%;
   }
 
 }

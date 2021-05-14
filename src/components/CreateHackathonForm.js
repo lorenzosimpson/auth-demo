@@ -19,7 +19,6 @@ function CreateHackathonForm(props) {
             ...hackathonData,
             [e.target.name]: e.target.value
         })
-        console.log(hackathonData)
     }
 
     function handleSubmit(e) {
@@ -30,10 +29,9 @@ function CreateHackathonForm(props) {
             end_date: endDate,
             organizer_id: user.id
         }
-
         axios.post('/hackathon', submitData)
         .then(response => {
-            history.push('/explore')
+            history.push(`/hackathons/${response.data._id}`)
         })
         .catch(err => console.log(err))
     }

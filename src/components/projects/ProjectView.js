@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect, useState } from 'react';
-import { Grid, Header, Segment, Button } from 'semantic-ui-react';
+import { Grid, Header, Segment, Button, Menu, Icon, Label } from 'semantic-ui-react';
 import { UserContext } from '../../contexts/UserContext';
 import InnerLoader from '../load/InnerLoader';
 import ProjectCard from './ProjectCard';
@@ -22,6 +22,7 @@ function ProjectView(props) {
     const [loading, setLoading] = useState(false)
     const { user } = useContext(UserContext);
     const { alreadyParticipatingInAProject, isOrganizer, hackathon } = props;
+    const [pendingProjects, setPendingProjects] = useState([])
 
     useEffect(() => {
         setLoading(true)
@@ -29,6 +30,14 @@ function ProjectView(props) {
         .then(response => {
             setProjects(response.data)
             setLoading(false)
+        })
+        .catch(err => console.log(err))
+    }, [])
+
+    useEffect(() => {
+        axios.get(`/project/pending/${hackathon_id}`)
+        .then(response => {
+            setPendingProjects(response.data)
         })
         .catch(err => console.log(err))
     }, [])
@@ -44,7 +53,7 @@ function ProjectView(props) {
             <Header as="h2" floated='left'>
                 Projects
                 </Header>
-                <Header floated='right'>
+                <Header floated='right' className="d-flex">
                 <Button
                 icon='object ungroup outline'
                 content='Create'
@@ -57,6 +66,16 @@ function ProjectView(props) {
                         }
                     })
                 }} />
+                {(isOrganizer && pendingProjects.length) ? (
+                    <Menu compact>
+                    <Menu.Item as='a' onClick={() => history.push(`/approve/${hackathon_id}`)}>
+                      <Icon name='clock outline' /> Pending
+                      <Label color='red' floating>
+                        {pendingProjects.length}
+                      </Label>
+                    </Menu.Item>
+                  </Menu>
+                ) : null}
             </Header>
             </Segment>
             { projects.length ? (

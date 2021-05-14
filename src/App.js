@@ -18,6 +18,7 @@ import useAuthentication from './utils/useAuthentication';
 import { UserContext } from './contexts/UserContext';
 import SearchPage from './components/search/SearchPage';
 import ProjectForm from './components/projects/ProjectForm';
+import ProjectApproval from './components/projects/ProjectApproval';
 
 
 
@@ -56,7 +57,10 @@ const App = props => {
 
             />}
         />
+        <PrivateRoute path='/approve/:hackathon_id' 
+          component={ProjectApproval} />
         <PrivateRoute
+          exact
           path='/project'
           component={ProjectForm} />
         <Route exact 

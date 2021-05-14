@@ -88,12 +88,6 @@ const Navigation = (props) => {
                     <Nav className="mr-auto" navbar>
                         <NavItem className="mr-3">
                             <NavLink tag={RouterNavLink}
-                                exact
-                                activeClassName="router-link-exact-active"
-                                className="nav-link" to="/">Home</NavLink>
-                        </NavItem>
-                        <NavItem className="mr-3">
-                            <NavLink tag={RouterNavLink}
                             to="/explore"
                             activeClassName="router-link-exact-active"
                             exact
@@ -125,7 +119,7 @@ const Navigation = (props) => {
                     <form onSubmit={handleSearch} onChange={handleChange}>
                         <div className="ui search">
                             <div className="ui icon input">
-                                <input className="navbar-prompt" name="searchText" value={searchText} placeholder="Search Hackathons"></input>
+                                <input className="navbar-prompt" name="searchText" value={searchText} placeholder="Search"></input>
                                 <i className="search icon"></i>
                             <Button className="ml-2" color="teal" icon="search" content="Search"></Button>
                             </div>
