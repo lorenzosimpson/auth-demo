@@ -66,13 +66,16 @@ function ProjectView(props) {
                         }
                     })
                 }} />
-                {(isOrganizer && pendingProjects.length) ? (
+                {(isOrganizer) ? (
                     <Menu compact>
                     <Menu.Item as='a' onClick={() => history.push(`/approve/${hackathon_id}`)}>
                       <Icon name='clock outline' /> Pending
-                      <Label color='red' floating>
+                      {(pendingProjects.length > 0) && (
+                        <Label color='red' floating>
                         {pendingProjects.length}
                       </Label>
+                      )}
+                      
                     </Menu.Item>
                   </Menu>
                 ) : null}

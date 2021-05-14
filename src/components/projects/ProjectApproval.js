@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Header, Segment, Container, Item, Card, Image, Button } from 'semantic-ui-react';
+import { Header, Segment, Container, Icon, Card, Image, Button } from 'semantic-ui-react';
 import axios from 'axios'
 import ApprovalCard from './ApprovalCard';
 
@@ -22,13 +22,30 @@ function ProjectApproval(props) {
         <Container>
         <Header as='h1' content='Pending Projects'
          subheader='Potential participants have submitted the following projects. Approve or reject them here.' />
-        <Segment>
-            <Card.Group itemsPerRow='3' doubling stackable>
-            {pendingProjects.map(project => (
-                 <ApprovalCard header={project.name} meta='' description={project.description} image={project.image}/>
-            ))}
-            </Card.Group>
-        </Segment>
+             {(!pendingProjects.length) ? (
+                 <Segment placeholder>
+                 <Header icon>
+                   <Icon name='checkmark box' />
+                   No pending projects
+                 </Header>
+               </Segment>
+            ) : (
+                <Segment>
+                <Card.Group itemsPerRow='3' doubling stackable>
+               
+                {pendingProjects.map(project => (
+                     <ApprovalCard header={project.name} 
+                     meta='' 
+                     pendingProjects={pendingProjects}
+                     projectId={project._id}
+                     setPendingProjects={setPendingProjects}
+                     description={project.description} 
+                     image={project.image}/>
+                ))}
+                </Card.Group>
+            </Segment>
+            )}
+    
         </Container>
         </>
 

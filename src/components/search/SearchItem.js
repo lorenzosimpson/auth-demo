@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { Divider, Item, Card, Label } from 'semantic-ui-react';
 import { UserContext } from '../../contexts/UserContext';
@@ -7,12 +7,17 @@ import IconButton from '../button/IconButton';
 function SearchItem(props) {
     const { user } = useContext(UserContext);
     const { navigateToHackathonView, formatDate, imgSrc, item } = props;
-    const isOrganizer = item.organizer_id === user.id
-    const isParticipant = user.hackathons.includes(item._id) && !isOrganizer;
+    const [isOrganizer, setIsOrganizer] = useState(false)
+    const [isParticipant, setIsParticipant] = useState(false)
     
- 
+    useEffect(() => {
+        if (user.loggedIn) {
+            setIsOrganizer(item.organizer_id === user.id)
+            setIsParticipant(user.hackathons.includes(item._id) && !isOrganizer)
+        }
+    }, [user])
 
-    return (
+    return (   
         <>
         { isOrganizer && (
             <Card.Content>
