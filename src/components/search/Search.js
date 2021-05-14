@@ -1,7 +1,8 @@
 import _ from 'lodash'
 import React from 'react'
-import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic-ui-react'
+import { Search, Grid, Segment, Icon,  Item, Header, Divider} from 'semantic-ui-react'
 import { useEffect, useState } from 'react';
+import { Dropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
 import axios from 'axios';
 import history from '../../history'
 import NoHackathons from '../NoItems';
@@ -44,6 +45,7 @@ const navigateToHackathonView = (id, source) => {
   history.push(`/hackathons/${id}?source=${source}`)
 }
 
+
 function SearchExampleStandard(props) {
   const [state, dispatch] = React.useReducer(searchReducer, initialState)
   const { loading, results, value } = state
@@ -55,6 +57,9 @@ function SearchExampleStandard(props) {
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
   const { searchURL } = props;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggle = () => setDropdownOpen(prevState => !prevState);
 
 
   useEffect(() => {
@@ -172,49 +177,9 @@ function SearchExampleStandard(props) {
             placeholder="Search Hackathons"
           />
         </div>
-
+       
         <Segment>
           <Item.Group>
-          <div className="dropdown-buttons">
-           <Dropdown 
-           text='Sort'
-           className="icon"
-           icon="sort"
-           floating
-           button
-           aria-label="Sort"
-           labeled
-           >
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={sortNewest} text='Date: Oldest to Newest' />
-              <Dropdown.Item  onClick={sortOldest} text='Date: Newest to Oldest' />
-            </Dropdown.Menu>
-          </Dropdown>
-
-          {window.location.pathname !== '/explore' && (
-          <Dropdown 
-            text='Filter'
-            icon='filter'
-            floating
-            labeled
-            button
-            aria-label="Filter"
-            className='icon'
-           >
-            <Dropdown.Menu>
-            <Dropdown.Item  onClick={() => filterFn('all')} text='All' />
-            <Divider />
-              <Dropdown.Item  onClick={() => filterFn('present')} text='Active' />
-              <Dropdown.Item onClick={() => filterFn('past')} text='Past' />
-              <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' /> 
-              <Divider />
-              <Dropdown.Item  onClick={() => filterFn('participant')} text='Participating'  icon='group'/>  
-              <Dropdown.Item  onClick={() => filterFn('organizer')} text='Organizing' icon='chart bar' />   
-            </Dropdown.Menu>
-          </Dropdown>
-              )}
-          </div>
-         
             {
               noFilterResults || !filter.length ? (
                 <NoHackathons />

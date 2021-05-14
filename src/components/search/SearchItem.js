@@ -36,11 +36,11 @@ function SearchItem(props) {
         )}
 
         <Item className="mb-5">
-            <Item.Image width="50px" src={imgSrc} />
+            <Item.Image width="50px" src={imgSrc} alt="Hackathon banner" />
             <Item.Content>
                 <Item.Header >{item.name}</Item.Header>
                 <Item.Meta>
-                    <span className="color">{formatDate(item.start_date)}-{formatDate(item.end_date)}</span>
+                    <span className="form-text text-muted">{formatDate(item.start_date)}-{formatDate(item.end_date)}</span>
                 </Item.Meta>
                 <Item.Description>
                     {item.description}

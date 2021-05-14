@@ -11,7 +11,7 @@ const NoItems = () => (
     <Segment.Inline>
     <Button 
             onClick={() => history.push('/explore')}
-            color="teal">Browse Hackathons</Button>
+            color="violet">Browse Hackathons</Button>
       <Button 
             onClick={() => history.push('/create')}
             primary>Create a Hackathon</Button>
