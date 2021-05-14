@@ -15,7 +15,7 @@ function SearchItem(props) {
             setIsOrganizer(item.organizer_id === user.id)
             setIsParticipant(user.hackathons.includes(item._id) && !(item.organizer_id === user.id))
         }
-    }, [user])
+    }, [user, item])
 
     return (   
         <>

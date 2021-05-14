@@ -75,8 +75,7 @@ body {
   padding: 0;
 }
 
-.btn.btn-primary {
-  min-width: 120px;
+.ui.primary.button {
   background-color: $blue !important;
   border: 1px solid;
 }
@@ -195,10 +194,15 @@ input, textarea {
 }
 
 .dropdown-buttons {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media (max-width:767px) {
+
+  .dropdown-buttons {
+    justify-content: flex-start;
+  }
 
 .navbar .ui.search .prompt {
   max-width: 100%;

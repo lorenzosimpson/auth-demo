@@ -12,6 +12,7 @@ import moment from 'moment';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { formatDateYear } from '../../utils/dateFormats';
+import Dropdowns from './Dropdowns';
 
 const initialState = {
   loading: false,
@@ -159,6 +160,20 @@ function SearchExampleStandard(props) {
     return <InnerLoader />
   }
 
+  const sortDropdown = [
+    { name: 'Oldest > Newest', callback: sortNewest},
+    { name: 'Newest > Oldest', callback: sortOldest}
+  ]
+  const filterDropdown = [
+    { name: 'All', callback: () => filterFn('all')},
+    { name: 'Current', callback: () => filterFn('present')},
+    { name: 'Past', callback: () => filterFn('past')},
+    { name: 'Future', callback: () => filterFn('future')},
+    { divider: true },
+    { name: 'Organizing', callback: () => filterFn('organizer')},
+    { name: 'Participating', callback: () => filterFn('participant')},
+  ]
+
   return (
     <div className="mt-5">
      <Header as="h2">{currentSearchParam}</Header>
@@ -180,6 +195,14 @@ function SearchExampleStandard(props) {
        
         <Segment>
           <Item.Group>
+          <div className="dropdown-buttons">
+           <Dropdowns 
+            dropdownItems={sortDropdown}
+            icon={<Icon name='sort' />} title='Sort' />
+             <Dropdowns 
+            dropdownItems={filterDropdown}
+            icon={<Icon name='filter' />} title='Filter' />
+            </div>
             {
               noFilterResults || !filter.length ? (
                 <NoHackathons />
