@@ -6,10 +6,17 @@ function ApprovalCard(props) {
     const { header, meta, description, image, projectId, pendingProjects, setPendingProjects } = props;
     
     const handleApprove = () => {
-        console.log('approve')
         axios.post(`/project/approve/${projectId}`, {})
         .then(res => {
             console.log(res)
+            setPendingProjects(pendingProjects.filter(p => p._id !== projectId))
+        })
+        .catch(err => console.log(err))
+    }
+
+    const handleDecline = () => {
+        axios.delete(`/project/${projectId}`)
+        .then(res => {
             setPendingProjects(pendingProjects.filter(p => p._id !== projectId))
         })
         .catch(err => console.log(err))
@@ -34,7 +41,7 @@ function ApprovalCard(props) {
                     <Button basic color='green' onClick={() => handleApprove()}>
                         Approve
                      </Button>
-                    <Button basic color='red'>
+                    <Button basic color='red' onClick={() => handleDecline()}>
                         Decline
                      </Button>
                 </div>

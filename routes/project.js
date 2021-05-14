@@ -125,4 +125,14 @@ router.post('/approve/:project_id', (req, res) => {
     })
 })
 
+router.delete('/:project_id', (req, res) => {
+    const { project_id } = req.params;
+    Project.findOneAndDelete({ _id: project_id}, (err, deleted) => {
+        if (err) return res.status(500).json({ error: 'Could not delete project'})
+        else {
+            res.status(200).json({ message: 'Deleted project ' + project_id })
+        }
+    })
+})
+
 module.exports = router
