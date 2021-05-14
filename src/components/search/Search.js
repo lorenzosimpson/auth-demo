@@ -199,9 +199,12 @@ function SearchExampleStandard(props) {
            <Dropdowns 
             dropdownItems={sortDropdown}
             icon={<Icon name='sort' />} title='Sort' />
+         
+         {window.location.pathname !== '/explore' && (
              <Dropdowns 
             dropdownItems={filterDropdown}
             icon={<Icon name='filter' />} title='Filter' />
+         )}
             </div>
             {
               noFilterResults || !filter.length ? (

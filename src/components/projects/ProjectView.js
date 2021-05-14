@@ -108,7 +108,7 @@ function ProjectView(props) {
                 </Grid>
             </Segment>
               ) : (
-                  <NoProjects />
+                  <NoProjects hackathon={hackathon} />
               )}
              </Segment>
         </div>
