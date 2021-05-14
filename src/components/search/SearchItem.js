@@ -13,7 +13,7 @@ function SearchItem(props) {
     useEffect(() => {
         if (user.loggedIn) {
             setIsOrganizer(item.organizer_id === user.id)
-            setIsParticipant(user.hackathons.includes(item._id) && !isOrganizer)
+            setIsParticipant(user.hackathons.includes(item._id) && !(item.organizer_id === user.id))
         }
     }, [user])
 

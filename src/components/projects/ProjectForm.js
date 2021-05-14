@@ -34,15 +34,15 @@ function ProjectForm(props) {
                     <CardBody>
                         <Form onChange={handleChange} onSubmit={handleSubmit}>
                             <Form.Field required>
-                                <label for='name'>Name</label>
+                                <label htmlFor='name'>Name</label>
                                 <input required placeholder='Name' name="name" id='name' />
                             </Form.Field>
                             <Form.Field required>
-                                <label for='description'>Description</label>
+                                <label htmlFor='description'>Description</label>
                                 <input required placeholder='Description' name="description" id='description' />
                             </Form.Field>
                             <Form.Field>
-                                <label for='image'>Image (optional)</label>
+                                <label htmlFor='image'>Image (optional)</label>
                                 <input id='image' name='image' placeholder='Image URL' />
                             </Form.Field>
                             <Button type='submit'>Submit</Button>
