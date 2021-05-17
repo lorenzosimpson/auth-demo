@@ -11,29 +11,11 @@ import ProjectView from './projects/ProjectView';
 import { UserContext } from '../contexts/UserContext';
 import history from '../history';
 import moment from 'moment';
+import DateTime from './DateTime';
 
 
 
-const formatDate = date => {
-    const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-    ];
-    const newDate = new Date(date);
-    const d = newDate.getDate();
-    const m = months[newDate.getMonth()];
-    return [m, d];
-};
+
 
 function HackathonView(props) {
     const [hackathon, setHackathon] = useState({});
@@ -47,6 +29,10 @@ function HackathonView(props) {
     const [alreadyParticipatingInAProject, setAlreadyParticipatingInAProject] = useState(false);
     const [isOrganizer, setIsOrganizer] = useState(false)
     const [isParticipant, setIsParticipant] = useState(false)
+
+    const formatDate = date => {
+        return moment(date).format('llll')
+    };
 
     useEffect(() => window.scrollTo(0, 0), [successMessage, errorMessage])
 
@@ -71,8 +57,7 @@ function HackathonView(props) {
 
     const formattedStart = formatDate(hackathon.start_date)
     const formattedEnd = formatDate(hackathon.end_date)
-    const singleDay = (formattedStart[0] === formattedEnd[0] &&
-        formattedStart[1] === formattedEnd[1])
+    const singleDay = moment(hackathon.start_date).format('L') === moment(hackathon.end_date).format('L')
 
 
     const joinHackathon = () => {
@@ -162,44 +147,11 @@ function HackathonView(props) {
                                 (
                                     <>
                                         <Header as="h1">{hackathon.name}</Header>
-                                        <Row className="mb-5">
-                                            <Col>
-                                                <Statistic.Group size="small">
-                                                    <Statistic>
-                                                        <Statistic.Label>{formattedStart[0]}</Statistic.Label>
-                                                        <Statistic.Value>
-                                                            {formattedStart[1]}
-                                                        </Statistic.Value>
-                                                    </Statistic>
-                                                    {!singleDay && (
-                                                        <>
-                                                            <Statistic>
-                                                                <Statistic.Label>{formattedEnd[0]}</Statistic.Label>
-                                                                <Statistic.Value>
-                                                                    {formattedEnd[1]}
-                                                                </Statistic.Value>
-                                                            </Statistic>
-                                                        </>
-                                                    )}
-                                                </Statistic.Group>
-                                                <Statistic.Group size="mini">
-                                                <Statistic>
-                                                        <Statistic.Label>Start</Statistic.Label>
-                                                        <Statistic.Value>
-                                                            {moment(hackathon.start_date, false).format('hh:mm A')}
-                                                        </Statistic.Value>
-                                                    </Statistic>
-                                                   
-                                                </Statistic.Group>
-                                            </Col>
-
-                                            <Col className="text-center">
-                                                <Statistic size="small">
-                                                    <Statistic.Label>Participants</Statistic.Label>
-                                                    <Statistic.Value>{hackathon.participants}</Statistic.Value>
-                                                </Statistic>
-                                            </Col>
-                                        </Row>
+                                        <DateTime 
+                                            formattedStart={formattedStart} 
+                                            formattedEnd={formattedEnd} 
+                                            hackathon={hackathon}
+                                            singleDay={singleDay}/>
                                         <Row>
                                             {(!isHackathonOrganizer && !associated && user.loggedIn) && (
                                                 <Col xs="12" sm="6" lg="4" >
