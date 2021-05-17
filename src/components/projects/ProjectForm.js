@@ -45,7 +45,10 @@ function ProjectForm(props) {
                                 <label htmlFor='image'>Image (optional)</label>
                                 <input id='image' name='image' placeholder='Image URL' />
                             </Form.Field>
-                            <Button type='submit'>Submit</Button>
+                            <small class='form-text text-muted mb-2'>Note: If you're not the hackathon organizer, your project will need to be approved.</small>
+                            <div className='d-flex justify-content-end'>
+                                <Button primary type='submit'>Submit</Button>
+                            </div>
                         </Form>
                     </CardBody>
                 </Card>
