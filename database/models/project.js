@@ -8,7 +8,9 @@ const projectSchema = new Schema({
     description: { type: String, required: true },
     image: { type: String, required: false },
     participants: [String],
-    is_approved: { type: Boolean, default: false }
+    is_approved: { type: Boolean, default: false },
+    is_pending: { type: Boolean, default: true },
+    creator_id: { type: String, required: true }
 })
 
 projectSchema.methods = {

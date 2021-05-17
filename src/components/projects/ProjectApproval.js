@@ -19,7 +19,7 @@ function ProjectApproval(props) {
 
     return (
         <>
-        <Container>
+        <Container className='mb-5'>
         <Header as='h1' content='Pending Projects'
          subheader='Potential participants have submitted the following projects. Approve or reject them here.' />
              {(!pendingProjects.length) ? (

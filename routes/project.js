@@ -58,11 +58,15 @@ router.post('/', async (req, res) => {
             res.status(500).json({ error: 'Could not find user for project'})
         }
         else {
-            const newProject = new Project(req.body)
+            const newProject = new Project({
+                ...req.body,
+                creator_id: user_id
+            })
             // bypass approval if the organizer creates the project
             const check = await checkProjectApprovalAuthorization(req.body.hackathon_id, user_id)
             if (check) {
                 newProject.is_approved = true;
+                newProject.is_pending = false;
             }
             
             newProject.save(async(err, created) => {
@@ -92,7 +96,7 @@ router.get('/pending/:hackathon_id', (req, res) => {
     Hackathon.findById(hackathon_id, (err, hackathon) => {
         if (err) console.log('error finding hackathon', err)
         else {
-            Project.find({ hackathon_id: hackathon_id, is_approved: false }, (err, projects) => {
+            Project.find({ hackathon_id: hackathon_id, is_pending: true }, (err, projects) => {
                 if (err) console.log('error finding pending projects', err)
                 else {
                     res.status(200).json(projects)
@@ -114,6 +118,7 @@ router.post('/approve/:project_id', (req, res) => {
                 res.status(401).json({ error: 'You are not authorized to approve this project. You must be the hackathon organizer'})
             } else {
                 project.is_approved = true;
+                project.is_pending = false;
                 project.save()
                 .then(saved =>  res.status(200).json(saved))
                 .catch(err => {
@@ -125,12 +130,23 @@ router.post('/approve/:project_id', (req, res) => {
     })
 })
 
-router.delete('/:project_id', (req, res) => {
-    const { project_id } = req.params;
-    Project.findOneAndDelete({ _id: project_id}, (err, deleted) => {
-        if (err) return res.status(500).json({ error: 'Could not delete project'})
+router.get('/submissions/all', (req, res) => {
+    const user_id = req.user._id;
+    Project.find({ creator_id: user_id }, (err, projects) => {
+        if (err) return res.status(500).json({ error: 'Could not find projects'})
         else {
-            res.status(200).json({ message: 'Deleted project ' + project_id })
+            return res.status(200).json(projects)
+        }
+    })
+})
+
+router.put('/:project_id', (req, res) => {
+    const { project_id } = req.params;
+    const changes = req.body;
+    Project.findOneAndUpdate({ _id: project_id}, changes, (err, declined) => {
+        if (err) return res.status(500).json({ error: 'Could not decline project'})
+        else {
+            res.status(200).json({ message: 'Declined project ' + project_id })
         }
     })
 })

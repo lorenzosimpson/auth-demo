@@ -15,7 +15,10 @@ function ApprovalCard(props) {
     }
 
     const handleDecline = () => {
-        axios.delete(`/project/${projectId}`)
+        axios.put(`/project/${projectId}`, {
+            is_approved: false,
+            is_pending: false
+        })
         .then(res => {
             setPendingProjects(pendingProjects.filter(p => p._id !== projectId))
         })
@@ -36,7 +39,7 @@ function ApprovalCard(props) {
                     {description}
                 </Card.Description>
             </Card.Content>
-            <Card.Content extra>
+           {pendingProjects && ( <Card.Content extra>
                 <div className='ui two buttons'>
                     <Button basic color='green' onClick={() => handleApprove()}>
                         Approve
@@ -45,7 +48,7 @@ function ApprovalCard(props) {
                         Decline
                      </Button>
                 </div>
-            </Card.Content>
+            </Card.Content>)}
         </Card>
     );
 }

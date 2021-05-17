@@ -19,6 +19,7 @@ import { UserContext } from './contexts/UserContext';
 import SearchPage from './components/search/SearchPage';
 import ProjectForm from './components/projects/ProjectForm';
 import ProjectApproval from './components/projects/ProjectApproval';
+import ProjectSubmissions from './components/projects/ProjectSubmissions';
 
 
 
@@ -82,6 +83,7 @@ const App = props => {
         <Route path="/explore" component={AllHackathons} />
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
         <Route path="/search" component={SearchPage} />
+        <PrivateRoute path='/project-submissions' component={ProjectSubmissions} />
         </Switch>
         </div>
         <Footer />
