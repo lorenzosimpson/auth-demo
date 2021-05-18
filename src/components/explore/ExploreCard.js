@@ -3,6 +3,7 @@ import { Card, Image, Icon } from 'semantic-ui-react'
 import { formatDateYear } from '../../utils/dateFormats';
 import IconButton from '../button/IconButton'
 import history from '../../history';
+import { truncateText } from '../../utils/truncateText';
 
 const navigateToHackathonView = (id, source) => {
     history.push(`/hackathons/${id}?source=${source}`)
@@ -10,9 +11,7 @@ const navigateToHackathonView = (id, source) => {
 
 const ExploreCard = (props) => {
     const { header, date, description, image, id, participants } = props;
-    const truncateText = (text, length) => {
-        return text.length <= length ? text : text[length - 1] === ' ' ? text.substr(0, length -1) + '\u2026' : text.substr(0, length) + '\u2026'
-      }
+    
       
     return (
         <Card className="explore-card">

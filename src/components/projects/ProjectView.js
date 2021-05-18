@@ -2,7 +2,8 @@ import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect, useState } from 'react';
-import { Grid, Header, Segment, Button, Menu, Icon, Label } from 'semantic-ui-react';
+import { Grid, Header, Segment, Menu, Icon, Label } from 'semantic-ui-react';
+import { Button } from 'reactstrap';
 import { UserContext } from '../../contexts/UserContext';
 import InnerLoader from '../load/InnerLoader';
 import ProjectCard from './ProjectCard';
@@ -55,9 +56,7 @@ function ProjectView(props) {
                 </Header>
                 <Header floated='right' className="d-flex">
                 <Button
-                icon='object ungroup outline'
-                content='Create'
-                primary
+                color='primary'
                  onClick={() => {
                     history.push({
                         pathname: '/project',
@@ -65,19 +64,20 @@ function ProjectView(props) {
                             hackathon: hackathon
                         }
                     })
-                }} />
+                }}>
+                     <Icon name='plus' />
+                     Create</Button>
                 {(isOrganizer) ? (
-                    <Menu compact>
-                    <Menu.Item as='a' onClick={() => history.push(`/approve/${hackathon_id}`)}>
+                   
+                   <Button outline color='danger' className='ml-2' onClick={() => history.push(`/approve/${hackathon_id}`)}>
                       <Icon name='clock outline' /> Pending
                       {(pendingProjects.length > 0) && (
                         <Label color='red' floating>
                         {pendingProjects.length}
                       </Label>
                       )}
-                      
-                    </Menu.Item>
-                  </Menu>
+                      </Button>
+                    
                 ) : null}
             </Header>
             </Segment>

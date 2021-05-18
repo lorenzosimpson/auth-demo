@@ -75,7 +75,7 @@ body {
   padding: 0;
 }
 
-.ui.primary.button {
+.ui.primary.button, .btn.btn-primary {
   background-color: $blue !important;
   border: 1px solid;
 }

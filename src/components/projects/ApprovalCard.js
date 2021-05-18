@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React from 'react';
-import { Card, Button, Image } from 'semantic-ui-react';
+import { Card, Button, Image, Label } from 'semantic-ui-react';
 
 function ApprovalCard(props) {
-    const { header, meta, description, image, projectId, pendingProjects, setPendingProjects } = props;
+    const { header, meta, description, image, projectId, pendingProjects, setPendingProjects, status } = props;
     
     const handleApprove = () => {
         axios.post(`/project/approve/${projectId}`, {})
@@ -28,6 +28,13 @@ function ApprovalCard(props) {
     return (
         <Card>
             <Card.Content>
+                {(status) && (
+                     <Card.Content className='mb-2'>
+                     <Label ribbon color={status.color} >
+                         {status.status}
+                     </Label>
+                 </Card.Content>
+                )}
                 <Image
                     floated='right'
                     size='tiny'

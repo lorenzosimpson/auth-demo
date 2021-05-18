@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Card, Icon, Label, Header, Segment} from 'semantic-ui-react'
 import { UserContext } from '../../contexts/UserContext';
 import ProjectModal from './ProjectModal'
+import { truncateText } from '../../utils/truncateText';
 
 const ProjectCard = (props) => {
     const { alreadyParticipatingInAProject, project, isOrganizer, setProjects } = props;
@@ -25,7 +26,7 @@ return (
         <Header>{props.header}</Header>
         </Card.Content>
         
-        <Card.Content description={props.description} />
+        <Card.Content description={truncateText(props.description, 80)} />
         <Card.Content extra className="d-flex justify-content-between">
             <div className="pt-2">
                 <Icon name='user' />{props.extra}

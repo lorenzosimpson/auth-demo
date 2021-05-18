@@ -144,19 +144,21 @@ const Navigation = (props) => {
                                             tag={RouterNavLink}
                                             to="/profile"
                                             className="dropdown-profile"
-                                            activeClassName="router-link-exact-active"
-                                        >
+                                            activeClassName="router-link-exact-active">
                                             <i className="fas fa-user mr-2" /> Profile
                     </DropdownItem>
                                         {loggedIn && (
                                             <>
+                                            <DropdownItem
+                                                    onClick={() => history.push('/project-submissions')}>
+                                                    <i className="fas fa-clock mr-2" /> Project Submissions
+                                                </DropdownItem>
 
                                                 <DropdownItem
-                                                    onClick={() => logout()}
-                                                >
+                                                    onClick={() => logout()}>
                                                     <i className="fas fa-power-off mr-2" /> Log
-                      out
-                    </DropdownItem>
+                                                        out
+                                                </DropdownItem>
                                             </>
                                         )}
                                     </DropdownMenu>
