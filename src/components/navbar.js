@@ -121,7 +121,7 @@ const Navigation = (props) => {
                             <div className="ui icon input">
                                 <input className="navbar-prompt" name="searchText" value={searchText} placeholder="Search"></input>
                                 <i className="search icon"></i>
-                            <Button className="ml-2" primary icon="search" content="Search"></Button>
+                            <Button className="ml-2" className="searchBtn ml-1" icon="search" content="Search"></Button>
                             </div>
                         </div>
                     </form>
@@ -180,7 +180,7 @@ const Navigation = (props) => {
                             <div className="ui icon input w-100">
                                 <input className="navbar-prompt mr-1" name="searchText" value={searchText} placeholder="Search"></input>
                                 <i className="search icon"></i>
-                        <Button primary content="Search"></Button>
+                        <Button className="searchBtn" content="Search"></Button>
                             </div>
                         </div>
                     </form>

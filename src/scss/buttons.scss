@@ -1,0 +1,13 @@
+.searchBtn {
+    background-color: $teal !important;
+    color: white !important;
+}
+
+.searchBtn:not(.default)::-moz-focus-inner {
+    border-style: none;
+  }
+  
+.searchBtn:focus {
+/* Adds a white border around the button, along with a blue glow. The white and blue have a color contrast ratio of at least 3:1, which means this will work against any background color. */
+    box-shadow: 0 0 0 2px #ffffff, 0 0 3px 5px #3a97f9;
+}

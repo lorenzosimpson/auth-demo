@@ -39,29 +39,38 @@ function ProjectSubmissions(props) {
             <Card>
                 <CardBody>
                     <Header as='h2' content="Pending Projects" />
+                    <div className="d-flex flex-wrap">
                     { pending.map(project => (
                         <ApprovalCard header={project.name} 
                         description={project.description} 
                         image={project.image}
                         status={getStatus(project)}
+                        hackathonId={project.hackathon_id}
                         projectId={project._id} />
                     ))}
+                    </div>
                     <Header as='h2' content="Approved Projects" />
+                    <div className="d-flex flex-wrap">
                     { approved.map(project => (
                         <ApprovalCard header={project.name} 
                         description={project.description} 
                         image={project.image}
                         status={getStatus(project)}
+                        hackathonId={project.hackathon_id}
                         projectId={project._id} />
                     ))}
+                    </div>
                     <Header as='h2' content="Declined Projects" />
+                    <div className="d-flex flex-wrap">
                     { declined.map(project => (
                         <ApprovalCard header={project.name} 
                         description={project.description} 
                         image={project.image}
                         status={getStatus(project)}
+                        hackathonId={project.hackathon_id}
                         projectId={project._id} />
                     ))}
+                    </div>
                 </CardBody>
             </Card>
         </Container>
