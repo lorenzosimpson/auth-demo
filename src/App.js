@@ -20,6 +20,7 @@ import SearchPage from './components/search/SearchPage';
 import ProjectForm from './components/projects/ProjectForm';
 import ProjectApproval from './components/projects/ProjectApproval';
 import ProjectSubmissions from './components/projects/ProjectSubmissions';
+import PendingAll from './components/projects/PendingAll';
 
 
 
@@ -84,6 +85,7 @@ const App = props => {
         <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
         <Route path="/search" component={SearchPage} />
         <PrivateRoute path='/project-submissions' component={ProjectSubmissions} />
+        <PrivateRoute path='/pending/all' component={PendingAll} />
         </Switch>
         </div>
         <Footer />

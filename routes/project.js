@@ -151,4 +151,20 @@ router.put('/:project_id', (req, res) => {
     })
 })
 
+router.get('/submissions/org', (req, res) => {
+    const user_id = req.user._id;
+    Hackathon.find({ organizer_id: user_id }, (err, hackathons) => {
+        if (err) return res.status(500).json({ error: 'Could not find hackathons'})
+        else {
+            const ids = hackathons.map(h => h._id);
+            Project.find({ hackathon_id: { $in: ids }, is_pending: true }, (err, projects) => {
+                if (err) return res.status(500).json({ error: 'Could not find projects'})
+                else {
+                    res.status(200).json(projects)
+                }
+            })
+        }
+    })
+})
+
 module.exports = router

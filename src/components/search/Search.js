@@ -195,7 +195,7 @@ function SearchExampleStandard(props) {
        
         <Segment>
           <Item.Group>
-          <div className="dropdown-buttons">
+          <div className="dropdown-buttons mb-2">
            <Dropdowns 
             dropdownItems={sortDropdown}
             icon={<Icon name='sort' />} title='Sort' />

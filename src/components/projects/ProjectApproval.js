@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Header, Segment, Container, Icon, Card, Image, Button } from 'semantic-ui-react';
+import { Header, Segment, Container, Icon, Card } from 'semantic-ui-react';
 import axios from 'axios'
 import ApprovalCard from './ApprovalCard';
 
 function ProjectApproval(props) {
     const { hackathon_id } = props.match.params;
     const [pendingProjects, setPendingProjects] = useState([])
+    const [hackathonName, setHackathonName] = useState("")
 
     useEffect(() => {
         axios.get(`/project/pending/${hackathon_id}`)
@@ -16,12 +17,20 @@ function ProjectApproval(props) {
         .catch(err => console.log(err))
     }, [])
 
+    useEffect(() => {
+        axios.get(`/hackathon/${hackathon_id}`)
+        .then(res => {
+            setHackathonName(res.data.name)
+        })
+        .catch(err => console.log(err))
+    }, [])
+
 
     return (
         <>
         <Container className='mb-5'>
-        <Header as='h1' content='Pending Projects'
-         subheader='Potential participants have submitted the following projects. Approve or reject them here.' />
+        <Header as='h1' content={`${hackathonName}`}
+         subheader='Pending Projects' />
              {(!pendingProjects.length) ? (
                  <Segment placeholder>
                  <Header icon>

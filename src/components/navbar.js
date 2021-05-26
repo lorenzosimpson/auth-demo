@@ -151,8 +151,15 @@ const Navigation = (props) => {
                                             <>
                                             <DropdownItem
                                                     onClick={() => history.push('/project-submissions')}>
-                                                    <i className="fas fa-clock mr-2" /> Project Submissions
+                                                    <i className="fas fa-paper-plane mr-2" /> Project Submissions
                                                 </DropdownItem>
+                                            <DropdownItem
+                                                onClick={() => history.push('/pending/all')}
+                                            >
+                                                 <i className="fas fa-clock mr-2" />
+                                                Pending Projects
+
+                                            </DropdownItem>
 
                                                 <DropdownItem
                                                     onClick={() => logout()}>
@@ -230,6 +237,20 @@ const Navigation = (props) => {
                             >
                                 Profile
                                 </RouterNavLink>
+                        </NavItem>
+
+                        <NavItem>
+                                <i className="fas fa-paper-plane mr-2" /> 
+                                <RouterNavLink to='/project-submissions'>
+                                Project Submissions
+                                </RouterNavLink>
+                            </NavItem>
+                        <NavItem>
+                             <i className="fas fa-clock mr-2" />
+                            <RouterNavLink to='/pending/all'>
+                        
+                            Pending Projects
+                            </RouterNavLink>
                         </NavItem>
 
                         <NavItem>
