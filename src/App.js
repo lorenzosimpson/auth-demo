@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 import { loginData, signupData } from './utils/loginSignupFormData';
 import LoginSignup from './components/login-signup';
 import CreateHackathonForm from './components/CreateHackathonForm';
-import Profile from './components/Profile';
+import ProfileMenu from './components/profile/ProfileMenu';
 import HackathonView from './components/HackathonView';
 import AllHackathons from './components/explore/AllHackathons';
 import useAuthentication from './utils/useAuthentication';
@@ -82,7 +82,7 @@ const App = props => {
           <Route path="/hackathons/:id" component={HackathonView}/>
             
         <Route path="/explore" component={AllHackathons} />
-        <Route path="/profile" render={props => <Profile {...props} loggedIn={user.loggedIn} /> } />
+        <Route path="/profile" render={props => <ProfileMenu {...props} loggedIn={user.loggedIn} /> } />
         <Route path="/search" component={SearchPage} />
         <PrivateRoute path='/project-submissions' component={ProjectSubmissions} />
         <PrivateRoute path='/pending/all' component={PendingAll} />
