@@ -4,6 +4,8 @@
 @import 'modal.scss';
 @import 'grid.scss';
 @import 'project_card.scss';
+@import 'buttons.scss';
+@import 'override.scss';
 
 body {
   background: $offWhite !important;
@@ -75,8 +77,7 @@ body {
   padding: 0;
 }
 
-.btn.btn-primary {
-  min-width: 120px;
+.ui.primary.button, .btn.btn-primary {
   background-color: $blue !important;
   border: 1px solid;
 }
@@ -179,6 +180,11 @@ input, textarea {
   color: $offWhite;
 }
 
+ .navbar .ui.icon.input .navbar-prompt {
+  width: 10em;
+  padding-right: 0.4em !important;
+}
+
 
 // puts search icon on left of input
 .ui.icon.input  input {
@@ -190,10 +196,29 @@ input, textarea {
 }
 
 .dropdown-buttons {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#pending-length {
+  display: inline-block;
+  margin-left: 1em;
+  line-height: 1.4;
+  top: -3px;
+  right: 5px;
+  color: white;
+  height: 1.5em;
+  width: 1.5em;
+  text-align: center;
+  background: darkred;
+  border-radius: 100%;
 }
 
 @media (max-width:767px) {
+
+  .dropdown-buttons {
+    justify-content: flex-start;
+  }
 
 .navbar .ui.search .prompt {
   max-width: 100%;
@@ -216,6 +241,10 @@ input, textarea {
 
   .dropdown-buttons {
     text-align: left;
+  }
+
+  .navbar-prompt{
+    width: 60%;
   }
 
 }

@@ -81,7 +81,7 @@ async function seedDB() {
 
 const callback = async (userId, arr) => {
     const data = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
         const three = i % 3 === 0;
         const five = i % 5 === 0;
 

@@ -5,15 +5,16 @@ import { Container } from 'reactstrap';
 import SearchItem from './SearchItem';
 import history from '../../history';
 import { formatDateYear } from '../../utils/dateFormats'
-import NoItems from '../Icon';
+import NoItems from '../NoItems';
 import { Redirect } from 'react-router';
 import InnerLoader from '../load/InnerLoader';
 
 function SearchPage(props) {
-    const { searchText } = props.location.state
+    const searchText  = props.location.state?.searchText || ""
     const [results, setResults] = useState([])
     const [loading, setLoading] = useState(true)
 
+    // Source param determines whether or not to show a back button
     const navigateToHackathonView = (id, source) => {
         history.push(`/hackathons/${id}?source=${source}`)
     }

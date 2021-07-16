@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { Divider, Item, Card, Label } from 'semantic-ui-react';
 import { UserContext } from '../../contexts/UserContext';
@@ -7,12 +7,17 @@ import IconButton from '../button/IconButton';
 function SearchItem(props) {
     const { user } = useContext(UserContext);
     const { navigateToHackathonView, formatDate, imgSrc, item } = props;
-    const isOrganizer = item.organizer_id === user.id
-    const isParticipant = user.hackathons.includes(item._id) && !isOrganizer;
+    const [isOrganizer, setIsOrganizer] = useState(false)
+    const [isParticipant, setIsParticipant] = useState(false)
     
- 
+    useEffect(() => {
+        if (user.loggedIn) {
+            setIsOrganizer(item.organizer_id === user.id)
+            setIsParticipant(user.hackathons.includes(item._id) && !(item.organizer_id === user.id))
+        }
+    }, [user, item])
 
-    return (
+    return (   
         <>
         { isOrganizer && (
             <Card.Content>
@@ -31,11 +36,11 @@ function SearchItem(props) {
         )}
 
         <Item className="mb-5">
-            <Item.Image width="50px" src={imgSrc} />
+            <Item.Image width="50px" src={imgSrc} alt="Hackathon banner" />
             <Item.Content>
                 <Item.Header >{item.name}</Item.Header>
                 <Item.Meta>
-                    <span className="color">{formatDate(item.start_date)}-{formatDate(item.end_date)}</span>
+                    <span className="form-text text-muted">{formatDate(item.start_date)}-{formatDate(item.end_date)}</span>
                 </Item.Meta>
                 <Item.Description>
                     {item.description}

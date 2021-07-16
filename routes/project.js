@@ -4,6 +4,9 @@ const Project = require('../database/models/project');
 const User = require('../database/models/user')
 const checkProjectApprovalAuthorization = require('../util/checkProjectApprovalAuthorization');
 
+/**
+ * Signs a user up for a project
+ */
 router.post('/join', async (req, res) => {
     const user_id = req.user._id;
     const { project_id } = req.body;
@@ -19,6 +22,7 @@ router.post('/join', async (req, res) => {
             Project.findById(project_id, async (err, project) => {
                 if (err) res.status(400).json({ error: 'Project not found'})
                 else {
+                    // Set used to avoid duplicating user_id in project_participants array
                     const updateHackathon = {
                          $addToSet: { project_participants: user_id } 
                     }
@@ -45,7 +49,10 @@ router.post('/join', async (req, res) => {
     })
 })
 
-
+/**
+ * Create a project
+ * Projects created by that Hackathon's organizer are automatically approved
+ */
 router.post('/', async (req, res) => {
     const user_id = req.user._id
     const { hackathon_id } = req.body;
@@ -58,11 +65,15 @@ router.post('/', async (req, res) => {
             res.status(500).json({ error: 'Could not find user for project'})
         }
         else {
-            const newProject = new Project(req.body)
+            const newProject = new Project({
+                ...req.body,
+                creator_id: user_id
+            })
             // bypass approval if the organizer creates the project
             const check = await checkProjectApprovalAuthorization(req.body.hackathon_id, user_id)
             if (check) {
                 newProject.is_approved = true;
+                newProject.is_pending = false;
             }
             
             newProject.save(async(err, created) => {
@@ -75,6 +86,9 @@ router.post('/', async (req, res) => {
     }) 
 })
 
+/**
+ * Get all Approved projects by hackathon ID 
+ */
 router.get('/:hackathon_id', (req, res) => {
     const { hackathon_id } = req.params
     Hackathon.findById(hackathon_id, ((err, _) => {
@@ -86,13 +100,15 @@ router.get('/:hackathon_id', (req, res) => {
     }))
 })
 
-// Get projects that an organizer has yet to approve
+/**
+ * Get projects that an organizer has yet to approve
+ */
 router.get('/pending/:hackathon_id', (req, res) => {
     const { hackathon_id } = req.params;
     Hackathon.findById(hackathon_id, (err, hackathon) => {
         if (err) console.log('error finding hackathon', err)
         else {
-            Project.find({ hackathon_id: hackathon_id, is_approved: false }, (err, projects) => {
+            Project.find({ hackathon_id: hackathon_id, is_pending: true }, (err, projects) => {
                 if (err) console.log('error finding pending projects', err)
                 else {
                     res.status(200).json(projects)
@@ -102,6 +118,9 @@ router.get('/pending/:hackathon_id', (req, res) => {
     })
 })
 
+/**
+ * Organizer approves a project
+ */
 router.post('/approve/:project_id', (req, res) => {
     const user_id = req.user._id
     const { project_id } = req.params;
@@ -114,6 +133,7 @@ router.post('/approve/:project_id', (req, res) => {
                 res.status(401).json({ error: 'You are not authorized to approve this project. You must be the hackathon organizer'})
             } else {
                 project.is_approved = true;
+                project.is_pending = false;
                 project.save()
                 .then(saved =>  res.status(200).json(saved))
                 .catch(err => {
@@ -121,6 +141,53 @@ router.post('/approve/:project_id', (req, res) => {
                     res.status(500).json({ error: 'Could not approve hackathon' })
                 })
             }
+        }
+    })
+})
+
+/**
+ * Get all projects a User has submitted for approval
+ * @returns all projects - pending, approved and declined
+ */
+router.get('/submissions/all', (req, res) => {
+    const user_id = req.user._id;
+    Project.find({ creator_id: user_id }, (err, projects) => {
+        if (err) return res.status(500).json({ error: 'Could not find projects'})
+        else {
+            return res.status(200).json(projects)
+        }
+    })
+})
+
+/**
+ * Decline a project
+ */
+router.put('/:project_id', (req, res) => {
+    const { project_id } = req.params;
+    const changes = req.body;
+    Project.findOneAndUpdate({ _id: project_id}, changes, (err, declined) => {
+        if (err) return res.status(500).json({ error: 'Could not decline project'})
+        else {
+            res.status(200).json({ message: 'Declined project ' + project_id })
+        }
+    })
+})
+
+/**
+ * Get pending projects for hackathons a User is organizing
+ */
+router.get('/submissions/org', (req, res) => {
+    const user_id = req.user._id;
+    Hackathon.find({ organizer_id: user_id }, (err, hackathons) => {
+        if (err) return res.status(500).json({ error: 'Could not find hackathons'})
+        else {
+            const ids = hackathons.map(h => h._id);
+            Project.find({ hackathon_id: { $in: ids }, is_pending: true }, (err, projects) => {
+                if (err) return res.status(500).json({ error: 'Could not find projects'})
+                else {
+                    res.status(200).json(projects)
+                }
+            })
         }
     })
 })

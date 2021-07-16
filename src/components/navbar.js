@@ -30,7 +30,7 @@ const Navigation = (props) => {
     const [scroll, setScroll] = useState(0);
     const loggedIn = user.loggedIn;
     const [searchText, setSearchText] = useState('')
-    
+
     const toggle = () => setIsOpen(!isOpen);
 
     useEffect(() => {
@@ -78,61 +78,55 @@ const Navigation = (props) => {
         <div className={scroll > 0 ? "nav-container shadow" : "nav-container"}>
             <Navbar color="light" light expand="md">
                 <NavbarBrand onClick={() => history.push('/')} >
-                        <img src={logo}
-                            alt="Hackathon Portal logo"
-                            className="logo"></img>
+                    <img src={logo}
+                        alt="Hackathon Portal logo"
+                        className="logo"></img>
                 </NavbarBrand>
-               
+
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         <NavItem className="mr-3">
                             <NavLink tag={RouterNavLink}
-                                exact
+                                to="/explore"
                                 activeClassName="router-link-exact-active"
-                                className="nav-link" to="/">Home</NavLink>
-                        </NavItem>
-                        <NavItem className="mr-3">
-                            <NavLink tag={RouterNavLink}
-                            to="/explore"
-                            activeClassName="router-link-exact-active"
-                            exact
-                            className="nav-link">Explore</NavLink>
+                                exact
+                                className="nav-link">Explore</NavLink>
                         </NavItem>
                         {loggedIn && (
                             <>
-                        <NavItem className="mr-3"> 
-                            <NavLink 
-                            to="/create" 
-                            tag={RouterNavLink}
-                            activeClassName="router-link-exact-active"
-                            exact
-                            >Create</NavLink>
-                        </NavItem>
-                        <NavItem>
-                                    <NavLink 
-                                    to="/my-hackathons" 
-                                    tag={RouterNavLink}
-                                    activeClassName="router-link-exact-active"
-                                    exact
+                                <NavItem className="mr-3">
+                                    <NavLink
+                                        to="/create"
+                                        tag={RouterNavLink}
+                                        activeClassName="router-link-exact-active"
+                                        exact
+                                    >Create</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        to="/my-hackathons"
+                                        tag={RouterNavLink}
+                                        activeClassName="router-link-exact-active"
+                                        exact
                                     >My Hackathons</NavLink>
                                 </NavItem>
-                        </>
+                            </>
                         )}
                     </Nav>
                     <Nav className="ml-auto mr-4 d-none d-md-block">
-                    <NavItem>
-                    <form onSubmit={handleSearch} onChange={handleChange}>
-                        <div className="ui search">
-                            <div className="ui icon input">
-                                <input className="navbar-prompt" name="searchText" value={searchText} placeholder="Search Hackathons"></input>
-                                <i className="search icon"></i>
-                            <Button className="ml-2" color="teal" icon="search" content="Search"></Button>
-                            </div>
-                        </div>
-                    </form>
-                    </NavItem>
-                </Nav>
+                        <NavItem>
+                            <form onSubmit={handleSearch} onChange={handleChange}>
+                                <div className="ui search">
+                                    <div className="ui icon input">
+                                        <input className="navbar-prompt" name="searchText" value={searchText} placeholder="Search"></input>
+                                        <i className="search icon"></i>
+                                        <Button className="ml-2" className="searchBtn ml-1" icon="search" content="Search"></Button>
+                                    </div>
+                                </div>
+                            </form>
+                        </NavItem>
+                    </Nav>
                     <Nav className="d-none d-md-flex align-items-center" navbar>
                         {loggedIn && (
                             <>
@@ -146,23 +140,24 @@ const Navigation = (props) => {
                                         />
                                     </DropdownToggle>
                                     <DropdownMenu right>
-                                        <DropdownItem
-                                            tag={RouterNavLink}
-                                            to="/profile"
-                                            className="dropdown-profile"
-                                            activeClassName="router-link-exact-active"
-                                        >
-                                            <i className="fas fa-user mr-2" /> Profile
-                    </DropdownItem>
                                         {loggedIn && (
                                             <>
+                                                <DropdownItem
+                                                    onClick={() => history.push('/project-submissions')}>
+                                                    <i className="fas fa-paper-plane mr-2" /> Project Submissions
+                                                </DropdownItem>
+                                                <DropdownItem
+                                                    onClick={() => history.push('/pending/all')}
+                                                >
+                                                    <i className="fas fa-clock mr-2" />
+                                                    Pending Projects
+
+                                                </DropdownItem>
 
                                                 <DropdownItem
-                                                    onClick={() => logout()}
-                                                >
-                                                    <i className="fas fa-power-off mr-2" /> Log
-                      out
-                    </DropdownItem>
+                                                    onClick={() => logout()}>
+                                                    <i className="fas fa-power-off mr-2" /> Log Off
+                                                </DropdownItem>
                                             </>
                                         )}
                                     </DropdownMenu>
@@ -177,78 +172,92 @@ const Navigation = (props) => {
                             </NavItem>
                         )}
                     </Nav>
-                 
-                  
+
+
                     <form className="d-md-none" onSubmit={handleSearch} onChange={handleChange}>
                         <div className="ui search">
                             <div className="ui icon input w-100">
                                 <input className="navbar-prompt mr-1" name="searchText" value={searchText} placeholder="Search"></input>
                                 <i className="search icon"></i>
-                        <Button className="" color="teal"  content="Search"></Button>
+                                <Button className="searchBtn" content="Search"></Button>
                             </div>
                         </div>
                     </form>
-                   
-                  
-                    {!loggedIn && (
-              <Nav className="d-md-none" navbar>
-              
-                <NavItem>
-                  <Button
-                    className="w-100"
-                    primary
-                    block
-                    onClick={() => {
-                        toggle()
-                        history.push('/login')
-                    }}
-                  >
-                    Get Started
-                  </Button>
-                </NavItem>
-              </Nav>
-            )}
-            {loggedIn &&
-                   ( <Nav
-                        className="d-md-none justify-content-between"
-                        navbar
-                        style={{ minHeight: 170 }}
-                        onClick={toggle}
-                    >
-                        <NavItem>
-                            <span className="user-info">
-                                <img
-                                    src={userPhoto}
-                                    alt="Profile"
-                                    className="nav-user-profile d-inline-block rounded-circle mr-3"
-                                    width="50"
-                                />
-                                <h6 className="d-inline-block">{user.username}</h6>
-                            </span>
-                        </NavItem>
-                        <NavItem>
-                            <i  className="fas fa-user mr-3" />
-                            <RouterNavLink
-                                to="/profile"
-                                activeClassName="router-link-exact-active"
-                            >
-                                Profile
-                                </RouterNavLink>
-                        </NavItem>
 
-                        <NavItem>
-                            <RouterNavLink
-                                to="#"
-                                id="qsLogoutBtn"
-                                onClick={() => logout()}
-                            >
-                                <i className="fas fa-power-off mr-3" />
-                    Log out
-                  </RouterNavLink>
-                        </NavItem>
-                    </Nav>
-                   )
-}
+
+                    {!loggedIn && (
+                        <Nav className="d-md-none" navbar>
+
+                            <NavItem>
+                                <Button
+                                    className="w-100"
+                                    primary
+                                    block
+                                    onClick={() => {
+                                        toggle()
+                                        history.push('/login')
+                                    }}
+                                >
+                                    Get Started
+                                </Button>
+                            </NavItem>
+                        </Nav>
+                    )}
+                    {loggedIn &&
+                        (<Nav
+                            className="d-md-none justify-content-between"
+                            navbar
+                            style={{ minHeight: 170 }}
+                            onClick={toggle}
+                        >
+                            <NavItem>
+                                <span className="user-info">
+                                    <img
+                                        src={userPhoto}
+                                        alt="Profile"
+                                        className="nav-user-profile d-inline-block rounded-circle mr-3"
+                                        width="50"
+                                    />
+                                    <h6 className="d-inline-block">{user.username}</h6>
+                                </span>
+                            </NavItem>
+                            <NavItem>
+                                <i className="fas fa-user mr-3" />
+                                <RouterNavLink
+                                    to="/profile"
+                                    activeClassName="router-link-exact-active"
+                                >
+                                    Profile
+                                </RouterNavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <i className="fas fa-paper-plane mr-2" />
+                                <RouterNavLink to='/project-submissions'>
+                                    Project Submissions
+                                </RouterNavLink>
+                            </NavItem>
+                            <NavItem>
+                                <i className="fas fa-clock mr-2" />
+                                <RouterNavLink to='/pending/all'>
+
+                                    Pending Projects
+                                </RouterNavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <RouterNavLink
+                                    to="#"
+                                    id="qsLogoutBtn"
+                                    onClick={() => logout()}
+                                >
+                                    <i className="fas fa-power-off mr-3" />
+                                    Log Off
+                                </RouterNavLink>
+                            </NavItem>
+                        </Nav>
+                        )
+                    }
                 </Collapse>
             </Navbar>
         </div>

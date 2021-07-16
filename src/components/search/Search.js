@@ -1,16 +1,17 @@
 import _ from 'lodash'
 import React from 'react'
-import { Search, Grid, Segment,  Item, Dropdown, Header, Divider} from 'semantic-ui-react'
+import { Search, Grid, Segment, Icon,  Item, Header } from 'semantic-ui-react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import history from '../../history'
-import NoHackathons from '../Icon';
+import NoHackathons from '../NoItems';
 import SearchItem from './SearchItem';
 import InnerLoader from '../load/InnerLoader';
 import moment from 'moment';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { formatDateYear } from '../../utils/dateFormats';
+import Dropdowns from './Dropdowns';
 
 const initialState = {
   loading: false,
@@ -44,6 +45,7 @@ const navigateToHackathonView = (id, source) => {
   history.push(`/hackathons/${id}?source=${source}`)
 }
 
+
 function SearchExampleStandard(props) {
   const [state, dispatch] = React.useReducer(searchReducer, initialState)
   const { loading, results, value } = state
@@ -55,6 +57,9 @@ function SearchExampleStandard(props) {
   const [filter, setFilter] = useState([])
   const [currentSearchParam, setCurrentSearchParam] = useState('All Hackathons')
   const { searchURL } = props;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggle = () => setDropdownOpen(prevState => !prevState);
 
 
   useEffect(() => {
@@ -109,7 +114,10 @@ function SearchExampleStandard(props) {
       setFilter(source)
   }, [source])
 
-
+/**
+ * Set the filtered results depending on the filter type string passed in
+ * @param type - string describing the type of filtering desired
+ */
   const filterFn = (type) => {
     setWasFiltered(true)
     switch(type) {
@@ -154,6 +162,20 @@ function SearchExampleStandard(props) {
     return <InnerLoader />
   }
 
+  const sortDropdown = [
+    { name: 'Oldest > Newest', callback: sortNewest},
+    { name: 'Newest > Oldest', callback: sortOldest}
+  ]
+  const filterDropdown = [
+    { name: 'All', callback: () => filterFn('all')},
+    { name: 'Current', callback: () => filterFn('present')},
+    { name: 'Past', callback: () => filterFn('past')},
+    { name: 'Future', callback: () => filterFn('future')},
+    { divider: true },
+    { name: 'Organizing', callback: () => filterFn('organizer')},
+    { name: 'Participating', callback: () => filterFn('participant')},
+  ]
+
   return (
     <div className="mt-5">
      <Header as="h2">{currentSearchParam}</Header>
@@ -172,49 +194,21 @@ function SearchExampleStandard(props) {
             placeholder="Search Hackathons"
           />
         </div>
-
+       
         <Segment>
           <Item.Group>
-          <div className="dropdown-buttons">
-           <Dropdown 
-           text='Sort'
-           className="icon"
-           icon="sort"
-           floating
-           button
-           aria-label="Sort"
-           labeled
-           >
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={sortNewest} text='Date: Oldest to Newest' />
-              <Dropdown.Item  onClick={sortOldest} text='Date: Newest to Oldest' />
-            </Dropdown.Menu>
-          </Dropdown>
-
-          {window.location.pathname !== '/explore' && (
-          <Dropdown 
-            text='Filter'
-            icon='filter'
-            floating
-            labeled
-            button
-            aria-label="Filter"
-            className='icon'
-           >
-            <Dropdown.Menu>
-            <Dropdown.Item  onClick={() => filterFn('all')} text='All' />
-            <Divider />
-              <Dropdown.Item  onClick={() => filterFn('present')} text='Active' />
-              <Dropdown.Item onClick={() => filterFn('past')} text='Past' />
-              <Dropdown.Item  onClick={() => filterFn('future')} text='Upcoming' /> 
-              <Divider />
-              <Dropdown.Item  onClick={() => filterFn('participant')} text='Participating'  icon='group'/>  
-              <Dropdown.Item  onClick={() => filterFn('organizer')} text='Organizing' icon='chart bar' />   
-            </Dropdown.Menu>
-          </Dropdown>
-              )}
-          </div>
+          <div className="dropdown-buttons mb-2">
+           <Dropdowns 
+            dropdownItems={sortDropdown}
+            icon={<Icon name='sort' />} title='Sort' />
          
+         {/* exclude the filter my hackathons button on explore page, as they're all not associated hackathons */}
+         {window.location.pathname !== '/explore' && (
+             <Dropdowns 
+            dropdownItems={filterDropdown}
+            icon={<Icon name='filter' />} title='Filter' />
+         )}
+            </div>
             {
               noFilterResults || !filter.length ? (
                 <NoHackathons />
