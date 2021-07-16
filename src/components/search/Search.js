@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
-import { Search, Grid, Segment, Icon,  Item, Header, Divider} from 'semantic-ui-react'
+import { Search, Grid, Segment, Icon,  Item, Header } from 'semantic-ui-react'
 import { useEffect, useState } from 'react';
-import { Dropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
 import axios from 'axios';
 import history from '../../history'
 import NoHackathons from '../NoItems';
@@ -115,7 +114,10 @@ function SearchExampleStandard(props) {
       setFilter(source)
   }, [source])
 
-
+/**
+ * Set the filtered results depending on the filter type string passed in
+ * @param type - string describing the type of filtering desired
+ */
   const filterFn = (type) => {
     setWasFiltered(true)
     switch(type) {
@@ -200,6 +202,7 @@ function SearchExampleStandard(props) {
             dropdownItems={sortDropdown}
             icon={<Icon name='sort' />} title='Sort' />
          
+         {/* exclude the filter my hackathons button on explore page, as they're all not associated hackathons */}
          {window.location.pathname !== '/explore' && (
              <Dropdowns 
             dropdownItems={filterDropdown}

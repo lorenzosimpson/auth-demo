@@ -14,6 +14,9 @@ const hackathonSchema = new Schema({
     project_participants: [String] // array of user ids that are associated with a project
 })
 
+/**
+ * Verify that new hackathon has all required information including name, start / end dates
+ */
 hackathonSchema.pre('save', function(next) {
     if (!this.start_date) {
         console.log('models/hackathon.js =====NO START DATE PROVIDED=====')
@@ -31,10 +34,15 @@ hackathonSchema.pre('save', function(next) {
     }
 })
 
+/**
+ * Functions that get run after saving a document to MongoDB
+ * Upon hackathon creation, verify that the organizer is the one creating it
+ * Add the hackathon to the list of hackathons the User is associated with
+ */
 hackathonSchema.post('save', function(hackathon, next) {
-        const organizer_id = this.organizer_id
+        const organizer_id = this.organizer_id;
         User.findById(organizer_id, (err, organizer) => {
-            if (err) console.log(err)
+            if (err) throw new Error(err)
             else if (organizer_id != organizer._id) {
                 console.log('organizer id mismatch', organizer._id, organizer_id)
             }

@@ -4,6 +4,9 @@ const Project = require('../database/models/project');
 const User = require('../database/models/user')
 const checkProjectApprovalAuthorization = require('../util/checkProjectApprovalAuthorization');
 
+/**
+ * Signs a user up for a project
+ */
 router.post('/join', async (req, res) => {
     const user_id = req.user._id;
     const { project_id } = req.body;
@@ -19,6 +22,7 @@ router.post('/join', async (req, res) => {
             Project.findById(project_id, async (err, project) => {
                 if (err) res.status(400).json({ error: 'Project not found'})
                 else {
+                    // Set used to avoid duplicating user_id in project_participants array
                     const updateHackathon = {
                          $addToSet: { project_participants: user_id } 
                     }
@@ -45,7 +49,10 @@ router.post('/join', async (req, res) => {
     })
 })
 
-
+/**
+ * Create a project
+ * Projects created by that Hackathon's organizer are automatically approved
+ */
 router.post('/', async (req, res) => {
     const user_id = req.user._id
     const { hackathon_id } = req.body;
@@ -79,6 +86,9 @@ router.post('/', async (req, res) => {
     }) 
 })
 
+/**
+ * Get all Approved projects by hackathon ID 
+ */
 router.get('/:hackathon_id', (req, res) => {
     const { hackathon_id } = req.params
     Hackathon.findById(hackathon_id, ((err, _) => {
@@ -90,7 +100,9 @@ router.get('/:hackathon_id', (req, res) => {
     }))
 })
 
-// Get projects that an organizer has yet to approve
+/**
+ * Get projects that an organizer has yet to approve
+ */
 router.get('/pending/:hackathon_id', (req, res) => {
     const { hackathon_id } = req.params;
     Hackathon.findById(hackathon_id, (err, hackathon) => {
@@ -106,6 +118,9 @@ router.get('/pending/:hackathon_id', (req, res) => {
     })
 })
 
+/**
+ * Organizer approves a project
+ */
 router.post('/approve/:project_id', (req, res) => {
     const user_id = req.user._id
     const { project_id } = req.params;
@@ -130,6 +145,10 @@ router.post('/approve/:project_id', (req, res) => {
     })
 })
 
+/**
+ * Get all projects a User has submitted for approval
+ * @returns all projects - pending, approved and declined
+ */
 router.get('/submissions/all', (req, res) => {
     const user_id = req.user._id;
     Project.find({ creator_id: user_id }, (err, projects) => {
@@ -140,6 +159,9 @@ router.get('/submissions/all', (req, res) => {
     })
 })
 
+/**
+ * Decline a project
+ */
 router.put('/:project_id', (req, res) => {
     const { project_id } = req.params;
     const changes = req.body;
@@ -151,6 +173,9 @@ router.put('/:project_id', (req, res) => {
     })
 })
 
+/**
+ * Get pending projects for hackathons a User is organizing
+ */
 router.get('/submissions/org', (req, res) => {
     const user_id = req.user._id;
     Hackathon.find({ organizer_id: user_id }, (err, hackathons) => {

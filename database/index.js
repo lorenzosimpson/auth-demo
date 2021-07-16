@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 require('dotenv').config()
 
-//your local database url
 //27017 is the default mongoDB port
 const uri = process.env.MONGODB_URI
 const config = {
@@ -23,7 +22,6 @@ mongoose.connect(uri, config).then(
          /** handle initial connection error */ 
          console.log('error connecting to Mongo: ')
          console.log(err);
-         
         }
   );
 

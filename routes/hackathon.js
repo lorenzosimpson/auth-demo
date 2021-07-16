@@ -3,9 +3,11 @@ const router = express.Router()
 const Hackathon = require('../database/models/hackathon')
 const User = require('../database/models/user');
 
-router.post('/', (req, res) => {
-    console.log('hackathon creation');
 
+/**
+ * Create a new hackathon
+ */
+router.post('/', (req, res) => {
     const newHackathon = new Hackathon(req.body)
     newHackathon.save((err, savedHackathon) => {
         if (err) {
@@ -18,6 +20,10 @@ router.post('/', (req, res) => {
     })
 })
 
+/**
+ * Fetch an array of hackathons that match the search term
+ * @param regexQuery - Query string 
+ */
 router.get('/search', (req, res) => {
     var regexQuery = {
         name: new RegExp(req.query.name, 'i')
@@ -33,13 +39,15 @@ router.get('/search', (req, res) => {
     })
 })
 
+/**
+ *   @returns - array of 3 random hackathons from present and future that a user is NOT associated with
+ */
 router.get('/explore', (req, res) => {
-    // returns 3 random hackathons from present and future
+
     const date = new Date()
     if (req.user) {
         const userID = req.user._id
         const date = new Date().getDate()
-        console.log(date)
         User.findById(userID, (err, user) => {
             if (err) {
                 res.status(500).json({ error: 'Error finding user' })
@@ -75,7 +83,10 @@ router.get('/explore', (req, res) => {
     }
 })
 
-
+/**
+ * @returns - array of hackathons that the user is not associated with for the explore page
+ * if no user_id is found (not logged in, invalid user id), all present and future hackathons returned
+ */
 router.get('/', (req, res, next) => {
     console.log('===== user!!======')
     if (req.user) {
@@ -103,7 +114,6 @@ router.get('/', (req, res, next) => {
     }
 
     function returnAllFutureHackathons() {
-        console.log("===all future====")
         const date = new Date();
         Hackathon.find({ start_date: { $gte: date } }, (err, hackathons) => {
             if (err) res.status(500).json({ error: 'Could not fetch hackathons' })
@@ -116,6 +126,9 @@ router.get('/', (req, res, next) => {
     }
 })
 
+/**
+ * @returns Hackathons that a user is associated with
+ */
 router.get('/u/:id', (req, res) => {
     const userId = req.params.id;
     console.log('\nUserId', userId)
@@ -132,6 +145,10 @@ router.get('/u/:id', (req, res) => {
     })
 })
 
+/**
+ * @param id - hackathon id to search 
+ * @returns a Hackathon object
+ */
 router.get('/:id', (req, res) => {
     const { id } = req.params;
     Hackathon.findById(id, (err, hackathon) => {

@@ -14,6 +14,7 @@ function SearchPage(props) {
     const [results, setResults] = useState([])
     const [loading, setLoading] = useState(true)
 
+    // Source param determines whether or not to show a back button
     const navigateToHackathonView = (id, source) => {
         history.push(`/hackathons/${id}?source=${source}`)
     }

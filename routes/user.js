@@ -5,9 +5,10 @@ const passport = require('../passport')
 const Hackathon = require('../database/models/hackathon')
 
 
-
+/**
+ * Create a user
+ */
 router.post('/', (req, res) => {
-
     var { username } = req.body
     username = username.toLowerCase();
     // ADD VALIDATION
@@ -46,6 +47,9 @@ router.post('/', (req, res) => {
     })
 })
 
+/**
+ * Authenticate user
+ */
 router.post(
     '/login',
     function (req, res, next) {
@@ -68,6 +72,9 @@ router.post(
     }
 )
 
+/**
+ * Get User. Called to manage session on front end
+ */
 router.get('/', (req, res, next) => {
     console.log('===== user!!======')
     if (req.user) {
@@ -103,6 +110,9 @@ router.post('/logout', (req, res) => {
     }
 })
 
+/**
+ * Sign a user up for a hackathon
+ */
 router.post('/register', (req, res) => {
     const { id } = req.body
     Hackathon.findOneAndUpdate({_id: id}, { $inc: { 'participants': 1 }}, (err, hackathon) => {

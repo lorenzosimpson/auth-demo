@@ -82,7 +82,6 @@ const App = props => {
           <Route path="/hackathons/:id" component={HackathonView}/>
             
         <Route path="/explore" component={AllHackathons} />
-        <Route path="/profile" render={props => <ProfileMenu {...props} loggedIn={user.loggedIn} /> } />
         <Route path="/search" component={SearchPage} />
         <PrivateRoute path='/project-submissions' component={ProjectSubmissions} />
         <PrivateRoute path='/pending/all' component={PendingAll} />
