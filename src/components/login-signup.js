@@ -67,6 +67,7 @@ const LoginSignup = (props) => {
                 if (response.status === 201) {
                     // update App.js state
                     setUser({
+                        ...response.data,
                         loggedIn: true,
                         username: response.data.username,
                         id: response.data.id

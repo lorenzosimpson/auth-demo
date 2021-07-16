@@ -11,6 +11,7 @@ function SearchItem(props) {
     const [isParticipant, setIsParticipant] = useState(false)
     
     useEffect(() => {
+        console.log(user)
         if (user.loggedIn) {
             setIsOrganizer(item.organizer_id === user.id)
             setIsParticipant(user.hackathons.includes(item._id) && !(item.organizer_id === user.id))
