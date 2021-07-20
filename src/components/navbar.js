@@ -221,15 +221,6 @@ const Navigation = (props) => {
                                     <h6 className="d-inline-block">{user.username}</h6>
                                 </span>
                             </NavItem>
-                            <NavItem>
-                                <i className="fas fa-user mr-3" />
-                                <RouterNavLink
-                                    to="/profile"
-                                    activeClassName="router-link-exact-active"
-                                >
-                                    Profile
-                                </RouterNavLink>
-                            </NavItem>
 
                             <NavItem>
                                 <i className="fas fa-paper-plane mr-2" />
