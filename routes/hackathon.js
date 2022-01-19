@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
     newHackathon.save((err, savedHackathon) => {
         if (err) {
             console.log(err)
-            return res.status(400).json(err)
+            return res.status(400).json({error: err})
         }
         else {
             res.status(201).json(savedHackathon)
@@ -75,7 +75,7 @@ router.get('/explore', (req, res) => {
             { $sample: { size: 3 } }]
             , (err, hackathons) => {
                 if (err) {
-                    res.status(500).json(err)
+                    res.status(500).json({error: err})
                 } else {
                     res.status(200).json(hackathons)
                 }
@@ -135,7 +135,7 @@ router.get('/u/:id', (req, res) => {
     User.findById(userId, (err, user) => {
         if (err) {
             console.log('err finding user', err)
-            res.status(500).json(err)
+            res.status(500).json({error: err})
         }
         else {
             Hackathon.find({ _id: { $in: user.hackathons } })
@@ -154,7 +154,7 @@ router.get('/:id', (req, res) => {
     const { id } = req.params;
     Hackathon.findById(id, (err, hackathon) => {
         if (err) {
-            res.status(500).json(err)
+            res.status(500).json({error: err})
         }
         if (hackathon === null) return res.status(404).json({ error: 'Hackathon does not exist'})
         console.log(hackathon)

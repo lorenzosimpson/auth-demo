@@ -24,7 +24,6 @@ const LoginSignup = (props) => {
             username: event.target.username.value,
             password: event.target.password.value
         }
-        console.log(body)
         axios
             .post('/user/login', body)
             .then(response => {
@@ -36,7 +35,7 @@ const LoginSignup = (props) => {
                         loggedIn: true,
                         ...response.data
                     })
-                    console.log(response.data, 'login data')
+                  
                     // update the state to redirect to home
                     setCredentials({
                         redirectTo: props.returnTo
@@ -62,8 +61,6 @@ const LoginSignup = (props) => {
         console.log(body)
         axios.post('/user/', body)
             .then((response) => {
-                console.log(response)
-                console.log('successful signup')
                 if (response.status === 201) {
                     // update App.js state
                     setUser({
